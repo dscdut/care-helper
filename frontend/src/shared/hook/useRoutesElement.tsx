@@ -1,13 +1,12 @@
 import { RouteObject, useRoutes } from 'react-router-dom'
-import { DEFAULT_ROUTE, PRIVATE_ROUTE } from './shared/path'
+import { DEFAULT_ROUTE, PRIVATE_ROUTE } from '../path'
 
 // component
-import { Row, Spin } from 'antd'
 import { Suspense, lazy } from 'react'
-import { Route } from './interface/app'
-import NotFoundPage from './pages/not-found'
-import PrivateRoute from './routes/PrivateRoutes'
-import DefaultRoute from './routes/DefaultRoutes'
+import { RouteLazy } from '../../interface/app'
+import NotFoundPage from '../../pages/not-found'
+import PrivateRoute from '../../routes/PrivateRoutes'
+import DefaultRoute from '../../routes/DefaultRoutes'
 
 interface RouteElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,16 +14,16 @@ interface RouteElement {
   isPrivate?: boolean
 }
 interface LazyRouteProps {
-  routes: Route[]
+  routes: RouteLazy[]
 }
 function LazyElement({ routeElement }: RouteElement) {
   const LazyComponent = lazy(routeElement)
   return (
     <Suspense
       fallback={
-        <Row className='h-screen w-full'>
-          <Spin size='large' className='m-auto' />
-        </Row>
+        <div className='flex h-screen w-full items-center justify-center'>
+          <span className='loading loading-spinner loading-lg'></span>
+        </div>
       }
     >
       <LazyComponent />
@@ -32,7 +31,7 @@ function LazyElement({ routeElement }: RouteElement) {
   )
 }
 function wrapRoutesWithLazy({ routes }: LazyRouteProps): RouteObject[] {
-  return routes?.map((route: Route) => ({
+  return routes?.map((route: RouteLazy) => ({
     path: route.path,
     element: <LazyElement routeElement={route.element} />,
     ...(route.children && { children: wrapRoutesWithLazy({ routes: route.children }) })
@@ -48,7 +47,7 @@ export default function useRouteElements() {
     {
       path: '/',
       element: <DefaultRoute />,
-      children: wrapRoutesWithLazy({ routes: DEFAULT_ROUTE })
+      children: DEFAULT_ROUTE
     },
     {
       path: '/admin',

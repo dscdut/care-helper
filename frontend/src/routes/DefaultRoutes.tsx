@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import DefaultLayout from 'src/components/layouts/DefaultLayout'
+import DefaultLayout from 'src/layouts/DefaultLayout'
 
 function DefaultRoute() {
   return (
