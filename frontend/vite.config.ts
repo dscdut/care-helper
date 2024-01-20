@@ -12,7 +12,7 @@ export default defineConfig({
     setupFiles: path.resolve(__dirname, './vitest.setup.js')
   },
   server: {
-    port: 3001
+    port: 3000
   },
   css: {
     devSourcemap: true

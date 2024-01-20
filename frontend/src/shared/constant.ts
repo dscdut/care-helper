@@ -1,18 +1,5 @@
-import { SolutionOutlined, TeamOutlined } from '@ant-design/icons'
-
 export const SECONDS_IN_DAY = 86400
-
-export const SIDEBAR_OPTIONS = [
-  {
-    key: 'learn',
-    label: 'Learn',
-    path: '',
-    icon: TeamOutlined
-  },
-  {
-    key: 'learn-2',
-    label: 'Learn 2',
-    path: '',
-    icon: SolutionOutlined
-  }
-]
+export const PASSWORD = {
+  min: 8,
+  max: 100
+} as const

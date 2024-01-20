@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import PrivateLayout from 'src/components/layouts/PrivateLayout'
+import DefaultLayout from 'src/layouts/DefaultLayout'
 
 function PrivateRoute() {
   // const [havePermission, setHavePermission] = useState(false) // Sau ni dung accessToken
@@ -10,9 +10,9 @@ function PrivateRoute() {
   }, [])
 
   return (
-    <PrivateLayout>
+    <DefaultLayout>
       <Outlet />
-    </PrivateLayout>
+    </DefaultLayout>
   )
 }
 
