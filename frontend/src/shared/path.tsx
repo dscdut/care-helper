@@ -1,25 +1,24 @@
 import { RouteObject } from 'react-router-dom'
-import { RouteLazy } from 'src/interface/app'
+import { path } from 'src/constants/path'
 import Home from 'src/pages/Home'
-
-// contanst url
-const PATH_URL = {
-  admin: '/admin'
-} as const
+import Login from 'src/pages/login/Login'
+import Register from 'src/pages/register/Register'
 
 // private routes (path, component)
-export const PRIVATE_ROUTE: RouteLazy[] = [
+export const AUTH_ROUTER: RouteObject[] = [
   {
-    path: '',
-    element: () => import('src/pages/Home')
+    path: path.login,
+    element: <Login />
+  },
+  {
+    path: path.register,
+    element: <Register />
   }
 ]
 
-export const DEFAULT_ROUTE: RouteObject[] = [
+export const PRIVATE_ROUTER: RouteObject[] = [
   {
     path: '',
     element: <Home />
   }
 ]
-
-export default PATH_URL

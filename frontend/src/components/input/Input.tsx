@@ -15,15 +15,20 @@ export default function Input<T extends FieldValues>({
   errorMessage,
   classNameError,
   classNameInput,
-  className
+  className,
+  ...res
 }: InputProps<T>) {
   return (
     <div className={className}>
       <input
         type='text'
         placeholder='Type here'
-        className={twMerge('input input-bordered w-full max-w-xs focus:outline-none', classNameInput)}
+        className={twMerge(
+          'input input-bordered w-full hover:border-primary focus:border-primary focus:outline-none',
+          classNameInput
+        )}
         {...register(name)}
+        {...res}
       />
       <div className={twMerge('mt-1 min-h-[1.25rem] text-sm text-red-600', classNameError)}>{errorMessage}</div>
     </div>

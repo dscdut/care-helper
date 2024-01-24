@@ -3,10 +3,11 @@ import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToL
 import config from '../configs'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { ErrorResponse } from 'src/types/utils.type'
-import { AuthResponse, RefreshTokenResponse } from 'src/types/auth.type'
+import { AuthResponse, LoginResponse, RefreshTokenResponse } from 'src/types/auth.type'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
 import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from './utils'
 import { SECONDS_IN_DAY } from 'src/shared/constant'
+import { toast } from 'react-toastify'
 
 export class Http {
   instance: AxiosInstance
@@ -41,11 +42,12 @@ export class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
+        console.log(response)
         const { url } = response.config
-        if (url === URL_LOGIN || url === URL_REGISTER) {
-          const data = response.data as AuthResponse
-          this.accessToken = data.data.access_token
-          this.refreshToken = data.data.refresh_token
+        if (url === URL_LOGIN) {
+          const data = response.data as LoginResponse
+          this.accessToken = data.accessToken
+          this.refreshToken = data.refreshToken
           setAccessTokenToLS(this.accessToken)
           setRefreshTokenToLS(this.refreshToken)
         } else if (url === URL_LOGOUT) {
@@ -63,7 +65,7 @@ export class Http {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
           const message = data?.message || error.message
-          console.log(`Error ${message}`)
+          toast.error(message)
         }
 
         // Lỗi Unauthorized (401) có rất nhiều trường hợp
