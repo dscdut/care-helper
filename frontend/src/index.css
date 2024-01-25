@@ -1,9 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --toastify-color-success: #4a00ff;
+}
 
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

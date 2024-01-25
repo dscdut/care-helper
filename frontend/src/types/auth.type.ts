@@ -1,3 +1,4 @@
+import { User } from './users.type'
 import { SuccessResponse } from './utils.type'
 export interface SelectOption {
   label: string
@@ -12,3 +13,24 @@ export type AuthResponse = SuccessResponse<{
 }>
 
 export type RefreshTokenResponse = SuccessResponse<{ access_token: string }>
+
+export type LoginResponse = {
+  user: User
+  accessToken: string
+  refreshToken: string
+}
+
+export type LoginReqBody = {
+  email: string
+  password: string
+}
+
+export type AuthErrorResponse = {
+  message: string
+  code: string
+  status: number
+  detail?: {
+    type: string
+    message: string
+  }[]
+}

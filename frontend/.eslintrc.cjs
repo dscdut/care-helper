@@ -29,6 +29,7 @@ module.exports = {
     node: true
   },
   rules: {
+    '@typescript-eslint/no-empty-interface': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-no-target-blank': 'warn',
     'prettier/prettier': [

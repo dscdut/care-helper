@@ -1,12 +1,13 @@
 import { RouteObject, useRoutes } from 'react-router-dom'
-import { DEFAULT_ROUTE, PRIVATE_ROUTE } from '../path'
+import { AUTH_ROUTER, PRIVATE_ROUTER } from '../path'
 
 // component
 import { Suspense, lazy } from 'react'
 import { RouteLazy } from '../../interface/app'
 import NotFoundPage from '../../pages/not-found'
-import PrivateRoute from '../../routes/PrivateRoutes'
-import DefaultRoute from '../../routes/DefaultRoutes'
+import PrivateRoutes from '../../routes/PrivateRoutes'
+import AuthRoutes from 'src/routes/AuthRoutes'
+import { path } from 'src/constants/path'
 
 interface RouteElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,14 +46,14 @@ export default function useRouteElements() {
     },
 
     {
-      path: '/',
-      element: <DefaultRoute />,
-      children: DEFAULT_ROUTE
+      path: path.home,
+      element: <PrivateRoutes />,
+      children: PRIVATE_ROUTER
     },
     {
-      path: '/admin',
-      element: <PrivateRoute />,
-      children: wrapRoutesWithLazy({ routes: PRIVATE_ROUTE })
+      path: path.auth,
+      element: <AuthRoutes />,
+      children: AUTH_ROUTER
     }
   ]
   return useRoutes(routeElements)
