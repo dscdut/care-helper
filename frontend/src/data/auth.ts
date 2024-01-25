@@ -1,6 +1,15 @@
 import { authImage1, authImage2, authImage3, authImage4, authImage5 } from 'src/assets/images'
 import { path } from 'src/constants/path'
-import { AuthSlide, PoliciesOption } from 'src/types/auth.type'
+
+export type AuthSlide = {
+  id: number
+  img: string
+}
+export type PoliciesOption = {
+  id: number
+  title: string
+  to: string
+}
 
 export const authSlides: AuthSlide[] = [
   {

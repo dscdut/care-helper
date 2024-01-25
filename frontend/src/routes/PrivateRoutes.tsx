@@ -14,14 +14,14 @@ function PrivateRoutes() {
     }
   }, [])
 
+  if (!isAuthenticated) {
+    return null
+  }
+
   return (
-    <>
-      {isAuthenticated && (
-        <DefaultLayout>
-          <Outlet />
-        </DefaultLayout>
-      )}
-    </>
+    <DefaultLayout>
+      <Outlet />
+    </DefaultLayout>
   )
 }
 

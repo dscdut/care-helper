@@ -7,6 +7,7 @@ import { RouteLazy } from '../../interface/app'
 import NotFoundPage from '../../pages/not-found'
 import PrivateRoutes from '../../routes/PrivateRoutes'
 import AuthRoutes from 'src/routes/AuthRoutes'
+import { path } from 'src/constants/path'
 
 interface RouteElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,12 +46,12 @@ export default function useRouteElements() {
     },
 
     {
-      path: '/',
+      path: path.home,
       element: <PrivateRoutes />,
       children: PRIVATE_ROUTER
     },
     {
-      path: '/auth',
+      path: path.auth,
       element: <AuthRoutes />,
       children: AUTH_ROUTER
     }

@@ -1,5 +1,4 @@
-import { LoginReqBody, AuthResponse, LoginResponse } from './../types/auth.type'
-
+import { AuthResponse, LoginResponse, LoginReqBody } from 'src/types/auth.type'
 import http from 'src/utils/http'
 
 export const URL_LOGIN = 'auth/email'

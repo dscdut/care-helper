@@ -33,7 +33,6 @@ export default function Login(props: LoginProps) {
   const loginMutation = useMutation({
     mutationFn: (body: LoginReqBody) => authApi.login(body),
     onSuccess: (data) => {
-      console.log(data)
       toast.success('Login successfully.', {
         progressClassName: 'bg-primary'
       })
@@ -78,8 +77,7 @@ export default function Login(props: LoginProps) {
             type='password'
             errorMessage={errors.password?.message}
           />
-          <div className='flex items-center justify-between'>
-            <div></div>
+          <div className='text-right'>
             <Link to={path.home} className='font-semibold text-primary underline'>
               Forgot password?
             </Link>
@@ -90,7 +88,7 @@ export default function Login(props: LoginProps) {
       <div className='divider mt-4'>or</div>
       <p>
         Don&apos;t have an account?{' '}
-        <Link to={`/${path.auth}/${path.register}`} className='font-semibold underline'>
+        <Link to={`${path.auth}/${path.register}`} className='font-semibold underline'>
           Sign up
         </Link>
       </p>

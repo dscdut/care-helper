@@ -1,13 +1,19 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
-import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS, setRefreshTokenToLS } from './auth'
-import config from '../configs'
+import {
+  clearLS,
+  getAccessTokenFromLS,
+  getRefreshTokenFromLS,
+  setAccessTokenToLS,
+  setRefreshTokenToLS
+} from 'src/utils/auth'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
-import { ErrorResponse } from 'src/types/utils.type'
-import { AuthResponse, LoginResponse, RefreshTokenResponse } from 'src/types/auth.type'
-import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
-import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from './utils'
+import { LoginResponse, RefreshTokenResponse } from 'src/types/auth.type'
+import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN } from 'src/apis/auth.api'
+import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from 'src/utils/utils'
 import { SECONDS_IN_DAY } from 'src/shared/constant'
 import { toast } from 'react-toastify'
+import config from 'src/configs'
+import { ErrorResponse } from 'src/types/utils.type'
 
 export class Http {
   instance: AxiosInstance
@@ -42,7 +48,6 @@ export class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response)
         const { url } = response.config
         if (url === URL_LOGIN) {
           const data = response.data as LoginResponse

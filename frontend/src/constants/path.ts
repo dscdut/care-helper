@@ -1,6 +1,6 @@
 export const path = {
   home: '/',
-  auth: 'auth',
+  auth: '/auth',
   login: 'login',
   register: 'register'
 } as const

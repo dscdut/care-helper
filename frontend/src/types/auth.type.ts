@@ -14,17 +14,6 @@ export type AuthResponse = SuccessResponse<{
 
 export type RefreshTokenResponse = SuccessResponse<{ access_token: string }>
 
-export type AuthSlide = {
-  id: number
-  img: string
-}
-
-export type PoliciesOption = {
-  id: number
-  title: string
-  to: string
-}
-
 export type LoginResponse = {
   user: User
   accessToken: string

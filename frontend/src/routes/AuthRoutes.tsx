@@ -12,16 +12,15 @@ function AuthRoutes() {
     if (isAuthenticated) {
       navigate(path.home)
     }
-    navigate
   }, [])
+
+  if (isAuthenticated) {
+    return null
+  }
   return (
-    <>
-      {!isAuthenticated && (
-        <AuthLayout>
-          <Outlet />
-        </AuthLayout>
-      )}
-    </>
+    <AuthLayout>
+      <Outlet />
+    </AuthLayout>
   )
 }
 
