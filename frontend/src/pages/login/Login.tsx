@@ -14,7 +14,8 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 export interface LoginProps {}
 
-type SchemaLogin = Schema
+type SchemaLogin = Pick<Schema, 'email' | 'password'>
+const schemaLogin = schema.pick(['email', 'password'])
 
 export default function Login(props: LoginProps) {
   const {
@@ -27,7 +28,7 @@ export default function Login(props: LoginProps) {
       email: '',
       password: ''
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schemaLogin)
   })
   const { setIsAuthenticated } = useContext<AppContextType>(AppContext)
   const loginMutation = useMutation({
@@ -54,7 +55,7 @@ export default function Login(props: LoginProps) {
     }
   })
   const navigate = useNavigate()
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (data: SchemaLogin) => {
     loginMutation.mutate(data)
   }
   return (

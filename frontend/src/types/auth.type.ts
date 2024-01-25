@@ -19,10 +19,19 @@ export type LoginResponse = {
   accessToken: string
   refreshToken: string
 }
+export type RegisterResponse = {
+  message: string
+}
 
 export type LoginReqBody = {
   email: string
   password: string
+}
+
+export type RegisterReqBody = LoginReqBody & {
+  phone: string
+  fullName: string
+  role: string
 }
 
 export type AuthErrorResponse = {
