@@ -13,7 +13,7 @@ function PrivateRoutes() {
       navigate(`${path.auth}/${path.login}`)
     }
   }, [])
-
+  // TODO useRoutes
   if (!isAuthenticated) {
     return null
   }

@@ -13,7 +13,7 @@ function AuthRoutes() {
       navigate(path.home)
     }
   }, [])
-
+  // TODO useRoutes
   if (isAuthenticated) {
     return null
   }
