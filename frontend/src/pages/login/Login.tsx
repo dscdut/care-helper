@@ -11,11 +11,12 @@ import authApi from 'src/apis/auth.api'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { AUTH_FIELD_NAME } from 'src/constants/common'
 
 export interface LoginProps {}
 
-type SchemaLogin = Pick<Schema, 'email' | 'password'>
-const schemaLogin = schema.pick(['email', 'password'])
+type SchemaLogin = Pick<Schema, typeof AUTH_FIELD_NAME.email | typeof AUTH_FIELD_NAME.password>
+const schemaLogin = schema.pick([AUTH_FIELD_NAME.email, AUTH_FIELD_NAME.password])
 
 export default function Login(props: LoginProps) {
   const {

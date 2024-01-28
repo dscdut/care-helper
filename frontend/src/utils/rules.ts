@@ -6,7 +6,7 @@ import {
   PASSWORD_MESSAGES,
   PHONE_MESSAGE
 } from 'src/constants/messages'
-import { PHONE_REGEX } from 'src/shared/constant'
+import { PHONE_REGEX } from 'src/constants/common'
 import * as yup from 'yup'
 
 export const schema = yup.object({
