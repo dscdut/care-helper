@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       maxHeight: {
         30: '120px'
+      },
+      colors: {
+        bg_primary: '#f3f4f6'
       }
     }
   },
