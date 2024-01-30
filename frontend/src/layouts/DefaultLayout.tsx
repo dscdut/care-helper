@@ -1,9 +1,9 @@
+import Navbar from 'src/layouts/components/navbar'
+import Sidebar from 'src/layouts/components/sidebar'
+import classNames from 'classnames'
 import { ReactWithChild } from 'src/interface/app'
-import Navbar from './components/navbar'
-import Sidebar from './components/sidebar'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
-import classNames from 'classnames'
 
 export default function DefaultLayout({ children }: ReactWithChild) {
   const { showSidebar } = useContext<AppContextType>(AppContext)

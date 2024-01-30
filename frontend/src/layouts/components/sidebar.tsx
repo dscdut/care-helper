@@ -1,9 +1,10 @@
+import classNames from 'classnames'
 import { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { path } from 'src/constants/path'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { sidebarOption } from 'src/data/layout'
-import classNames from 'classnames'
+import { HiBars3, HiArrowRightOnRectangle } from 'react-icons/hi2'
 
 export interface SidebarProps {}
 
@@ -15,14 +16,7 @@ export default function Sidebar(props: SidebarProps) {
       <input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
       <div className='drawer-content flex h-16 flex-col items-center justify-center pl-2  lg:hidden'>
         <label htmlFor='my-drawer-2' aria-label='open sidebar' className='btn drawer-button h-3/5'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            className='inline-block h-6 w-6 stroke-current'
-          >
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 6h16M4 12h16M4 18h16'></path>
-          </svg>
+          <HiBars3 className='h-6 w-6' />
         </label>
       </div>
       <div className='drawer-side overflow-y-clip'>
@@ -50,25 +44,23 @@ export default function Sidebar(props: SidebarProps) {
             </li>
 
             <div className='flex flex-col gap-1'>
-              {sidebarOption.map((option) => (
-                <li key={option.id}>
+              {sidebarOption.map(({ icon: Icon, id, title, to }) => (
+                <li key={id}>
                   <Link
                     className={classNames(
                       'text-nowrap hover:bg-primary hover:text-white focus:!bg-primary focus:!text-white active:!bg-primary',
                       {
                         'tooltip tooltip-right': !showSidebar,
                         'bg-primary text-white':
-                          (pathname !== path.home &&
-                            option.to !== path.home &&
-                            pathname.startsWith(path.home + option.to)) ||
-                          (option.to === path.home && pathname === path.home)
+                          (pathname !== path.home && to !== path.home && pathname.startsWith(path.home + to)) ||
+                          (to === path.home && pathname === path.home)
                       }
                     )}
-                    to={option.to}
-                    data-tip={option.title}
+                    to={to}
+                    data-tip={title}
                   >
-                    {option.icon}
-                    {showSidebar && option.title}
+                    <Icon className='h-6 w-6' />
+                    {showSidebar && title}
                   </Link>
                 </li>
               ))}
@@ -77,26 +69,13 @@ export default function Sidebar(props: SidebarProps) {
 
           <li>
             <Link
-              to={`${path.auth}/${path.login}`}
+              to={path.login}
               className={`hover:bg-primary hover:text-white focus:!bg-primary focus:!text-white active:!bg-primary ${
                 !showSidebar && 'tooltip tooltip-right'
               }`}
               data-tip={'Sign out'}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='h-6 w-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9'
-                />
-              </svg>
+              <HiArrowRightOnRectangle className='h-6 w-6' />
               {showSidebar && 'Sign out'}
             </Link>
           </li>

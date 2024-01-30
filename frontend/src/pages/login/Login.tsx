@@ -88,7 +88,7 @@ export default function Login(props: LoginProps) {
       <div className='divider mt-4'>or</div>
       <p>
         Don&apos;t have an account?{' '}
-        <Link to={`${path.auth}/${path.register}`} className='font-semibold underline'>
+        <Link to={path.register} className='font-semibold underline'>
           Sign up
         </Link>
       </p>
