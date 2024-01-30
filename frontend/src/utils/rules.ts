@@ -10,6 +10,7 @@ import { PHONE_REGEX } from 'src/constants/common'
 import * as yup from 'yup'
 
 export const schema = yup.object({
+  //TODO: need refactor
   email: yup.string().required(EMAIL_MESSAGES.required).email(EMAIL_MESSAGES.isEmail),
   password: yup.string().required(PASSWORD_MESSAGES.required),
   confirmPassword: yup
