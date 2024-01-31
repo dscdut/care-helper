@@ -1,4 +1,4 @@
-import { UserService } from '../../modules/user/services/user.service';
+import { UserService } from '../../modules/user/service/user.service';
 import { CreateUserDto, UpdateUserDto } from '../../modules/user/dto';
 import { ValidHttpResponse } from '../../../packages/handler/response/validHttp.response';
 
@@ -8,7 +8,10 @@ class Controller {
     }
 
     updateOne = async req => {
-        await this.service.upsertOne(UpdateUserDto(req.body), req.user.payload.userId);
+        await this.service.upsertOne(
+            UpdateUserDto(req.body),
+            req.user.payload.userId,
+        );
         return ValidHttpResponse.toNoContentResponse();
     };
 

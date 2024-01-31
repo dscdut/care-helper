@@ -1,32 +1,82 @@
 import { pick } from 'lodash';
 import { JwtPayload } from 'core/modules/auth/dto/jwt-sign.dto';
-import { UserDataService } from 'core/modules/user/services/userData.service';
-import { joinUserRoles } from 'core/utils/userFilter';
+import { UnAuthorizedException } from 'packages/httpException';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from './jwt.service';
-import { UserRepository } from '../../user/user.repository';
-import { UnAuthorizedException } from '../../../../packages/httpException';
+import { UserService } from '../../user/service/user.service';
+import { MESSAGE } from './message.enum';
+import { DoctorLoginResponseDto } from '../dto/doctor.login.response.dto';
+import { PatientLoginResponseDto } from '../dto/patient.login.response.dto';
+import { RegisterResponseDto } from '../dto/register.response.dto';
 
 class Service {
     constructor() {
-        this.userRepository = UserRepository;
         this.jwtService = JwtService;
         this.bcryptService = BcryptService;
-        this.userDataService = UserDataService;
+        this.userService = UserService;
     }
 
-    async login(loginDto) {
-        const user = await this.userRepository.findByEmail(loginDto.email);
+    async doctorLogin(doctorLoginDto) {
+        const user = await this.userService.findDoctorByEmail(
+            doctorLoginDto.email,
+        );
 
-        const foundUser = joinUserRoles(user);
-        if (user && this.bcryptService.compare(loginDto.password, foundUser.password)) {
-            return {
-                user: foundUser,
-                accessToken: this.jwtService.sign(JwtPayload(foundUser)),
-            };
+        if (
+            user &&
+            this.bcryptService.compare(doctorLoginDto.password, user.password)
+        ) {
+            return DoctorLoginResponseDto({
+                user,
+                accessToken: this.jwtService.accessTokenSign(JwtPayload(user)),
+                refreshToken: this.jwtService.refreshTokenSign(
+                    JwtPayload(user),
+                ),
+            });
         }
 
         throw new UnAuthorizedException('Email or password is incorrect');
+    }
+
+    async patientLogin(patientLoginDto) {
+        const user = await this.userService.findPatientByPhone(
+            patientLoginDto.phone,
+        );
+        if (
+            user &&
+            this.bcryptService.compare(patientLoginDto.password, user.password)
+        ) {
+            return PatientLoginResponseDto({
+                user,
+                accessToken: this.jwtService.accessTokenSign(JwtPayload(user)),
+                refreshToken: this.jwtService.refreshTokenSign(
+                    JwtPayload(user),
+                ),
+            });
+        }
+
+        throw new UnAuthorizedException(
+            'Phone number or password is incorrect',
+        );
+    }
+
+    async patientRegister(patientRegisterDto) {
+        patientRegisterDto.password = this.bcryptService.hash(
+            patientRegisterDto.password,
+        );
+        await this.userService.addPatient(patientRegisterDto);
+        return RegisterResponseDto({
+            message: MESSAGE.REGISTER_SUCCESS,
+        });
+    }
+
+    async doctorRegister(doctorRegisterDto) {
+        doctorRegisterDto.password = this.bcryptService.hash(
+            doctorRegisterDto.password,
+        );
+        await this.userService.addDoctor(doctorRegisterDto);
+        return RegisterResponseDto({
+            message: MESSAGE.REGISTER_SUCCESS,
+        });
     }
 
     #getUserInfo = user => pick(user, ['_id', 'email', 'username', 'roles']);
