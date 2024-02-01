@@ -34,7 +34,7 @@ $ npm run knex migrate:make <migration_name_file.js>
 $ npm run knex migrate:latest
 
 # Rollback the migration
-$ npm run knex migration:rollback
+$ npm run knex migrate:rollback
 ```
 
 ### Seeding
