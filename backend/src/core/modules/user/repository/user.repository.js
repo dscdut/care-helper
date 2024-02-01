@@ -4,12 +4,12 @@ import { DataRepository } from 'packages/restBuilder/core/dataHandler/data.repos
 class Repository extends DataRepository {
     findDoctorByEmail(email) {
         return this.query()
-            .innerJoin('doctors', 'users.id', '=', 'doctors.user_id')
+            .leftJoin('doctors', 'users.id', '=', 'doctors.user_id')
             .whereNull('users.deleted_at')
             .where('users.email', '=', email)
             .where('users.role', '=', Role.DOCTOR)
             .select(
-                'users.id',
+                'doctors.id',
                 { fullName: 'users.full_name' },
                 'users.gender',
                 'users.email',
@@ -29,12 +29,12 @@ class Repository extends DataRepository {
 
     findPatientByPhone(phone) {
         return this.query()
-            .innerJoin('patients', 'users.id', '=', 'patients.user_id')
+            .leftJoin('patients', 'users.id', '=', 'patients.user_id')
             .whereNull('users.deleted_at')
             .where('users.phone', '=', phone)
             .where('users.role', '=', Role.PATIENT)
             .select(
-                'users.id',
+                'patients.id',
                 { fullName: 'users.full_name' },
                 'users.gender',
                 'users.email',
@@ -47,21 +47,6 @@ class Repository extends DataRepository {
                 { nationalIdCard: 'patients.national_id_card' },
                 'patients.insurance',
                 'patients.profesion',
-            );
-    }
-
-    findById(id) {
-        return this.query()
-            .whereNull('users.deleted_at')
-            .where('users.id', '=', id)
-            .select(
-                'users.id',
-                'users.email',
-                { fullName: 'users.full_name' },
-                'users.role',
-                { createdAt: 'users.created_at' },
-                { updatedAt: 'users.updated_at' },
-                { deletedAt: 'users.deleted_at' },
             );
     }
 

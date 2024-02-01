@@ -22,12 +22,12 @@ exports.seed = knex =>
                     phone: '33333333',
                 },
                 {
-                    full_name: 'User 1',
+                    full_name: 'Patient 1',
                     phone: '00000000',
                     role: Role.PATIENT,
                 },
                 {
-                    full_name: 'User 2',
+                    full_name: 'Patient 2',
                     phone: '1111111',
                     role: Role.PATIENT,
                 },

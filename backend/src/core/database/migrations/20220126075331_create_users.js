@@ -14,7 +14,7 @@ exports.up = async knex => {
         table.string('email').index();
         table.string('phone').index();
         table.string('password').defaultTo(DEFAULT_PASSWORD);
-        table.boolean('active').defaultTo(false);
+        table.boolean('active').defaultTo(true);
         table.boolean('locked').defaultTo(false);
         table.enu('gender', Object.values(Gender));
         table.date('birthday').nullable();
