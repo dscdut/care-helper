@@ -7,7 +7,7 @@ const tableName = 'health_survey';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.string('status',Object.values(FormStatus));
+        table.enu('status',Object.values(FormStatus)).defaultTo(FormStatus.WAITING);
         table.text('form');
         table
             .integer('doctor_id')
