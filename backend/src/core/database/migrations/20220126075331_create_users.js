@@ -1,7 +1,7 @@
 const { Role, Gender } = require('../../common/enum');
 
 /**
- * @param {import("knex")} knex
+ * @param { import("knex").Knex } knex
  */
 const tableName = 'users';
 // 123456
@@ -33,7 +33,9 @@ exports.up = async knex => {
    EXECUTE PROCEDURE update_timestamp();
  `);
 };
-
+/**
+ * @param { import("knex").Knex } knex
+ */
 exports.down = async knex => {
     await knex.schema.dropTable(tableName);
     await knex.raw(`DROP TRIGGER IF EXISTS update_timestamp ON ${tableName};`);
