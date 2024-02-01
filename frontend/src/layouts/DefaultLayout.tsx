@@ -1,9 +1,9 @@
 import Navbar from 'src/layouts/components/navbar'
 import Sidebar from 'src/layouts/components/sidebar'
-import classNames from 'classnames'
 import { ReactWithChild } from 'src/interface/app'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
+import classNames from 'classnames'
 
 export default function DefaultLayout({ children }: ReactWithChild) {
   const { showSidebar } = useContext<AppContextType>(AppContext)
@@ -12,8 +12,8 @@ export default function DefaultLayout({ children }: ReactWithChild) {
       <Navbar />
       <Sidebar />
       <div
-        className={classNames('flex min-h-screen w-full flex-col items-center justify-center pt-16', {
-          'lg:pl-[19rem]': showSidebar,
+        className={classNames('flex min-h-screen w-full flex-col items-center pt-16', {
+          'lg:pl-[18rem]': showSidebar,
           'lg:pl-24': !showSidebar
         })}
       >
