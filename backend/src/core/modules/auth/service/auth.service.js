@@ -23,8 +23,8 @@ class Service {
         );
 
         if (
-            user &&
-            this.bcryptService.compare(doctorLoginDto.password, user.password)
+            user
+            && this.bcryptService.compare(doctorLoginDto.password, user.password)
         ) {
             return DoctorLoginResponseDto({
                 user,
@@ -45,8 +45,8 @@ class Service {
             patientLoginDto.phone,
         );
         if (
-            user &&
-            this.bcryptService.compare(patientLoginDto.password, user.password)
+            user
+            && this.bcryptService.compare(patientLoginDto.password, user.password)
         ) {
             return PatientLoginResponseDto({
                 user,

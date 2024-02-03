@@ -53,12 +53,13 @@ class Service {
     }
 
     async addDoctor(doctorRegisterDto) {
-        if (doctorRegisterDto.email)
+        if (doctorRegisterDto.email) {
             Optional.of(
                 await this.findDoctorByEmail(doctorRegisterDto.email),
             ).throwIfPresent(
                 new DuplicateException('This email is already existed'),
             );
+        }
         const trx = await getTransaction();
         try {
             await this.doctorRepository.upsertDoctor(doctorRegisterDto, trx);
@@ -71,12 +72,13 @@ class Service {
     }
 
     async addPatient(patientRegisterDto) {
-        if (patientRegisterDto.phone)
+        if (patientRegisterDto.phone) {
             Optional.of(
                 await this.findPatientByPhone(patientRegisterDto.phone),
             ).throwIfPresent(
                 new DuplicateException('This phone number is already existed'),
             );
+        }
         const trx = await getTransaction();
         try {
             await this.patientRepository.upsertPatient(patientRegisterDto, trx);
