@@ -1,6 +1,7 @@
 import { CreatePrescriptionDto } from 'core/modules/prescription';
 import { PrescriptionService } from 'core/modules/prescription/service/prescription.service';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
+import { NotFoundException } from 'packages/httpException';
 
 class Controller {
     constructor() {
@@ -16,10 +17,10 @@ class Controller {
     };
 
     getPrescriptionById = async req => {
-        const data = await this.service.getPrescriptionById(
-            req.params.prescriptionId,
-        );
-        return ValidHttpResponse.toOkResponse(data);
+        const { id } = req.params;
+        const data = await this.service.getPrescriptionById(id);
+        if (data) return ValidHttpResponse.toOkResponse(data);
+        throw new NotFoundException(`Cannot find prescription with id ${id}`);
     };
 }
 
