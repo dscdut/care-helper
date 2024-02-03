@@ -13,10 +13,7 @@ export class SwaggerBuilder {
             content: model ? {
                 'application/json': {
                     schema: {
-                        type: 'array',
-                        items: {
-                            $ref: `#/components/schemas/${model}`,
-                        },
+                        $ref: `#/components/schemas/${model}`,
                     },
                 },
             } : '',

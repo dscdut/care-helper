@@ -14,14 +14,17 @@ import 'swiper/css/navigation'
 import { Autoplay } from 'swiper/modules'
 import { authSlides, policiesOptions } from 'src/data/auth'
 import { Link } from 'react-router-dom'
+import { path } from 'src/constants/path'
 
 export default function AuthLayout({ children }: ReactWithChild) {
   return (
-    <div className='grid h-screen max-h-screen grid-cols-4 overflow-hidden xl:grid-cols-5'>
-      <section className='col-span-4 flex h-screen flex-col justify-between p-6 lg:p-8 xl:col-span-2'>
-        <h3 className='pl-0 text-3xl font-semibold md:pl-8 xl:pl-0'>
-          Care<span className='text-primary'>Helper</span>
-        </h3>
+    <div className='grid min-h-screen grid-cols-4 overflow-hidden xl:grid-cols-5'>
+      <section className='col-span-4 flex flex-col justify-between gap-10 p-6 lg:p-8 xl:col-span-2'>
+        <Link to={path.home} className='w-max'>
+          <h3 className='w-max pl-0 text-3xl font-semibold md:pl-8 xl:pl-0'>
+            Care<span className='text-primary'>Helper</span>
+          </h3>
+        </Link>
         {children}
         <ul className='mx-auto flex w-full max-w-[450px] flex-wrap items-center justify-between gap-2'>
           {policiesOptions.map((policies) => (

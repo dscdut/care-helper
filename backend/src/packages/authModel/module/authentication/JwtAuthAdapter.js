@@ -29,8 +29,8 @@ export class JwtAuthAdapter {
     }
 
     #applyPreAuthorizationToUserDetail = () => {
-        this.#userDetail.toRoles();
-        this.#userDetail.toPermissions();
+        this.#userDetail.toRole();
+        // this.#userDetail.toPermissions();
     }
 
     collectRequest(req) {

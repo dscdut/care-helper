@@ -11,10 +11,12 @@ import authApi from 'src/apis/auth.api'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { AUTH_FIELD_NAME } from 'src/constants/common'
 
 export interface LoginProps {}
 
-type SchemaLogin = Schema
+type SchemaLogin = Pick<Schema, typeof AUTH_FIELD_NAME.email | typeof AUTH_FIELD_NAME.password>
+const schemaLogin = schema.pick([AUTH_FIELD_NAME.email, AUTH_FIELD_NAME.password])
 
 export default function Login(props: LoginProps) {
   const {
@@ -27,7 +29,7 @@ export default function Login(props: LoginProps) {
       email: '',
       password: ''
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schemaLogin)
   })
   const { setIsAuthenticated } = useContext<AppContextType>(AppContext)
   const loginMutation = useMutation({
@@ -54,7 +56,7 @@ export default function Login(props: LoginProps) {
     }
   })
   const navigate = useNavigate()
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (data: SchemaLogin) => {
     loginMutation.mutate(data)
   }
   return (
@@ -88,7 +90,7 @@ export default function Login(props: LoginProps) {
       <div className='divider mt-4'>or</div>
       <p>
         Don&apos;t have an account?{' '}
-        <Link to={`${path.auth}/${path.register}`} className='font-semibold underline'>
+        <Link to={path.register} className='font-semibold underline'>
           Sign up
         </Link>
       </p>

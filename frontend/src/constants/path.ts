@@ -1,7 +1,10 @@
 export const path = {
   home: '/',
   auth: '/auth',
-  //TODO: recheck path
-  login: 'login',
-  register: 'register'
+  login: '/auth/login',
+  register: '/auth/register',
+  patients: '/patients',
+  schedules: '/schedules',
+  surveys: '/surveys',
+  personals: '/personals'
 } as const
