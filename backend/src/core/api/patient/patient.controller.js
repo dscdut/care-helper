@@ -1,6 +1,5 @@
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 import { UserService } from 'core/modules/user';
-import { NotFoundException } from 'packages/httpException';
 
 class Controller {
     constructor() {
@@ -8,10 +7,8 @@ class Controller {
     }
 
     getPatientById = async req => {
-        const { id } = req.params;
-        const data = await this.service.findPatientById(id);
-        if (data) return ValidHttpResponse.toOkResponse(data);
-        throw new NotFoundException(`Cannot find patient with id ${id}`);
+        const data = await this.service.findPatientById(req.params.id);
+        return ValidHttpResponse.toOkResponse(data);
     };
 }
 
