@@ -7,41 +7,52 @@ export class SwaggerBuilder {
         return new SwaggerBuilder();
     }
 
+    #configureResponseSchema = model => {
+        if (typeof model === 'string') {
+            return {
+                $ref: `#/components/schemas/${model}`,
+            };
+        }
+        if (model.type === 'array')
+            return {
+                type: 'array',
+                items: {
+                    $ref: `#/components/schemas/${model.name}`,
+                },
+            };
+    };
+
     #toResponseSuccess = model => ({
         200: {
             description: 'successful operation',
-            content: model ? {
-                'application/json': {
-                    schema: {
-                        $ref: `#/components/schemas/${model}`,
+            content: model
+                ? {
+                    'application/json': {
+                        schema: this.#configureResponseSchema(model),
                     },
-                },
-            } : '',
+                }
+                : '',
         },
-    })
+    });
 
     #toErrors = errors => {
         const responses = {};
 
         errors.forEach(error => {
             if (!error.status || !error.description) {
-                throw new Error('Error in swagger must contain status and description');
+                throw new Error(
+                    'Error in swagger must contain status and description',
+                );
             }
             responses[error.status] = {
-                description: error.description
+                description: error.description,
             };
         });
         return responses;
-    }
+    };
 
     addConfig(options) {
-        const {
-            openapi,
-            info,
-            servers,
-            auth,
-            basePath,
-        } = options;
+        const { openapi, info, servers, auth, basePath } = options;
 
         this.instance.openapi = openapi;
         this.instance.info = info;
@@ -61,7 +72,8 @@ export class SwaggerBuilder {
     }
 
     addTag(name) {
-        if (!this.instance.tags.some(tag => tag === name)) this.instance.tags.push(name);
+        if (!this.instance.tags.some(tag => tag === name))
+            this.instance.tags.push(name);
     }
 
     /**
@@ -89,7 +101,7 @@ export class SwaggerBuilder {
             body,
             params = [],
             consumes = [],
-            errors = []
+            errors = [],
         } = options;
         const responses = {};
 
@@ -100,30 +112,32 @@ export class SwaggerBuilder {
         this.instance.paths[route][method] = {
             tags: tags.length ? tags : [tags],
             description,
-            security: security ? [
-                {
-                    bearerAuth: [],
-                },
-            ] : [],
-            produces: [
-                'application/json',
-            ],
+            security: security
+                ? [
+                    {
+                        bearerAuth: [],
+                    },
+                ]
+                : [],
+            produces: ['application/json'],
             consumes,
             parameters: params,
-            requestBody: body ? {
-                content: {
-                    'application/json': {
-                        schema: {
-                            $ref: `#/components/schemas/${body}`,
+            requestBody: body
+                ? {
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: `#/components/schemas/${body}`,
+                            },
                         },
                     },
-                },
-                required: true,
-            } : {},
+                    required: true,
+                }
+                : {},
             responses: {
                 ...responses,
                 ...this.#toResponseSuccess(model),
-                ...this.#toErrors(errors)
+                ...this.#toErrors(errors),
             },
         };
     }
@@ -135,7 +149,7 @@ export class SwaggerBuilder {
                 items: {
                     type: 'object',
                     properties,
-                }
+                },
             };
         } else {
             this.instance.components.schemas[name] = {
