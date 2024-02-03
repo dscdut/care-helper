@@ -1,5 +1,3 @@
-import { Role } from 'core/common/enum';
-import { UserRepository } from 'core/modules/user/repository/user.repository';
 import { Optional, logger } from 'core/utils';
 import { getTransaction } from 'core/database';
 import {
@@ -10,14 +8,13 @@ import { DoctorRepository, PatientRepository } from '../repository';
 
 class Service {
     constructor() {
-        this.userRepository = UserRepository;
         this.patientRepository = PatientRepository;
         this.doctorRepository = DoctorRepository;
     }
 
     async findDoctorByEmail(email) {
         try {
-            const data = await this.userRepository.findDoctorByEmail(email);
+            const data = await this.doctorRepository.findDoctorByEmail(email);
             return data[0];
         } catch (error) {
             logger.error(error.message);
@@ -27,7 +24,7 @@ class Service {
 
     async findPatientByPhone(phoneNumber) {
         try {
-            const data = await this.userRepository.findPatientByPhone(
+            const data = await this.patientRepository.findPatientByPhone(
                 phoneNumber,
             );
             return data[0];
@@ -45,26 +42,8 @@ class Service {
                 new DuplicateException('This email is already existed'),
             );
         const trx = await getTransaction();
-        doctorRegisterDto.role = Role.DOCTOR;
         try {
-            const {
-                quota_code,
-                expertise,
-                experience,
-                work_unit,
-                certificate,
-                ...user
-            } = doctorRegisterDto;
-            let doctor = {
-                quota_code,
-                expertise,
-                experience,
-                work_unit,
-                certificate,
-            };
-            const returnData = await this.userRepository.createUser(user, trx);
-            doctor = { user_id: returnData[0].id, ...doctor };
-            await this.doctorRepository.upsertDoctor(doctor, trx);
+            await this.doctorRepository.upsertDoctor(doctorRegisterDto, trx);
         } catch (error) {
             await trx.rollback();
             logger.error(error.message);
@@ -81,14 +60,8 @@ class Service {
                 new DuplicateException('This phone number is already existed'),
             );
         const trx = await getTransaction();
-        patientRegisterDto.role = Role.PATIENT;
         try {
-            const { national_id_card, insurance, profesion, ...user } =
-                patientRegisterDto;
-            let patient = { national_id_card, insurance, profesion };
-            const returnData = await this.userRepository.createUser(user, trx);
-            patient = { user_id: returnData[0].id, ...patient };
-            await this.patientRepository.upsertPatient(patient, trx);
+            await this.patientRepository.upsertPatient(patientRegisterDto, trx);
         } catch (error) {
             await trx.rollback();
             logger.error(error.message);

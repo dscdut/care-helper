@@ -1,24 +1,28 @@
+const { Gender } = require('../../common/enum');
 /**
  * @param { import("knex").Knex } knex
  */
+const DEFAULT_PASSWORD =
+    '$2b$10$4WxWKojNnKfDAicVsveh7.ogkWOBMV1cvRUSPCXwxA05NRX18F0QW';
 const tableName = 'patients';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
+        table.string('full_name');
+        table.string('email').index();
+        table.string('phone').index();
+        table.string('password').defaultTo(DEFAULT_PASSWORD);
+        table.boolean('active').defaultTo(true);
+        table.boolean('locked').defaultTo(false);
+        table.enu('gender', Object.values(Gender));
+        table.date('birthday').nullable();
+        table.string('avatar').nullable();
+        table.string('address').nullable();
         table.string('national_id_card', 20);
         table.string('insurance', 20);
         table.string('profesion');
         table.dateTime('deleted_at').defaultTo(null);
         table.timestamps(false, true);
-        table
-            .integer('user_id')
-            .unsigned()
-            .notNullable()
-            .unique()
-            .index()
-            .references('id')
-            .inTable('users')
-            .onDelete('CASCADE');
     });
 
     await knex.raw(`

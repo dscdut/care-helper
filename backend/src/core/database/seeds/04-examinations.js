@@ -8,6 +8,7 @@ exports.seed = knex =>
         .then(() =>
             knex('examinations').insert([
                 {
+                    id: 1,
                     diagnose: 'Huyet ap cao',
                     advice: 'Nghi ngoi',
                     doctor_id: 1,

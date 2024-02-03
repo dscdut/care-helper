@@ -24,4 +24,4 @@ export const DISCORD = {
     BOT_NAME: process.env.DISCORD_BOT_NAME,
     BOT_AVATAR_URL: process.env.DISCORD_BOT_AVATAR_URL,
 };
-export const CLIENT_URL = process.env.CLIENT_URL || '*';
+export const CORS_ALLOW = process.env.CORS_ALLOW || '*';
