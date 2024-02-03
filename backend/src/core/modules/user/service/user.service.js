@@ -8,6 +8,7 @@ import {
 import { MessageDto } from 'core/common/dto/message.dto';
 import { MESSAGE } from 'core/modules/auth/service/message.enum';
 import { DoctorRepository, PatientRepository } from '../repository';
+import { DoctorDto } from '../dto/doctor.dto';
 
 class Service {
     constructor() {
@@ -78,12 +79,12 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
         return doctorId;
     }
 
     async updateDoctor(doctorUpdate) {
-        const doctor = await this.doctorRepository.findById(doctorUpdate.id);
+        let doctor = await this.doctorRepository.findById(doctorUpdate.id);
         if (doctor.length === 0) {
             throw new NotFoundException('Cannot find your account');
         }
@@ -95,10 +96,9 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
-        return MessageDto({
-            message: MESSAGE.VERIFY_SUCCESS,
-        });
+        await trx.commit();
+        doctor = await this.doctorRepository.findById(doctorUpdate.id);
+        return DoctorDto(doctor[0]);
     }
 
     async addPatient(patientRegisterDto) {
@@ -117,7 +117,7 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
     }
 
     async updatePatient(patientVerifyDto, id) {
@@ -136,7 +136,7 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
         return MessageDto({
             message: MESSAGE.VERIFY_SUCCESS,
         });

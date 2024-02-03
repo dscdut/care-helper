@@ -42,6 +42,6 @@ export const AuthResolver = Module.builder()
             interceptors: [DoctorRegisterInterceptor],
             body: 'DoctorRegisterDto',
             controller: AuthController.doctorRegister,
-            model: 'RegisterResponseDto',
+            model: 'MessageDto',
         },
     ]);

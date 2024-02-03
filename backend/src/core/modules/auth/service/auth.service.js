@@ -2,6 +2,7 @@ import { pick } from 'lodash';
 import { JwtPayload } from 'core/modules/auth/dto/jwt-sign.dto';
 import { UnAuthorizedException } from 'packages/httpException';
 import { Role } from 'core/common/enum';
+import { MessageDto } from 'core/common/dto/message.dto';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from './jwt.service';
 import { UserService } from '../../user/service/user.service';
@@ -78,12 +79,9 @@ class Service {
         doctorRegisterDto.password = this.bcryptService.hash(
             doctorRegisterDto.password,
         );
-        const id = await this.userService.addDoctor(doctorRegisterDto);
-        return RegisterResponseDto({
-            authToken: this.jwtService.accessTokenSign({
-                id,
-                role: Role.DOCTOR,
-            }),
+        await this.userService.addDoctor(doctorRegisterDto);
+        return MessageDto({
+            message: MESSAGE.REGISTER_SUCCESS,
         });
     }
 
