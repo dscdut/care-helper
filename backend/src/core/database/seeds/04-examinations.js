@@ -31,7 +31,14 @@ exports.seed = async knex => {
 
         examinations.push(examination);
     }
-
+    examinations.push({
+        diagnose: 'Thiếu người yêu',
+        detail_diagnose: 'Cô đơn quá lâu dẫn đến suy tim, trầm cảm nặng, lạnh lẽo vào mùa đông',
+        advice: 'Kiếm người yêu đi',
+        doctor_id: faker.random.number({ min: 1, max: numDoctors }),
+        patient_id: faker.random.number({ min: 1, max: numPatients }),
+        hospital_id: faker.random.number({ min: 1, max: numHospitals }),
+    });
     await knex(tableName).insert(examinations);
 };
 

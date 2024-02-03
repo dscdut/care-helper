@@ -61,6 +61,7 @@ export const ExaminationResolver = Module.builder()
             guards: [hasDoctorRole],
             controller: ExaminationController.deleteEmptyExamination,
             model: 'MessageDto',
+            description: 'can only be deleted for medical examinations without tests or prescriptions',
             preAuthorization: true,
         },
 
