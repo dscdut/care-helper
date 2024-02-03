@@ -6,9 +6,10 @@ import { AuthResolver } from './auth/auth.resolver';
 import { PrescriptionResolver } from './prescription/prescription.resolver';
 import { ExaminationResolver } from './examination/examiniation.resolver';
 import { HospitalResolver } from './hospital/hospital.resolver';
+import { DoctorResolver } from './doctor/doctor.resolver';
+import { PatientResolver } from './patient/patient.resolver';
 
-export const ModuleResolver = HandlerResolver
-    .builder()
+export const ModuleResolver = HandlerResolver.builder()
     .addSwaggerBuilder(ApiDocument)
     .addModule([
         AuthResolver,
@@ -17,4 +18,6 @@ export const ModuleResolver = HandlerResolver
         PrescriptionResolver,
         ExaminationResolver,
         HospitalResolver
+        DoctorResolver,
+        PatientResolver,
     ]);
