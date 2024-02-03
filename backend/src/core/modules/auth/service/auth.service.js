@@ -78,9 +78,12 @@ class Service {
         doctorRegisterDto.password = this.bcryptService.hash(
             doctorRegisterDto.password,
         );
-        await this.userService.addDoctor(doctorRegisterDto);
+        const id = await this.userService.addDoctor(doctorRegisterDto);
         return RegisterResponseDto({
-            message: MESSAGE.REGISTER_SUCCESS,
+            authToken: this.jwtService.accessTokenSign({
+                id,
+                role: Role.DOCTOR,
+            }),
         });
     }
 
