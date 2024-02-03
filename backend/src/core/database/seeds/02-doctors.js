@@ -8,10 +8,16 @@ exports.seed = knex =>
         .then(() =>
             knex('doctors').insert([
                 {
-                    user_id: 1,
+                    id: 1,
+                    full_name: 'Doctor 1',
+                    email: 'doctor1@gmail.com',
+                    phone: '22222222',
                 },
                 {
-                    user_id: 2,
+                    id: 2,
+                    full_name: 'Doctor 2',
+                    email: 'doctor2@gmail.com',
+                    phone: '33333333',
                 },
             ]),
         );

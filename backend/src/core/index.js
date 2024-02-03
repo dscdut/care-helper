@@ -8,11 +8,11 @@ import { HttpExceptionFilter } from '../packages/httpException/HttpExceptionFilt
 import { InvalidUrlFilter } from '../packages/handler/filter/InvalidUrlFilter';
 import { AppBundle } from './config';
 import { ModuleResolver } from './api';
-import { CLIENT_URL, SENTRY_DSN } from './env';
+import { CORS_ALLOW, SENTRY_DSN } from './env';
 
 const app = express();
 
-app.use(cors({ origin: CLIENT_URL }));
+app.use(cors({ origin: CORS_ALLOW }));
 Sentry.init({
     dsn: SENTRY_DSN,
 });

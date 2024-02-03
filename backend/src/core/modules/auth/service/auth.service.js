@@ -1,6 +1,7 @@
 import { pick } from 'lodash';
 import { JwtPayload } from 'core/modules/auth/dto/jwt-sign.dto';
 import { UnAuthorizedException } from 'packages/httpException';
+import { Role } from 'core/common/enum';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from './jwt.service';
 import { UserService } from '../../user/service/user.service';
@@ -27,9 +28,11 @@ class Service {
         ) {
             return DoctorLoginResponseDto({
                 user,
-                accessToken: this.jwtService.accessTokenSign(JwtPayload(user)),
+                accessToken: this.jwtService.accessTokenSign(
+                    JwtPayload({ role: Role.DOCTOR, ...user }),
+                ),
                 refreshToken: this.jwtService.refreshTokenSign(
-                    JwtPayload(user),
+                    JwtPayload({ role: Role.DOCTOR, ...user }),
                 ),
             });
         }
@@ -47,9 +50,11 @@ class Service {
         ) {
             return PatientLoginResponseDto({
                 user,
-                accessToken: this.jwtService.accessTokenSign(JwtPayload(user)),
+                accessToken: this.jwtService.accessTokenSign(
+                    JwtPayload({ role: Role.PATIENT, ...user }),
+                ),
                 refreshToken: this.jwtService.refreshTokenSign(
-                    JwtPayload(user),
+                    JwtPayload({ role: Role.PATIENT, ...user }),
                 ),
             });
         }
