@@ -23,7 +23,7 @@ export const DoctorResolver = Module.builder()
             interceptors: [DoctorVerifyInterceptor],
             controller: DoctorController.verifyDoctor,
             body: 'DoctorVerifyDto',
-            model: 'MessageDto',
+            model: 'DoctorDto',
             preAuthorization: true,
         },
     ]);

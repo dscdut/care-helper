@@ -23,7 +23,7 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
         return CreatePrescriptionResponseDto({
             message: MESSAGE.PRESCRIPTION_CREATED,
         });
