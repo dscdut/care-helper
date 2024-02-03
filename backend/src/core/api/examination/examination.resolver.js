@@ -1,5 +1,5 @@
 import { Module } from 'packages/handler/Module';
-import { examinationId , page, size } from 'core/common/swagger';
+import { examinationId, page, size } from 'core/common/swagger';
 import { CreateExaminationInterceptor, UpdateExaminationInterceptor } from 'core/modules/examination/interceptor';
 import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
 import { ExaminationController } from './examination.controller';
@@ -14,7 +14,7 @@ export const ExaminationResolver = Module.builder()
         {
             route: '/my-examinations',
             method: 'get',
-            params: [page,size],
+            params: [page, size],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.listMyExaminations,
             model: {

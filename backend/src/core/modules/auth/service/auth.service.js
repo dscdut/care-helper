@@ -2,6 +2,7 @@ import { pick } from 'lodash';
 import { JwtPayload } from 'core/modules/auth/dto/jwt-sign.dto';
 import { UnAuthorizedException } from 'packages/httpException';
 import { Role } from 'core/common/enum';
+import { MessageDto } from 'core/common/dto/message.dto';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from './jwt.service';
 import { UserService } from '../../user/service/user.service';
@@ -23,8 +24,8 @@ class Service {
         );
 
         if (
-            user &&
-            this.bcryptService.compare(doctorLoginDto.password, user.password)
+            user
+            && this.bcryptService.compare(doctorLoginDto.password, user.password)
         ) {
             return DoctorLoginResponseDto({
                 user,
@@ -45,8 +46,8 @@ class Service {
             patientLoginDto.phone,
         );
         if (
-            user &&
-            this.bcryptService.compare(patientLoginDto.password, user.password)
+            user
+            && this.bcryptService.compare(patientLoginDto.password, user.password)
         ) {
             return PatientLoginResponseDto({
                 user,
@@ -79,7 +80,7 @@ class Service {
             doctorRegisterDto.password,
         );
         await this.userService.addDoctor(doctorRegisterDto);
-        return RegisterResponseDto({
+        return MessageDto({
             message: MESSAGE.REGISTER_SUCCESS,
         });
     }

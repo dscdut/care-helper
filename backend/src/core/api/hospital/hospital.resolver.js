@@ -12,7 +12,7 @@ export const HospitalResolver = Module.builder()
         {
             route: '',
             method: 'get',
-            params: [page,size],
+            params: [page, size],
             controller: HospitalController.getAllHospitals,
             model: {
                 type: 'array',

@@ -1,7 +1,6 @@
 /**
  * @param {import("knex")} knex
  */
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 const faker = require('faker');
 const { Gender } = require('../../common/enum');

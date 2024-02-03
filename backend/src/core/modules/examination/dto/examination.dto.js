@@ -16,7 +16,7 @@ ApiDocument.addModel('ExaminationDto', {
 
 export const ExaminationDto = ({ examination, hospital }) => ({
     ...examination,
-    hopital: hospital || {
+    hospital: hospital || {
         id: examination.hospitalId,
         name: examination.hospitalName,
         address: examination.hospitalAddress,

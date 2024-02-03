@@ -13,13 +13,14 @@ export class SwaggerBuilder {
                 $ref: `#/components/schemas/${model}`,
             };
         }
-        if (model.type === 'array')
+        if (model.type === 'array') {
             return {
                 type: 'array',
                 items: {
                     $ref: `#/components/schemas/${model.name}`,
                 },
             };
+        }
     };
 
     #toResponseSuccess = model => ({
@@ -52,7 +53,9 @@ export class SwaggerBuilder {
     };
 
     addConfig(options) {
-        const { openapi, info, servers, auth, basePath } = options;
+        const {
+            openapi, info, servers, auth, basePath
+        } = options;
 
         this.instance.openapi = openapi;
         this.instance.info = info;
@@ -72,8 +75,7 @@ export class SwaggerBuilder {
     }
 
     addTag(name) {
-        if (!this.instance.tags.some(tag => tag === name))
-            this.instance.tags.push(name);
+        if (!this.instance.tags.some(tag => tag === name)) this.instance.tags.push(name);
     }
 
     /**

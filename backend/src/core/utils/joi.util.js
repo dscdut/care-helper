@@ -6,13 +6,12 @@ const MONGOOSE_ID_OBJECT_FORMAT = /^[0-9a-fA-F]{24}$/;
 
 const DATE_YYYY_MM_DD_FORMAT = /^\d{4}-\d{2}-\d{2}$/;
 
-const DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT =
-    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+const DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
 
 // Required from 6-30 char, contains special char
 const PWD_FORMAT = /^[a-zA-Z0-9\d@$!%*?&]{6,30}$/;
 
-const PHONE_FORMAT = /^[0-9]+$/;
+const NUMBER_FORMAT = /^[0-9]+$/;
 
 export class JoiUtils {
     static objectId() {
@@ -24,7 +23,9 @@ export class JoiUtils {
             ? Joi.string().regex(DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT)
             : Joi.string()
                 .regex(DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT)
-                .message('Invalid date format. Should be YYYY-MM-DD HH:MM:SS');
+                .message(
+                    'Invalid date format. Should be YYYY-MM-DD HH:MM:SS',
+                );
     }
 
     static #PrescriptionDetailSchema = Joi.object({
@@ -57,13 +58,14 @@ export class JoiUtils {
         return Joi.string().regex(PWD_FORMAT);
     }
 
-    static phone = () => Joi.string().regex(PHONE_FORMAT);
+    static phone = () => Joi.string().regex(NUMBER_FORMAT);
 
-    static email = () =>
-        Joi.string().email({
-            minDomainSegments: 2,
-            tlds: { allow: ['com', 'net'] },
-        });
+    static numberString = () => Joi.string().regex(NUMBER_FORMAT);
+
+    static email = () => Joi.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] },
+    });
 
     static date(custom = false) {
         return custom
