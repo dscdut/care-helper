@@ -5,7 +5,8 @@ class Repository extends DataRepository {
         const queryBuilder = this.query()
             .insert(doctor)
             .onConflict('id')
-            .merge();
+            .merge()
+            .returning('id');
         if (trx) return queryBuilder.transacting(trx);
         return queryBuilder;
     }
@@ -13,46 +14,42 @@ class Repository extends DataRepository {
     findByEmail(email) {
         return this.query()
             .whereNull('doctors.deleted_at')
-            .where('doctors.active', '=', true)
             .where('doctors.email', '=', email)
             .select(
                 'doctors.id',
                 { fullName: 'doctors.full_name' },
-                'doctors.gender',
                 'doctors.email',
+                'doctors.active',
                 'doctors.password',
                 'doctors.phone',
-                'doctors.birthday',
-                'doctors.avatar',
-                'doctors.address',
                 { quotaCode: 'doctors.quota_code' },
                 'doctors.expertise',
                 'doctors.experience',
                 { workUnit: 'doctors.work_unit' },
-                'doctors.certificate',
+                { certificateName: 'doctors.certificate_name' },
+                { certificateNumber: 'doctors.certificate_name' },
+                { certificateProvider: 'doctors.certificate_name' },
             );
     }
 
     findById(id) {
         return this.query()
             .whereNull('doctors.deleted_at')
-            .where('doctors.active', '=', true)
             .where('doctors.id', '=', id)
             .select(
                 'doctors.id',
                 { fullName: 'doctors.full_name' },
-                'doctors.gender',
                 'doctors.email',
                 'doctors.password',
                 'doctors.phone',
-                'doctors.birthday',
-                'doctors.avatar',
-                'doctors.address',
+                'doctors.active',
                 { quotaCode: 'doctors.quota_code' },
                 'doctors.expertise',
                 'doctors.experience',
                 { workUnit: 'doctors.work_unit' },
-                'doctors.certificate',
+                { certificateName: 'doctors.certificate_name' },
+                { certificateNumber: 'doctors.certificate_name' },
+                { certificateProvider: 'doctors.certificate_name' },
             );
     }
 }

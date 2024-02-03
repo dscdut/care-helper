@@ -16,4 +16,10 @@ export const PatientResolver = Module.builder()
             controller: PatientController.getPatientById,
             model: 'PatientDto',
         },
+        // {
+        //     route: '/',
+        //     method: 'put',
+        //     controller: PatientController.getPatientById,
+        //     model: 'PatientDto',
+        // },
     ]);
