@@ -10,10 +10,34 @@ class Repository extends DataRepository {
         return queryBuilder;
     }
 
-    findDoctorByEmail(email) {
+    findByEmail(email) {
         return this.query()
             .whereNull('doctors.deleted_at')
+            .where('doctors.active', '=', true)
             .where('doctors.email', '=', email)
+            .select(
+                'doctors.id',
+                { fullName: 'doctors.full_name' },
+                'doctors.gender',
+                'doctors.email',
+                'doctors.password',
+                'doctors.phone',
+                'doctors.birthday',
+                'doctors.avatar',
+                'doctors.address',
+                { quotaCode: 'doctors.quota_code' },
+                'doctors.expertise',
+                'doctors.experience',
+                { workUnit: 'doctors.work_unit' },
+                'doctors.certificate',
+            );
+    }
+
+    findById(id) {
+        return this.query()
+            .whereNull('doctors.deleted_at')
+            .where('doctors.active', '=', true)
+            .where('doctors.id', '=', id)
             .select(
                 'doctors.id',
                 { fullName: 'doctors.full_name' },

@@ -14,7 +14,27 @@ class Service {
 
     async findDoctorByEmail(email) {
         try {
-            const data = await this.doctorRepository.findDoctorByEmail(email);
+            const data = await this.doctorRepository.findByEmail(email);
+            return data[0];
+        } catch (error) {
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+    }
+
+    async findDoctorById(id) {
+        try {
+            const data = await this.doctorRepository.findById(id);
+            return data[0];
+        } catch (error) {
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+    }
+
+    async findPatientById(id) {
+        try {
+            const data = await this.patientRepository.findById(id);
             return data[0];
         } catch (error) {
             logger.error(error.message);
@@ -24,9 +44,7 @@ class Service {
 
     async findPatientByPhone(phoneNumber) {
         try {
-            const data = await this.patientRepository.findPatientByPhone(
-                phoneNumber,
-            );
+            const data = await this.patientRepository.findByPhone(phoneNumber);
             return data[0];
         } catch (error) {
             logger.error(error.message);

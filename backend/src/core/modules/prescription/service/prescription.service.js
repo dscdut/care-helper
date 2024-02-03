@@ -1,7 +1,4 @@
-import {
-    InternalServerException,
-    NotFoundException,
-} from 'packages/httpException';
+import { InternalServerException } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
 import { MESSAGE } from './message.enum';
@@ -36,11 +33,7 @@ class Service {
         const prescriptions = await this.prescriptionRepository.findById(
             prescriptionId,
         );
-        if (prescriptions.length > 0)
-            return PrescriptionDto({ prescription: prescriptions[0] });
-        throw new NotFoundException(
-            `Cannot find prescription with id ${prescriptionId}`,
-        );
+        return PrescriptionDto({ prescription: prescriptions[0] });
     }
 }
 

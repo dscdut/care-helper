@@ -1,7 +1,7 @@
 import { Module } from 'packages/handler/Module';
-import { prescriptionId } from 'core/common/swagger/prescription-id';
 import { CreatePrescriptionInterceptor } from 'core/modules/prescription/interceptor/prescription.create.interceptor';
 import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
+import { RecordId } from 'core/common/swagger';
 import { PrescriptionController } from './prescription.controller';
 
 export const PrescriptionResolver = Module.builder()
@@ -22,9 +22,9 @@ export const PrescriptionResolver = Module.builder()
             preAuthorization: true,
         },
         {
-            route: '/:prescriptionId',
+            route: '/:id',
             method: 'get',
-            params: [prescriptionId],
+            params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: PrescriptionController.getPrescriptionById,
             model: 'PrescriptionDto',
