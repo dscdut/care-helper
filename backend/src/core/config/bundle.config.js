@@ -94,9 +94,9 @@ export class AppBundle {
         this.app.use(
             methodOverride(req => {
                 if (
-                    req.body &&
-                    typeof req.body === 'object' &&
-                    '_method' in req.body
+                    req.body
+                    && typeof req.body === 'object'
+                    && '_method' in req.body
                 ) {
                     const method = req.body._method;
                     delete req.body._method;

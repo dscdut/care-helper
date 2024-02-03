@@ -6,8 +6,7 @@ const MONGOOSE_ID_OBJECT_FORMAT = /^[0-9a-fA-F]{24}$/;
 
 const DATE_YYYY_MM_DD_FORMAT = /^\d{4}-\d{2}-\d{2}$/;
 
-const DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT =
-    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+const DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
 
 // Required from 6-30 char, contains special char
 const PWD_FORMAT = /^[a-zA-Z0-9\d@$!%*?&]{6,30}$/;
@@ -59,11 +58,10 @@ export class JoiUtils {
 
     static phone = () => Joi.string().regex(PHONE_FORMAT);
 
-    static email = () =>
-        Joi.string().email({
-            minDomainSegments: 2,
-            tlds: { allow: ['com', 'net'] },
-        });
+    static email = () => Joi.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] },
+    });
 
     static date(custom = false) {
         return custom

@@ -3,7 +3,6 @@ export class UserDetail {
 
   role;
 
-
   constructor(payload) {
       this.payload = payload;
   }
