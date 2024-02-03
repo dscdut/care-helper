@@ -90,7 +90,7 @@ export class SwaggerDocument {
 
     /**
      *
-     * @param {{type?: DocumentType, model?: string, required?: boolean, readOnly?: boolean, example?: string, name?: string, paramsIn?: string, description?: string}} options
+     * @param {{type?: DocumentType, model?: string, required?: boolean, readOnly?: boolean, example?: string, name?: string, paramsIn?: string, description?: string, defaultValue?: string}} options
      * @returns
      */
     static ApiParams(options) {
@@ -101,7 +101,7 @@ export class SwaggerDocument {
             paramsIn = 'query',
             required = true,
             example,
-            description
+            description,
         } = options;
 
         let swaggerType;

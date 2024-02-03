@@ -6,6 +6,7 @@ exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
         table.string('diagnose',255);
+        table.string('detail_diagnose',1000);
         table.string('advice', 1000);
         table
             .integer('doctor_id')
