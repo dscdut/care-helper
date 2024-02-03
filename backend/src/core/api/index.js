@@ -17,7 +17,7 @@ export const ModuleResolver = HandlerResolver.builder()
         MediaResolver,
         PrescriptionResolver,
         ExaminationResolver,
-        HospitalResolver
+        HospitalResolver,
         DoctorResolver,
         PatientResolver,
     ]);

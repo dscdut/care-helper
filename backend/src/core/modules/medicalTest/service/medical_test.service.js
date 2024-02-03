@@ -5,24 +5,20 @@ import {
 } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
-import { ExaminationRepository } from '../examination.repository';
-import { HospitalRepository } from '../../hospital/hospital.repository';
 import { ExaminationDto } from '../dto/examination.dto';
 
 class Service {
     constructor() {
-        this.examinationRepository = ExaminationRepository;
-        this.hospitalRepository = HospitalRepository;
+        this.medicalTestRepository = this.TestRepository;
     }
 
     async createExamination(createExaminationDto) {
         const trx = await getTransaction();
         try {
-            const createdExamination =
-                await this.examinationRepository.createExamination(
-                    createExaminationDto,
-                    trx,
-                );
+            const createdExamination = await this.medicalTestRepository.createExamination(
+                createExaminationDto,
+                trx,
+            );
 
             const dataHospitals = createdExamination.hospitalId
                 ? await this.hospitalRepository.findById(
@@ -53,12 +49,11 @@ class Service {
         const trx = await getTransaction();
         let deletedExamination;
         try {
-            deletedExamination = await this.examinationRepository.deleteByIdAndDoctorId(
+            deletedExamination = await this.medicalTestRepository.deleteByIdAndDoctorId(
                 examinationId,
                 doctorId,
                 trx,
             );
-
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
@@ -74,7 +69,7 @@ class Service {
         const trx = await getTransaction();
         let updatedExamination;
         try {
-            updatedExamination = await this.examinationRepository.updateByIdAndDoctorId(
+            updatedExamination = await this.medicalTestRepository.updateByIdAndDoctorId(
                 {
                     id: examinationDto.id,
                     diagnose: examinationDto.diagnose,
@@ -99,31 +94,28 @@ class Service {
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations =
-            await this.examinationRepository.findJoinHospitalByDoctorId(
-                doctorId,
-                offset,
-                pageSize,
-            );
+        const dataExaminations = await this.medicalTestRepository.findJoinHospitalByDoctorId(
+            doctorId,
+            offset,
+            pageSize,
+        );
         return dataExaminations.map(e => ExaminationDto({ examination: e }));
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations =
-            await this.examinationRepository.findJoinHospitalByPatientId(
-                patientId,
-                offset,
-                pageSize,
-            );
+        const dataExaminations = await this.medicalTestRepository.findJoinHospitalByPatientId(
+            patientId,
+            offset,
+            pageSize,
+        );
         return dataExaminations.map(e => ExaminationDto({ examination: e }));
     }
 
     async getOneById(examinationId) {
-        const dataExaminations =
-            await this.examinationRepository.findJoinHospitalById(
-                examinationId,
-            );
+        const dataExaminations = await this.medicalTestRepository.findJoinHospitalById(
+            examinationId,
+        );
         if (dataExaminations.length < 1) {
             throw new NotFoundException(
                 `Cannot find examination with id ${examinationId}`,
@@ -136,4 +128,4 @@ class Service {
     }
 }
 
-export const ExaminationService = new Service();
+export const MedicalTestService = new Service();
