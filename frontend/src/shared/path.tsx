@@ -7,6 +7,7 @@ import AppointmentSchedule from 'src/pages/schedule/Schedule'
 import MedicalSurvey from 'src/pages/survey/Survey'
 import { RouteObject } from 'react-router-dom'
 import { path } from 'src/constants/path'
+import PatientDetails from 'src/pages/patient/PatientDetail'
 
 // private routes (path, component)
 export const AUTH_ROUTER: RouteObject[] = [
@@ -28,6 +29,10 @@ export const PRIVATE_ROUTER: RouteObject[] = [
   {
     path: path.patients,
     element: <Patient />
+  },
+  {
+    path: path.patientDetail,
+    element: <PatientDetails />
   },
   {
     path: path.schedules,

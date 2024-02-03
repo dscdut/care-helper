@@ -10,7 +10,8 @@ export interface AppContextType {
 }
 
 const initAppContext: AppContextType = {
-  isAuthenticated: Boolean(getAccessTokenFromLS()),
+  // isAuthenticated: Boolean(getAccessTokenFromLS()),
+  isAuthenticated: true,
   setIsAuthenticated: () => null,
   showSidebar: true,
   setShowSidebar: () => null
