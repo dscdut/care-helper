@@ -12,7 +12,7 @@ import { numHospitals } from './03-hospitals';
 const faker = require('faker');
 
 const tableName = 'examinations';
-export const numExaminations= 10;// You can adjust the number of examinations you want to create
+export const numExaminations = 10;// You can adjust the number of examinations you want to create
 exports.seed = async knex => {
     await knex(tableName).del();
 
@@ -41,4 +41,3 @@ exports.seed = async knex => {
     });
     await knex(tableName).insert(examinations);
 };
-

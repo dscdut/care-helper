@@ -34,4 +34,3 @@ exports.seed = async knex => {
 
     await knex('doctors').insert(doctors);
 };
-
