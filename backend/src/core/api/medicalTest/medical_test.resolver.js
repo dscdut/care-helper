@@ -21,6 +21,7 @@ export const MedicalTestResolver = Module.builder()
                 type: 'array',
                 name: 'MedicalTestDto',
             },
+            description: 'Get data about medical visits that the patient or doctor are related to',
             preAuthorization: true,
         },
         {
@@ -30,6 +31,7 @@ export const MedicalTestResolver = Module.builder()
             guards: [hasDoctorOrPatientRole],
             controller: MedicalTestController.getDetailMyTest,
             model: 'MedicalTestDto',
+            description: 'Get medical test data as a patient or doctor. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             preAuthorization: true,
         },
         {

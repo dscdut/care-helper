@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
 import { DrugService } from 'core/modules/drug';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 
@@ -7,8 +8,8 @@ class Controller {
     }
 
     getPaginationDrugs = async req => {
-        const page = req.query.page || 1;
-        const size = req.query.size || 100;
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
         const data = await this.service.getPaginationDrugs(req.query.keyword, page, size);
         return ValidHttpResponse.toOkResponse(data);
     };

@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
 import { MessageDto } from 'core/common/dto';
 import { Role } from 'core/common/enum';
 import { MedicalTestService } from 'core/modules/medicalTest';
@@ -37,8 +38,8 @@ class Controller {
         let data;
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;
-        const page = req.query.page || 1;
-        const size = req.query.size || 10;
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
 
         if (userRole === Role.PATIENT) {
             data = await this.service.getPaginationByPatientId(

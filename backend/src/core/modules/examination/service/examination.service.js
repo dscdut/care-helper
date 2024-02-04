@@ -5,6 +5,7 @@ import {
 } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
+import { FOREIGN_KEY_CONSTRAINT_VIOLATION } from 'core/common/exceptions/constants';
 import { ExaminationRepository } from '../examination.repository';
 import { HospitalRepository } from '../../hospital/hospital.repository';
 import { ExaminationDto } from '../dto/examination.dto';
@@ -38,7 +39,7 @@ class Service {
             trx.rollback();
             logger.error(error.message);
             // Check if the error is a foreign key constraint violation
-            if (error.code === '23503') {
+            if (error.code === FOREIGN_KEY_CONSTRAINT_VIOLATION) {
                 // Handle foreign key constraint violation
                 throw new BadRequestException(
                     error.message,
