@@ -52,7 +52,7 @@ export default function Sidebar(props: SidebarProps) {
                       {
                         'tooltip tooltip-right': !showSidebar,
                         'bg-primary text-white':
-                          (pathname !== path.home && to !== path.home && pathname.startsWith(path.home + to)) ||
+                          (pathname !== path.home && to !== path.home && pathname.startsWith(to)) ||
                           (to === path.home && pathname === path.home)
                       }
                     )}

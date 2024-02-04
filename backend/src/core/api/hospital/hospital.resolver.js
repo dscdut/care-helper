@@ -16,7 +16,7 @@ export const HospitalResolver = Module.builder()
             controller: HospitalController.getAllHospitals,
             model: {
                 type: 'array',
-                name: 'HospitalDto',
+                $ref: 'HospitalDto',
             },
             preAuthorization: false,
         },
@@ -27,7 +27,7 @@ export const HospitalResolver = Module.builder()
             controller: HospitalController.listHospitalName,
             model: {
                 type: 'array',
-                name: 'SearchDto',
+                $ref: 'SearchDto',
             },
             preAuthorization: false,
         },

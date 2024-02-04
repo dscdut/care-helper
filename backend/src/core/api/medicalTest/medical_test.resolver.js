@@ -19,9 +19,9 @@ export const MedicalTestResolver = Module.builder()
             controller: MedicalTestController.getPaginationMyTest,
             model: {
                 type: 'array',
-                name: 'MedicalTestDto',
+                $ref: 'MedicalTestDto',
             },
-            description: 'Get data about medical visits that the patient or doctor are related to',
+            description: 'Get data about medical tests that the patient or doctor are related to',
             preAuthorization: true,
         },
         {
@@ -30,7 +30,7 @@ export const MedicalTestResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: MedicalTestController.getDetailMyTest,
-            model: 'MedicalTestDto',
+            model: { $ref: 'MedicalTestDto' },
             description: 'Get medical test data as a patient or doctor. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             preAuthorization: true,
         },
@@ -41,7 +41,7 @@ export const MedicalTestResolver = Module.builder()
             body: 'CreateTestDto',
             guards: [hasDoctorRole],
             controller: MedicalTestController.createMedicalTest,
-            model: 'MedicalTestDto',
+            model: { $ref: 'MedicalTestDto' },
             preAuthorization: true,
             description: 'create a new medical test with filled data'
         },
@@ -52,7 +52,7 @@ export const MedicalTestResolver = Module.builder()
             body: 'UpdateTestDto',
             guards: [hasDoctorRole],
             controller: MedicalTestController.updateMedicalTest,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
             preAuthorization: true,
             description: 'update a medical test with testRows field which is json type'
         },
@@ -62,7 +62,7 @@ export const MedicalTestResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorRole],
             controller: MedicalTestController.deleteMedicalTest,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
             description: 'As a doctor, a medical test that the doctor has created can only be deleted',
             preAuthorization: true,
         },

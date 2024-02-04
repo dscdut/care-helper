@@ -7,20 +7,25 @@ export class SwaggerBuilder {
         return new SwaggerBuilder();
     }
 
+    #deepIterate = obj => {
+        Object.keys(obj).forEach(key => {
+            const value = obj[key];
+
+            // If the key is '$ref', update the value
+            if (key === '$ref') {
+                obj[key] = `#/components/schemas/${value}`;
+            }
+
+            // Recursively iterate if the value is an object or an array
+            if (typeof value === 'object' && value !== null) {
+                this.#deepIterate(value);
+            }
+        });
+    };
+
     #configureResponseSchema = model => {
-        if (typeof model === 'string') {
-            return {
-                $ref: `#/components/schemas/${model}`,
-            };
-        }
-        if (model.type === 'array') {
-            return {
-                type: 'array',
-                items: {
-                    $ref: `#/components/schemas/${model.name}`,
-                },
-            };
-        }
+        this.#deepIterate(model);
+        return model;
     };
 
     #toResponseSuccess = model => ({

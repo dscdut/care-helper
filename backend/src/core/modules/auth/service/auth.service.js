@@ -1,21 +1,31 @@
 import { pick } from 'lodash';
 import { JwtPayload } from 'core/modules/auth/dto/jwt-sign.dto';
-import { UnAuthorizedException } from 'packages/httpException';
+import {
+    DuplicateException,
+    InternalServerException,
+    UnAuthorizedException,
+    ForbiddenException,
+} from 'packages/httpException';
+import { Optional, logger } from 'core/utils';
 import { Role } from 'core/common/enum';
 import { MessageDto } from 'core/common/dto/message.dto';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from './jwt.service';
 import { UserService } from '../../user/service/user.service';
 import { MESSAGE } from './message.enum';
-import { DoctorLoginResponseDto } from '../dto/doctor.login.response.dto';
-import { PatientLoginResponseDto } from '../dto/patient.login.response.dto';
-import { RegisterResponseDto } from '../dto/register.response.dto';
+import { SMSService } from './sms.service';
+import {
+    DoctorLoginResponseDto,
+    PatientLoginResponseDto,
+    PhoneUnverifiedRegisterResponseDto,
+} from '../dto';
 
 class Service {
     constructor() {
         this.jwtService = JwtService;
         this.bcryptService = BcryptService;
         this.userService = UserService;
+        this.smsService = SMSService;
     }
 
     async doctorLogin(doctorLoginDto) {
@@ -65,13 +75,29 @@ class Service {
         );
     }
 
-    async patientRegister(patientRegisterDto) {
-        patientRegisterDto.password = this.bcryptService.hash(
-            patientRegisterDto.password,
-        );
-        await this.userService.addPatient(patientRegisterDto);
-        return RegisterResponseDto({
-            message: MESSAGE.REGISTER_SUCCESS,
+    async patientRegister({ token, password }) {
+        let otps;
+        try {
+            otps = await this.smsService.getOTP(token);
+        } catch (e) {
+            logger.error(e.message);
+            throw new InternalServerException();
+        }
+        if (otps.length === 0 || !otps[0].verified) {
+            throw new ForbiddenException('Phone number not verified');
+        }
+        password = this.bcryptService.hash(password);
+        const { phone } = this.jwtService.decode(token);
+        await this.userService.addPatient({ phone, password });
+        const patient = await this.userService.findPatientByPhone(phone);
+        return PatientLoginResponseDto({
+            user: patient,
+            accessToken: this.jwtService.accessTokenSign(
+                JwtPayload({ role: Role.PATIENT, ...patient }),
+            ),
+            refreshToken: this.jwtService.refreshTokenSign(
+                JwtPayload({ role: Role.PATIENT, ...patient }),
+            ),
         });
     }
 
@@ -83,6 +109,22 @@ class Service {
         return MessageDto({
             message: MESSAGE.REGISTER_SUCCESS,
         });
+    }
+
+    async phoneRegister(phone) {
+        Optional.of(
+            await this.userService.findPatientByPhone(phone),
+        ).throwIfPresent(
+            new DuplicateException('This phone number is already existed'),
+        );
+        const { token, otp } = await this.smsService.getOtpAndToken(phone);
+        this.smsService.sendOTP(phone, otp);
+        return PhoneUnverifiedRegisterResponseDto(token);
+    }
+
+    async otpVerify({ token, otp }) {
+        await this.smsService.verifyOTP(otp, token);
+        return MessageDto({ message: MESSAGE.VERIFY_SUCCESS });
     }
 
     #getUserInfo = user => pick(user, ['_id', 'email', 'username', 'roles']);

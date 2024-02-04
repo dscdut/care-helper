@@ -30,7 +30,8 @@ exports.seed = async knex => {
     }
     examinations.push({
         diagnose: 'Thiếu người yêu',
-        detail_diagnose: 'Cô đơn quá lâu dẫn đến suy tim, trầm cảm nặng, lạnh lẽo vào mùa đông',
+        detail_diagnose:
+            'Cô đơn quá lâu dẫn đến suy tim, trầm cảm nặng, lạnh lẽo vào mùa đông',
         advice: 'Kiếm người yêu đi',
         doctor_id: fakerVI.number.int({ min: 1, max: numDoctors }),
         patient_id: fakerVI.number.int({ min: 1, max: numPatients }),

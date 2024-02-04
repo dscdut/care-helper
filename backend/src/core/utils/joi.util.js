@@ -42,6 +42,10 @@ export class JoiUtils {
         return Joi.string().valid(...Object.values(Role));
     }
 
+    static otp() {
+        return Joi.string().length(6);
+    }
+
     static gender() {
         return Joi.string().valid(...Object.values(Gender));
     }
