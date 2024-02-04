@@ -1,6 +1,6 @@
 import { MessageDto } from 'core/common/dto';
 import { Role } from 'core/common/enum';
-import { CreateExaminationDto, UpdateExaminationDto, MedicalTestService } from 'core/modules/medicalTest';
+import { MedicalTestService } from 'core/modules/medicalTest';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 import { ForbiddenException } from 'packages/httpException';
 
@@ -10,29 +10,27 @@ class Controller {
     }
 
     createMedicalTest = async req => {
-        const data = await this.service.createExamination({
-            ...CreateExaminationDto(req.body),
-            doctor_id: req.user.payload.id,
-        });
+        const data = await this.service.createMedicalTest(
+            req.body,
+            req.user.payload.id,
+        );
         return ValidHttpResponse.toOkResponse(data);
     };
 
     updateMedicalTest = async req => {
         const doctorId = req.user.payload.id;
-        await this.service.updateExaminationByDoctor({
-            ...UpdateExaminationDto(req.body),
-            doctorId,
-        });
-        return ValidHttpResponse.toOkResponse(MessageDto({ message: 'Update examination successfully!' }));
+        await this.service.updateMedicalTestByDoctor(req.body, doctorId);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Update examination successfully!' }),
+        );
     };
 
     deleteMedicalTest = async req => {
         const doctorId = req.user.payload.id;
-        await this.service.deleteEmptyExamination(
-            req.params.examinationId,
-            doctorId,
+        await this.service.deleteMedicalTest(req.params.id, doctorId);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Delete examination successfully!' }),
         );
-        return ValidHttpResponse.toOkResponse(MessageDto({ message: 'Delete examination successfully!' }));
     };
 
     getPaginationMyTest = async req => {
@@ -44,21 +42,23 @@ class Controller {
 
         if (userRole === Role.PATIENT) {
             data = await this.service.getPaginationByPatientId(
-                userId, page, size
+                userId,
+                page,
+                size,
             );
         }
         if (userRole === Role.DOCTOR) {
             data = await this.service.getPaginationByDoctorId(
-                userId, page, size
+                userId,
+                page,
+                size,
             );
         }
         return ValidHttpResponse.toOkResponse(data);
     };
 
     getDetailMyTest = async req => {
-        const data = await this.service.getOneById(
-            req.params.examinationId,
-        );
+        const data = await this.service.getOneById(req.params.id);
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;
 

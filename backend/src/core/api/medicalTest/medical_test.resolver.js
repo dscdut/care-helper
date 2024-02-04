@@ -47,7 +47,7 @@ export const MedicalTestResolver = Module.builder()
             route: '',
             method: 'put',
             interceptors: [MedicalTestInterceptor],
-            body: 'MedicalTestDto',
+            body: 'UpdateTestDto',
             guards: [hasDoctorRole],
             controller: MedicalTestController.updateMedicalTest,
             model: 'MessageDto',

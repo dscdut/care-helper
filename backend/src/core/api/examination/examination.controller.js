@@ -29,7 +29,7 @@ class Controller {
     deleteEmptyExamination = async req => {
         const doctorId = req.user.payload.id;
         await this.service.deleteEmptyExamination(
-            req.params.examinationId,
+            req.params.id,
             doctorId,
         );
         return ValidHttpResponse.toOkResponse(MessageDto({ message: 'Delete examination successfully!' }));
@@ -57,7 +57,7 @@ class Controller {
 
     getDetailExamination = async req => {
         const data = await this.service.getOneById(
-            req.params.examinationId,
+            req.params.id,
         );
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;

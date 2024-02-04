@@ -57,7 +57,6 @@ class Service {
                 doctorId,
                 trx,
             );
-
         } catch (error) {
             trx.rollback();
             logger.error(error.message);

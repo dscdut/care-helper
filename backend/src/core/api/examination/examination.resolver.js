@@ -1,5 +1,5 @@
 import { Module } from 'packages/handler/Module';
-import { examinationId, page, size } from 'core/common/swagger';
+import { RecordId, page, size } from 'core/common/swagger';
 import { CreateExaminationInterceptor, UpdateExaminationInterceptor } from 'core/modules/examination/interceptor';
 import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
 import { ExaminationController } from './examination.controller';
@@ -24,9 +24,9 @@ export const ExaminationResolver = Module.builder()
             preAuthorization: true,
         },
         {
-            route: '/:examinationId',
+            route: '/:id',
             method: 'get',
-            params: [examinationId],
+            params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.getDetailExamination,
             model: 'ExaminationDto',
@@ -55,9 +55,9 @@ export const ExaminationResolver = Module.builder()
             description: 'update empty examination to examination with diagnose, detail diagnose, advice(note), '
         },
         {
-            route: '/:examinationId',
+            route: '/:id',
             method: 'delete',
-            params: [examinationId],
+            params: [RecordId],
             guards: [hasDoctorRole],
             controller: ExaminationController.deleteEmptyExamination,
             model: 'MessageDto',

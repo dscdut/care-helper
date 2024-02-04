@@ -5,52 +5,51 @@ import {
 } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
-import { ExaminationDto } from '../dto/examination.dto';
+import { ExaminationRepository } from 'core/modules/examination/examination.repository';
+import { ForbiddenException } from 'packages/httpException/ForbiddenException';
+import { CreateTestDto, MedicalTestDto, UpdateTestDto } from '../dto';
+import { TestRepository } from '../medical_test.repository';
 
 class Service {
     constructor() {
-        this.medicalTestRepository = this.TestRepository;
+        this.medicalTestRepository = TestRepository;
+        this.examinationRepository = ExaminationRepository;
     }
 
-    async createExamination(createExaminationDto) {
+    async createMedicalTest(medicalTestDto, doctorId) {
+        const existExamination = await this.examinationRepository.findById(
+            medicalTestDto.examinationId,
+        );
+        if (existExamination.length === 0) {
+            throw new BadRequestException(
+                `No examination found with id = ${medicalTestDto.examinationId} to create a medical test`,
+            );
+        } else if (existExamination[0].doctorId !== doctorId) {
+            throw new ForbiddenException(`You do not have access to this examination id = ${medicalTestDto.examinationId} to create a medical test`);
+        }
         const trx = await getTransaction();
         try {
-            const createdExamination = await this.medicalTestRepository.createExamination(
-                createExaminationDto,
+            const createdTest = await this.medicalTestRepository.createTest(
+                CreateTestDto(medicalTestDto),
                 trx,
             );
 
-            const dataHospitals = createdExamination.hospitalId
-                ? await this.hospitalRepository.findById(
-                    createdExamination.hospitalId,
-                )
-                : [undefined];
             trx.commit();
 
-            return ExaminationDto({
-                examination: createdExamination,
-                hospital: dataHospitals[0],
-            });
+            return MedicalTestDto(createdTest);
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
-            // Check if the error is a foreign key constraint violation
-            if (error.code === '23503') {
-                // Handle foreign key constraint violation
-                throw new BadRequestException(
-                    error.message,
-                );
-            }
             throw new InternalServerException(error.message);
         }
     }
 
-    async deleteEmptyExamination(examinationId, doctorId) {
+    async deleteMedicalTest(testId, doctorId) {
         const trx = await getTransaction();
-        let deletedExamination;
+        let deletedTest;
         try {
-            deletedExamination = await this.medicalTestRepository.deleteByIdAndDoctorId(
-                examinationId,
+            deletedTest = await this.medicalTestRepository.deleteByIdAndExaminationDoctorId(
+                testId,
                 doctorId,
                 trx,
             );
@@ -60,71 +59,64 @@ class Service {
             throw new InternalServerException(error.message);
         }
 
-        if (deletedExamination === 0) {
-            throw new NotFoundException(`No examination of you found with id = ${examinationId} to delete`);
+        if (deletedTest === 0) {
+            throw new NotFoundException(
+                `No medical test of you found with id = ${testId} to delete`,
+            );
         }
     }
 
-    async updateExaminationByDoctor(examinationDto) {
+    async updateMedicalTestByDoctor(medicalTestDto, doctorId) {
         const trx = await getTransaction();
-        let updatedExamination;
+        let updatedTest;
         try {
-            updatedExamination = await this.medicalTestRepository.updateByIdAndDoctorId(
-                {
-                    id: examinationDto.id,
-                    diagnose: examinationDto.diagnose,
-                    detail_diagnose: examinationDto.detailDiagnose,
-                    advice: examinationDto.advice,
-                    hospital_id: examinationDto.hospitalId,
-                },
-                examinationDto.id,
-                examinationDto.doctorId,
+            updatedTest = await this.medicalTestRepository.updateByIdAndDoctorId(
+                UpdateTestDto(medicalTestDto),
+                doctorId,
                 trx,
             );
+            trx.commit();
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
             throw new InternalServerException(error.message);
         }
-        trx.commit();
-        if (updatedExamination === 0) {
-            throw new BadRequestException(`No examination of you found with id = ${examinationDto.id} to update`);
+        if (updatedTest === 0) {
+            throw new BadRequestException(
+                `No medical test of you found with id = ${medicalTestDto.id} to update`,
+            );
         }
     }
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations = await this.medicalTestRepository.findJoinHospitalByDoctorId(
+        const dataExaminations = await this.medicalTestRepository.findByExaminationDoctorId(
             doctorId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => ExaminationDto({ examination: e }));
+        return dataExaminations.map(e => MedicalTestDto(e));
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations = await this.medicalTestRepository.findJoinHospitalByPatientId(
+        const dataExaminations = await this.medicalTestRepository.findByExaminationPatientId(
             patientId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => ExaminationDto({ examination: e }));
+        return dataExaminations.map(e => MedicalTestDto(e));
     }
 
-    async getOneById(examinationId) {
-        const dataExaminations = await this.medicalTestRepository.findJoinHospitalById(
-            examinationId,
-        );
-        if (dataExaminations.length < 1) {
+    async getOneById(testId) {
+        const dataTests = await this.medicalTestRepository.findJoinExaminationPatientIdAndDoctorIdById(testId);
+        if (dataTests.length < 1) {
             throw new NotFoundException(
-                `Cannot find examination with id ${examinationId}`,
+                `Cannot find Medical Test with id ${testId}`,
             );
         }
 
-        return ExaminationDto({
-            examination: dataExaminations[0],
-        });
+        return MedicalTestDto(dataTests[0]);
     }
 }
 

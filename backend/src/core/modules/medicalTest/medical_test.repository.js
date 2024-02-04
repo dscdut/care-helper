@@ -8,90 +8,89 @@ class Repository extends DataRepository {
             queryBuilder = queryBuilder.transacting(trx);
         }
 
-        const createdMedicalTest = queryBuilder.insert(medicalTest).returning('*')
+        const createdMedicalTest = queryBuilder
+            .insert(medicalTest)
+            .returning('*')
             .then(([result]) => ({
                 id: result.id,
-                diagnose: result.diagnose,
-                detailDiagnose: result.detail_diagnose,
-                advice: result.advice,
-                doctorId: result.doctor_id,
-                patientId: result.patient_id,
-                hospitalId: result.hospital_id,
+                testRows: result.test_rows,
+                examinationId: result.examination_id,
                 createdAt: result.created_at,
             }));
 
         return createdMedicalTest;
     }
 
-    updateByIdAndDoctorId(examination, id, doctorId, trx) {
+    updateByIdAndDoctorId(test, doctorId, trx) {
         return this.query()
-            .where('examinations.id', '=', id)
-            .andWhere('examinations.doctor_id', doctorId)
-            .transacting(trx || undefined)
-            .update(examination);
+            .update({
+                test_rows: test.test_rows
+            })
+            .where('tests.id', '=', test.id)
+            .whereIn(
+                'tests.examination_id',
+                this.query()
+                    .select('id')
+                    .from('examinations')
+                    .where('examinations.doctor_id', '=', doctorId)
+            )
+            .transacting(trx || undefined);
     }
 
-    deleteByIdAndDoctorId(id, doctorId, trx) {
+    deleteByIdAndExaminationDoctorId(id, doctorId, trx) {
         return this.query()
-            .where('examinations.id', '=', id)
+            .where('tests.id', '=', id)
+            .join(
+                'examinations',
+                'examinations.id',
+                '=',
+                'tests.examination_id',
+            )
             .andWhere('examinations.doctor_id', '=', doctorId)
             .transacting(trx || undefined)
             .del(); // Use the del() method for deletion
     }
 
-    findJoinHospitalById(id) {
+    findByExaminationDoctorId(doctorId, offset, pageSize) {
         return this.query()
-            .where('examinations.id', '=', id)
-            .select(
-                'examinations.id',
-                'examinations.diagnose',
-                'examinations.detail_diagnose',
-                'examinations.advice',
-                { doctorId: 'examinations.doctor_id' },
-                { patientId: 'examinations.patient_id' },
-                { hospitalId: 'examinations.hospital_id' },
-                { hospitalAddress: 'hospitals.address' },
-                { hospitalName: 'hospitals.name' },
-                { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id');
-    }
-
-    findJoinHospitalByDoctorId(doctorId, offset, pageSize) {
-        return this.query()
+            .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
             .where('examinations.doctor_id', '=', doctorId)
             .select(
-                'examinations.id',
-                'examinations.diagnose',
-                { detailDiagnose: 'examinations.detail_diagnose' },
-                'examinations.advice',
-                { doctorId: 'examinations.doctor_id' },
-                { patientId: 'examinations.patient_id' },
-                { hospitalId: 'examinations.hospital_id' },
-                { hospitalAddress: 'hospitals.address' },
-                { hospitalName: 'hospitals.name' },
-                { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+                'tests.id',
+                { testRows: 'tests.test_rows' },
+                { examinationId: 'tests.examination_id' },
+                { createdAt: 'tests.created_at' },
+            )
             .offset(offset)
             .limit(pageSize);
     }
 
-    findJoinHospitalByPatientId(patientId, offset, pageSize) {
+    findByExaminationPatientId(patientId, offset, pageSize) {
         return this.query()
+            .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
             .where('examinations.patient_id', '=', patientId)
             .select(
-                'examinations.id',
-                'examinations.diagnose',
-                'examinations.detail_diagnose',
-                'examinations.advice',
-                { doctorId: 'examinations.doctor_id' },
-                { patientId: 'examinations.patient_id' },
-                { hospitalId: 'examinations.hospital_id' },
-                { hospitalAddress: 'hospitals.address' },
-                { hospitalName: 'hospitals.name' },
-                { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+                'tests.id',
+                { testRows: 'tests.test_rows' },
+                { examinationId: 'tests.examination_id' },
+                { createdAt: 'tests.created_at' },
+            )
             .offset(offset)
             .limit(pageSize);
+    }
+
+    findJoinExaminationPatientIdAndDoctorIdById(id) {
+        return this.query()
+            .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
+            .where('tests.id', '=', id)
+            .select(
+                'tests.id',
+                { testRows: 'tests.test_rows' },
+                { examinationId: 'tests.examination_id' },
+                { createdAt: 'tests.created_at' },
+                { patientId: 'examinations.patient_id' },
+                { doctorId: 'examinations.doctor_id' },
+            );
     }
 }
 

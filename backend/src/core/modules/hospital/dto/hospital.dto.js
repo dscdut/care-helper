@@ -2,9 +2,9 @@ import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('HospitalDto', {
-    id: SwaggerDocument.ApiProperty({ type: 'int' }),
-    name: SwaggerDocument.ApiProperty({ type: 'string' }),
-    address: SwaggerDocument.ApiProperty({ type: 'string' }),
+    id: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
+    name: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
+    address: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
 });
 
 export const HospitalDto = ({ hospital }) => ({
