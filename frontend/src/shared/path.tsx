@@ -5,9 +5,9 @@ import Personal from 'src/pages/personal/Personal'
 import Register from 'src/pages/register/Register'
 import AppointmentSchedule from 'src/pages/schedule/Schedule'
 import MedicalSurvey from 'src/pages/survey/Survey'
+import PatientDetails from 'src/pages/patient/pages/patient-details/PatientDetail'
 import { RouteObject } from 'react-router-dom'
 import { path } from 'src/constants/path'
-import PatientDetails from 'src/pages/patient/PatientDetail'
 
 // private routes (path, component)
 export const AUTH_ROUTER: RouteObject[] = [

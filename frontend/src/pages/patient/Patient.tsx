@@ -1,21 +1,24 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Pagination from 'src/components/Pagination'
-import { Patients, patients } from 'src/data/patient/patient'
+import { useNavigate } from 'react-router-dom'
+import Pagination from 'src/components/pagination/Pagination'
+import { POSTS_PER_PAGE } from 'src/constants/common'
+import { path } from 'src/constants/path'
+import { patients } from 'src/data/patient'
 
 export default function Patient() {
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [postsPerPage, setPostsPerPage] = useState<number>(8)
   const navigate = useNavigate()
 
-  const lastPostIndex: number = currentPage * postsPerPage
-  const firstPostIndex: number = lastPostIndex - postsPerPage
+  const lastPostIndex: number = currentPage * POSTS_PER_PAGE
+  const firstPostIndex: number = lastPostIndex - POSTS_PER_PAGE
+  const currentPosts = patients.slice(firstPostIndex, lastPostIndex)
 
-  const patient: Patients[] = patients
-  const currentPosts = patient.slice(firstPostIndex, lastPostIndex)
+  const handleNavigateDetails = (id: number) => {
+    navigate(`${path.patients}/${id}`)
+  }
 
-  const handleClick = (id: string) => {
-    navigate(id)
+  const handleCheckBox = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    event.stopPropagation()
   }
 
   return (
@@ -27,7 +30,7 @@ export default function Patient() {
         <div className='overflow-x-auto'>
           <table className='table'>
             <thead>
-              <tr className='size-min text-base text-slate-400'>
+              <tr className='border-primary text-sm'>
                 <th className='flex items-center gap-4'>
                   <input type='checkbox' className='checkbox-primary checkbox' /> Tên bệnh nhân
                 </th>
@@ -38,9 +41,10 @@ export default function Patient() {
             </thead>
             <tbody>
               {currentPosts.map((patient) => (
-                <tr key={patient.id} onClick={() => handleClick(patient.id)}>
+                <tr className='hover cursor-pointer' key={patient.id} onClick={() => handleNavigateDetails(patient.id)}>
                   <td className='flex items-center gap-4'>
-                    <input type='checkbox' className='checkbox-primary checkbox' /> <p>{patient.name}</p>
+                    <input type='checkbox' className='checkbox-primary checkbox' onClick={handleCheckBox} />
+                    {patient.name}
                   </td>
                   <td>{patient.date}</td>
                   <td>{patient.doctor}</td>
@@ -49,14 +53,9 @@ export default function Patient() {
               ))}
             </tbody>
           </table>
-          <div className='mt-2 flex items-center justify-center'>
-            <Pagination
-              totalPosts={patients.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </div>
+        </div>
+        <div className='mt-2 flex items-center justify-end'>
+          <Pagination totalPosts={patients.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
         </div>
       </section>
     </article>

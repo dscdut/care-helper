@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import PatientInformation from './PatientInformation'
-import PatientListRecords from './PatientListRecords'
+import { Fragment, useState } from 'react'
 import classNames from 'classnames'
+import { PatientListRecords, PatientInformation } from 'src/pages/patient/components'
 
 export interface PatientDetailsProps {}
 
 const tabs: { id: number; title: string; content?: React.ReactNode }[] = [
   {
     id: 1,
-    title: 'Danh Sách Hồ Sơ Bệnh Án',
+    title: 'Hồ Sơ Bệnh Án',
     content: <PatientListRecords />
   },
   {
     id: 2,
-    title: 'Thông Tin Hành Chính',
+    title: 'Hành Chính',
     content: <PatientInformation />
   },
   {
@@ -24,7 +23,7 @@ const tabs: { id: number; title: string; content?: React.ReactNode }[] = [
 ]
 
 export default function PatientDetails(props: PatientDetailsProps) {
-  const [tab, setTab] = useState<number>(1)
+  const [tab, setTab] = useState<number>(2)
   const handleChange = (tab: number) => {
     setTab(tab)
   }
@@ -35,17 +34,19 @@ export default function PatientDetails(props: PatientDetailsProps) {
           Bệnh nhân <span className='font-bold'>Nguyễn Văn A</span>
         </h1>
       </article>
-      <div role='tablist' className='tabs tabs-bordered'>
+      <div role='tablist' className='tabs tabs-bordered grid-cols-3 lg:grid-cols-4'>
         {tabs.map((tabElement) => (
-          <>
+          <Fragment key={tabElement.id}>
             <input
               type='radio'
               name='my_tabs_1'
               role='tab'
-              className={classNames('tab mr-8 h-max !w-max !rounded-md !border-none py-2 text-base font-semibold', {
-                'bg-primary text-white': tabElement.id === tab,
-                'bg-gray-300 text-black': tabElement.id !== tab
-              })}
+              className={classNames(
+                'tab mr-8 !rounded-md !border-none text-sm font-semibold after:text-nowrap xl:text-base',
+                {
+                  'bg-primary text-white': tabElement.id === tab
+                }
+              )}
               aria-label={tabElement.title}
               checked={tabElement.id === tab}
               onChange={() => handleChange(tabElement.id)}
@@ -53,7 +54,7 @@ export default function PatientDetails(props: PatientDetailsProps) {
             <div role='tabpanel' className='tab-content mt-10'>
               {tabElement.content}
             </div>
-          </>
+          </Fragment>
         ))}
       </div>
     </article>
