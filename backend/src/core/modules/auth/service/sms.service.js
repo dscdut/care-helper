@@ -41,11 +41,23 @@ class SMSServiceImpl {
         } catch (e) {
             throw new UnAuthorizedException(msg);
         }
-        const otps = this.otpRepository.findOTP(otp, token);
-        if (otps.length === 0) {
+        let otps = await this.otpRepository.findOTPByToken(token);
+        if (otps.length === 0 || otps[0].otp !== otp) {
+            await this.otpRepository.updateWhere(
+                { token },
+                { attempt: otps[0].attempt + 1 },
+            );
             throw new UnAuthorizedException(msg);
         }
-        await this.otpRepository.verifyOTP(otp, token);
+        otps = await this.otpRepository.findOTPByToken(token);
+        if (otps[0].attempt < 4) {
+            await this.otpRepository.updateWhere(
+                { otp, token },
+                { verified: true },
+            );
+        } else {
+            throw new UnAuthorizedException(msg);
+        }
     }
 
     async getOTP(token) {

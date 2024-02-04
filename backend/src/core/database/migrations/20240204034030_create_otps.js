@@ -5,9 +5,10 @@ const tableName = 'otps';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.string('otp');
+        table.string('otp', 6);
         table.string('token');
         table.boolean('verified').defaultTo(false);
+        table.tinyint('attempt', 1).unsigned().defaultTo(0);
     });
 };
 /**

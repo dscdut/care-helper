@@ -3,6 +3,7 @@ import {
     DoctorRegisterInterceptor,
     OtpVerifyInterceptor,
     PatientLoginInterceptor,
+    PhoneInterceptor,
     PhoneVerifiedRegisterInterceptor,
 } from 'core/modules/auth';
 import { Module } from 'packages/handler/Module';
@@ -43,6 +44,7 @@ export const AuthResolver = Module.builder()
             route: '/otp',
             method: 'post',
             body: 'PhoneDto',
+            interceptors: [PhoneInterceptor],
             controller: AuthController.phoneRegister,
             model: { $ref: 'PhoneUnverifiedRegisterResponseDto' },
         },
