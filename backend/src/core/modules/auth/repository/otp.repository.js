@@ -7,21 +7,14 @@ class Repository extends DataRepository {
         return queryBuilder;
     }
 
-    findOTP(otp, token) {
-        return this.query()
-            .where('otps.otp', '=', otp)
-            .where('otps.token', '=', token)
-            .select('otps.otp', 'otps.token', 'otps.verified');
-    }
-
     findOTPByToken(token) {
         return this.query()
             .where('otps.token', '=', token)
-            .select('otps.otp', 'otps.token', 'otps.verified');
+            .select('otps.otp', 'otps.token', 'otps.verified', 'otps.attempt');
     }
 
-    verifyOTP(otp, token) {
-        return this.query().where({ otp, token }).update({ verified: true });
+    updateWhere(condition, value) {
+        return this.query().where(condition).update(value);
     }
 }
 
