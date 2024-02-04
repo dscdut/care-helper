@@ -8,7 +8,7 @@ class Repository extends DataRepository {
             queryBuilder = queryBuilder.transacting(trx);
         }
 
-        const createdExamination =  queryBuilder.insert(examination).returning('*')
+        const createdExamination = queryBuilder.insert(examination).returning('*')
             .then(([result]) => ({
                 id: result.id,
                 diagnose: result.diagnose,
@@ -26,7 +26,7 @@ class Repository extends DataRepository {
     updateByIdAndDoctorId(examination, id, doctorId, trx) {
         return this.query()
             .where('examinations.id', '=', id)
-            .andWhere('examinations.doctor_id',doctorId)
+            .andWhere('examinations.doctor_id', doctorId)
             .transacting(trx || undefined)
             .update(examination);
     }
@@ -56,7 +56,7 @@ class Repository extends DataRepository {
             ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id');
     }
 
-    findJoinHospitalByDoctorId(doctorId , offset  , pageSize) {
+    findJoinHospitalByDoctorId(doctorId, offset, pageSize) {
         return this.query()
             .where('examinations.doctor_id', '=', doctorId)
             .select(
@@ -75,7 +75,7 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
-    findJoinHospitalByPatientId(patientId , offset  , pageSize) {
+    findJoinHospitalByPatientId(patientId, offset, pageSize) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
             .select(

@@ -11,7 +11,7 @@ class Repository extends DataRepository {
             );
     }
 
-    findAll(offset,pageSize) {
+    findAll(offset, pageSize) {
         return this.query()
             .select(
                 'hospitals.id',

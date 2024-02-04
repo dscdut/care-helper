@@ -9,7 +9,7 @@ class Service {
 
     async getPaginationHospitals(page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const hospitals = await this.hospitalRepository.findAll(offset,pageSize);
+        const hospitals = await this.hospitalRepository.findAll(offset, pageSize);
         return hospitals.map(e => HospitalDto({ hospital: e }));
     }
 
