@@ -29,6 +29,12 @@ class Jwt {
         });
     }
 
+    sign(payload, expiresIn) {
+        return sign(payload, this.secret, {
+            expiresIn,
+        });
+    }
+
     decode(token) {
         return decode(token);
     }

@@ -1,6 +1,9 @@
 import {
     DoctorLoginInterceptor,
     DoctorRegisterInterceptor,
+    OtpVerifyInterceptor,
+    PatientLoginInterceptor,
+    PhoneVerifiedRegisterInterceptor,
 } from 'core/modules/auth';
 import { Module } from 'packages/handler/Module';
 import { AuthController } from './auth.controller';
@@ -20,22 +23,6 @@ export const AuthResolver = Module.builder()
             controller: AuthController.doctorLogin,
             model: 'DoctorLoginResponseDto',
         },
-        // {
-        //     route: '/patient',
-        //     method: 'post',
-        //     interceptors: [PatientLoginInterceptor],
-        //     body: 'PatientLoginDto',
-        //     controller: AuthController.patientLogin,
-        //     model: 'PatientLoginResponseDto',
-        // },
-        // {
-        //     route: '/register/patient',
-        //     method: 'post',
-        //     interceptors: [PatientRegisterInterceptor],
-        //     body: 'PatientRegisterDto',
-        //     controller: AuthController.patientRegister,
-        //     model: 'RegisterResponseDto',
-        // },
         {
             route: '/register/doctor',
             method: 'post',
@@ -43,5 +30,36 @@ export const AuthResolver = Module.builder()
             body: 'DoctorRegisterDto',
             controller: AuthController.doctorRegister,
             model: 'MessageDto',
+        },
+        {
+            route: '/patient',
+            method: 'post',
+            interceptors: [PatientLoginInterceptor],
+            body: 'PatientLoginDto',
+            controller: AuthController.patientLogin,
+            model: 'PatientLoginResponseDto',
+        },
+        {
+            route: '/otp',
+            method: 'post',
+            body: 'PhoneDto',
+            controller: AuthController.phoneRegister,
+            model: 'PhoneUnverifiedRegisterResponseDto',
+        },
+        {
+            route: '/verify-otp',
+            method: 'post',
+            body: 'OtpVerifyDto',
+            interceptors: [OtpVerifyInterceptor],
+            controller: AuthController.verifyOTP,
+            model: 'MessageDto',
+        },
+        {
+            route: '/register/patient',
+            method: 'post',
+            interceptors: [PhoneVerifiedRegisterInterceptor],
+            body: 'PhoneVerifiedRegisterDto',
+            controller: AuthController.patientRegister,
+            model: 'PatientLoginResponseDto',
         },
     ]);

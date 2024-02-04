@@ -5,10 +5,9 @@ import {
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
-import { MessageDto } from 'core/common/dto/message.dto';
-import { MESSAGE } from 'core/modules/auth/service/message.enum';
 import { DoctorRepository, PatientRepository } from '../repository';
 import { DoctorDto } from '../dto/doctor.dto';
+import { PatientDto } from '../dto/patient.dto';
 
 class Service {
     constructor() {
@@ -102,13 +101,6 @@ class Service {
     }
 
     async addPatient(patientRegisterDto) {
-        if (patientRegisterDto.phone) {
-            Optional.of(
-                await this.findPatientByPhone(patientRegisterDto.phone),
-            ).throwIfPresent(
-                new DuplicateException('This phone number is already existed'),
-            );
-        }
         const trx = await getTransaction();
         try {
             await this.patientRepository.upsertPatient(patientRegisterDto, trx);
@@ -120,26 +112,22 @@ class Service {
         await trx.commit();
     }
 
-    async updatePatient(patientVerifyDto, id) {
-        const patient = await this.patientRepository.findById(id);
+    async updatePatient(patientUpdate) {
+        let patient = await this.patientRepository.findById(patientUpdate.id);
         if (patient.length === 0) {
             throw new NotFoundException('Cannot find your account');
         }
         const trx = await getTransaction();
         try {
-            await this.patientRepository.upsertPatient(
-                { id, ...patientVerifyDto },
-                trx,
-            );
+            await this.patientRepository.upsertPatient(patientUpdate, trx);
         } catch (error) {
             await trx.rollback();
             logger.error(error.message);
             throw new InternalServerException();
         }
         await trx.commit();
-        return MessageDto({
-            message: MESSAGE.VERIFY_SUCCESS,
-        });
+        patient = await this.patientRepository.findById(patientUpdate.id);
+        return PatientDto(patient[0]);
     }
 }
 

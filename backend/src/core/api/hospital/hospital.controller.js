@@ -9,7 +9,7 @@ class Controller {
     getAllHospitals = async req => {
         const page = req.query.page || 1;
         const size = req.query.size || 10;
-        const data = await this.service.getPaginationHospitals(page,size);
+        const data = await this.service.getPaginationHospitals(page, size);
         return ValidHttpResponse.toOkResponse(data);
     };
 
