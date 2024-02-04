@@ -2,36 +2,34 @@
 /**
  * @param {import("knex")} knex
  */
-const faker = require('faker');
+import { fakerVI } from '@faker-js/faker';
+
 const { Gender } = require('../../common/enum');
 
 const tableName = 'patients';
-export const numPatients = 10;
+export const numPatients = 100;
 
 exports.seed = async knex => {
     await knex(tableName).del();
 
     // eslint-disable-next-line no-unused-vars
     const patients = Array.from({ length: numPatients }, (_, index) => ({
-        full_name: faker.name.findName(),
-        email: faker.internet.email(),
-        phone: faker.phone.phoneNumber(),
+        full_name: fakerVI.person.fullName(),
+        email: fakerVI.internet.email(),
+        phone: fakerVI.phone.number(),
+        password: '$2b$10$4WxWKojNnKfDAicVsveh7.ogkWOBMV1cvRUSPCXwxA05NRX18F0QW',
         active: true,
         locked: false,
-        gender: faker.random.arrayElement(Object.values(Gender)),
-        birthday: faker.date.past(),
-        avatar: faker.image.avatar(),
-        address: faker.address.streetAddress(),
-        national_id_card: faker.datatype
-            .number({ min: 1000000000, max: 9999999999 })
-            .toString(),
-        insurance: faker.datatype
-            .number({ min: 1000000000, max: 9999999999 })
-            .toString(),
-        profesion: faker.name.jobType(),
+        gender: fakerVI.helpers.objectValue(Gender),
+        birthday: fakerVI.date.birthdate(),
+        avatar: fakerVI.image.avatarLegacy(),
+        address: fakerVI.location.streetAddress(true),
+        national_id_card: fakerVI.random.numeric(12),
+        insurance: fakerVI.random.numeric(10),
+        profesion: fakerVI.person.jobTitle(),
         deleted_at: null,
-        created_at: faker.date.past(),
-        updated_at: faker.date.past(),
+        created_at: fakerVI.date.past(),
+        updated_at: fakerVI.date.past(),
     }));
 
     await knex(tableName).insert(patients);

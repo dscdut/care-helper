@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
@@ -26,7 +27,7 @@ class Service {
                 ? await this.hospitalRepository.findById(
                     createdExamination.hospitalId,
                 )
-                : undefined;
+                : [undefined];
             trx.commit();
 
             return ExaminationDto({
@@ -36,14 +37,22 @@ class Service {
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
-            throw new InternalServerException();
+            // Check if the error is a foreign key constraint violation
+            if (error.code === '23503') {
+                // Handle foreign key constraint violation
+                throw new BadRequestException(
+                    error.message,
+                );
+            }
+            throw new InternalServerException(error.message);
         }
     }
 
     async deleteEmptyExamination(examinationId, doctorId) {
         const trx = await getTransaction();
+        let deletedExamination;
         try {
-            await this.examinationRepository.deleteByIdAndDoctorId(
+            deletedExamination = await this.examinationRepository.deleteByIdAndDoctorId(
                 examinationId,
                 doctorId,
                 trx,
@@ -51,15 +60,19 @@ class Service {
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
-            throw new InternalServerException();
+            throw new InternalServerException(error.message);
         }
-        trx.commit();
+
+        if (deletedExamination === 0) {
+            throw new NotFoundException(`No examination of you found with id = ${examinationId} to delete`);
+        }
     }
 
     async updateExaminationByDoctor(examinationDto) {
         const trx = await getTransaction();
+        let updatedExamination;
         try {
-            await this.examinationRepository.updateByIdAndDoctorId(
+            updatedExamination = await this.examinationRepository.updateByIdAndDoctorId(
                 {
                     id: examinationDto.id,
                     diagnose: examinationDto.diagnose,
@@ -74,9 +87,12 @@ class Service {
         } catch (error) {
             trx.rollback();
             logger.error(error.message);
-            throw new InternalServerException();
+            throw new InternalServerException(error.message);
         }
         trx.commit();
+        if (updatedExamination === 0) {
+            throw new BadRequestException(`No examination of you found with id = ${examinationDto.id} to update`);
+        }
     }
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {

@@ -2,32 +2,35 @@
  * @param {import("knex")} knex
  */
 // eslint-disable-next-line import/no-extraneous-dependencies
-const faker = require('faker');
+import { fakerVI } from '@faker-js/faker';
 
-function generateRandomPhoneNumber() {
-    return `0${Math.floor(Math.random() * 90000000) + 10000000}`;
-}
-
-export const numDoctors = 6;
+export const numDoctors = 20;
 
 exports.seed = async knex => {
     await knex('doctors').del();
 
-    const doctors = Array.from({ length: numDoctors }, (_, index) => ({
-        full_name: faker.name.findName(),
-        email: `doctor${index + 1}@gmail.com`,
-        phone: generateRandomPhoneNumber(),
-        active: true,
-        // avatar: faker.image.avatar(),
-        // address: faker.address.streetAddress(),
-        quota_code: faker.random.alphaNumeric(25),
-        expertise: faker.random.words(),
-        experience: faker.random.words(3),
-        work_unit: faker.company.companyName(),
-        certificate_name: faker.random.words(2),
-        certificate_number: faker.random.alphaNumeric(25),
-        certificate_provider: faker.random.words(3),
-    }));
+    // eslint-disable-next-line no-unused-vars
+    const doctors = Array.from({ length: numDoctors }, (_, index) => {
+        const rank = fakerVI.helpers.arrayElement(['01', '02', '03']);
+        const category = fakerVI.helpers.arrayElement(['01', '02', '03']);
+
+        return {
+            full_name: fakerVI.person.fullName(),
+            email: fakerVI.internet.email(),
+            phone: fakerVI.phone.number(),
+            password:
+                '$2b$10$4WxWKojNnKfDAicVsveh7.ogkWOBMV1cvRUSPCXwxA05NRX18F0QW',
+            active: true,
+            locked: false,
+            quota_code: `V.08.${category}.${rank}`,
+            expertise: fakerVI.lorem.lines(1),
+            experience: `${fakerVI.number.int({ min: 0, max: 70 })} năm kinh nghiệm`,
+            work_unit: fakerVI.company.name(),
+            certificate_name: fakerVI.lorem.words(8),
+            certificate_number: fakerVI.random.numeric(12),
+            certificate_provider: fakerVI.lorem.words(8),
+        };
+    });
 
     await knex('doctors').insert(doctors);
 };

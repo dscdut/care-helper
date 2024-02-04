@@ -93,6 +93,20 @@ class Repository extends DataRepository {
             .offset(offset)
             .limit(pageSize);
     }
+
+    findById(id) {
+        return this.query()
+            .where('examinations.id', '=', id)
+            .select(
+                'examinations.id',
+                'examinations.diagnose',
+                'examinations.detail_diagnose',
+                'examinations.advice',
+                { doctorId: 'examinations.doctor_id' },
+                { patientId: 'examinations.patient_id' },
+                { createdAt: 'examinations.created_at' },
+            );
+    }
 }
 
 export const ExaminationRepository = new Repository('examinations');

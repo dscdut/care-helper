@@ -1,41 +1,39 @@
 import { MessageDto } from 'core/common/dto';
 import { Role } from 'core/common/enum';
-import { CreateExaminationDto, UpdateExaminationDto, ExaminationService } from 'core/modules/examination';
+import { MedicalTestService } from 'core/modules/medicalTest';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 import { ForbiddenException } from 'packages/httpException';
 
 class Controller {
     constructor() {
-        this.service = ExaminationService;
+        this.service = MedicalTestService;
     }
 
-    createExamination = async req => {
-        const data = await this.service.createExamination({
-            ...CreateExaminationDto(req.body),
-            doctor_id: req.user.payload.id,
-        });
+    createMedicalTest = async req => {
+        const data = await this.service.createMedicalTest(
+            req.body,
+            req.user.payload.id,
+        );
         return ValidHttpResponse.toOkResponse(data);
     };
 
-    updateExamination = async req => {
+    updateMedicalTest = async req => {
         const doctorId = req.user.payload.id;
-        await this.service.updateExaminationByDoctor({
-            ...UpdateExaminationDto(req.body),
-            doctorId,
-        });
-        return ValidHttpResponse.toOkResponse(MessageDto({ message: 'Update examination successfully!' }));
-    };
-
-    deleteEmptyExamination = async req => {
-        const doctorId = req.user.payload.id;
-        await this.service.deleteEmptyExamination(
-            req.params.id,
-            doctorId,
+        await this.service.updateMedicalTestByDoctor(req.body, doctorId);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Update examination successfully!' }),
         );
-        return ValidHttpResponse.toOkResponse(MessageDto({ message: 'Delete examination successfully!' }));
     };
 
-    listMyExaminations = async req => {
+    deleteMedicalTest = async req => {
+        const doctorId = req.user.payload.id;
+        await this.service.deleteMedicalTest(req.params.id, doctorId);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Delete examination successfully!' }),
+        );
+    };
+
+    getPaginationMyTest = async req => {
         let data;
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;
@@ -44,21 +42,23 @@ class Controller {
 
         if (userRole === Role.PATIENT) {
             data = await this.service.getPaginationByPatientId(
-                userId, page, size
+                userId,
+                page,
+                size,
             );
         }
         if (userRole === Role.DOCTOR) {
             data = await this.service.getPaginationByDoctorId(
-                userId, page, size
+                userId,
+                page,
+                size,
             );
         }
         return ValidHttpResponse.toOkResponse(data);
     };
 
-    getDetailExamination = async req => {
-        const data = await this.service.getOneById(
-            req.params.id,
-        );
+    getDetailMyTest = async req => {
+        const data = await this.service.getOneById(req.params.id);
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;
 
@@ -71,4 +71,4 @@ class Controller {
     };
 }
 
-export const ExaminationController = new Controller();
+export const MedicalTestController = new Controller();
