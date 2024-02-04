@@ -18,7 +18,7 @@ export const PrescriptionResolver = Module.builder()
             body: 'CreatePrescriptionDto',
             guards: [hasDoctorRole],
             controller: PrescriptionController.createPrescription,
-            model: 'CreatePrescriptionResponseDto',
+            model: { $ref: 'CreatePrescriptionResponseDto' },
             preAuthorization: true,
         },
         {
@@ -27,7 +27,7 @@ export const PrescriptionResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: PrescriptionController.getPrescriptionById,
-            model: 'PrescriptionDto',
+            model: { $ref: 'PrescriptionDto' },
             preAuthorization: true,
         },
     ]);

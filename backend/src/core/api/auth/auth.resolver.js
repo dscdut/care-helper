@@ -21,7 +21,7 @@ export const AuthResolver = Module.builder()
             interceptors: [DoctorLoginInterceptor],
             body: 'DoctorLoginDto',
             controller: AuthController.doctorLogin,
-            model: 'DoctorLoginResponseDto',
+            model: { $ref: 'DoctorLoginResponseDto' },
         },
         {
             route: '/register/doctor',
@@ -29,7 +29,7 @@ export const AuthResolver = Module.builder()
             interceptors: [DoctorRegisterInterceptor],
             body: 'DoctorRegisterDto',
             controller: AuthController.doctorRegister,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
         },
         {
             route: '/patient',
@@ -37,14 +37,14 @@ export const AuthResolver = Module.builder()
             interceptors: [PatientLoginInterceptor],
             body: 'PatientLoginDto',
             controller: AuthController.patientLogin,
-            model: 'PatientLoginResponseDto',
+            model: { $ref: 'PatientLoginResponseDto' },
         },
         {
             route: '/otp',
             method: 'post',
             body: 'PhoneDto',
             controller: AuthController.phoneRegister,
-            model: 'PhoneUnverifiedRegisterResponseDto',
+            model: { $ref: 'PhoneUnverifiedRegisterResponseDto' },
         },
         {
             route: '/verify-otp',
@@ -52,7 +52,7 @@ export const AuthResolver = Module.builder()
             body: 'OtpVerifyDto',
             interceptors: [OtpVerifyInterceptor],
             controller: AuthController.verifyOTP,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
         },
         {
             route: '/register/patient',
@@ -60,6 +60,6 @@ export const AuthResolver = Module.builder()
             interceptors: [PhoneVerifiedRegisterInterceptor],
             body: 'PhoneVerifiedRegisterDto',
             controller: AuthController.patientRegister,
-            model: 'PatientLoginResponseDto',
+            model: { $ref: 'PatientLoginResponseDto' },
         },
     ]);

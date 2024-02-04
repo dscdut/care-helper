@@ -22,7 +22,7 @@ export const ExaminationResolver = Module.builder()
             controller: ExaminationController.listMyExaminations,
             model: {
                 type: 'array',
-                name: 'ExaminationDto',
+                $ref: 'ExaminationDto',
             },
             preAuthorization: true,
         },
@@ -32,7 +32,7 @@ export const ExaminationResolver = Module.builder()
             params: [examinationId],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.getDetailExamination,
-            model: 'ExaminationDto',
+            model: { $ref: 'ExaminationDto' },
             preAuthorization: true,
         },
         {
@@ -42,7 +42,7 @@ export const ExaminationResolver = Module.builder()
             body: 'CreateExaminationDto',
             guards: [hasDoctorRole],
             controller: ExaminationController.createExamination,
-            model: 'ExaminationDto',
+            model: { $ref: 'ExaminationDto' },
             preAuthorization: true,
             description: 'create a new empty examination',
         },
@@ -53,7 +53,7 @@ export const ExaminationResolver = Module.builder()
             body: 'UpdateExaminationDto',
             guards: [hasDoctorRole],
             controller: ExaminationController.updateExamination,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
             preAuthorization: true,
             description:
                 'update empty examination to examination with diagnose, detail diagnose, advice(note), ',
@@ -64,7 +64,7 @@ export const ExaminationResolver = Module.builder()
             params: [examinationId],
             guards: [hasDoctorRole],
             controller: ExaminationController.deleteEmptyExamination,
-            model: 'MessageDto',
+            model: { $ref: 'MessageDto' },
             description:
                 'can only be deleted for medical examinations without tests or prescriptions',
             preAuthorization: true,
