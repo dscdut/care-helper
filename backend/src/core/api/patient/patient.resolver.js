@@ -15,7 +15,7 @@ export const PatientResolver = Module.builder()
             method: 'get',
             params: [RecordId],
             controller: PatientController.getPatientById,
-            model: 'PatientDto',
+            model: { $ref: 'PatientDto' },
         },
         {
             route: '/',
@@ -23,7 +23,7 @@ export const PatientResolver = Module.builder()
             interceptors: [UpdatePatientInterceptor],
             body: 'PatientUpdateDto',
             controller: PatientController.updatePatient,
-            model: 'PatientDto',
+            model: { $ref: 'PatientDto' },
             preAuthorization: true,
         },
     ]);
