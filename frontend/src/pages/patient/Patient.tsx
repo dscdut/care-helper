@@ -40,8 +40,7 @@ export default function Patient() {
               {currentPosts.map((patient) => (
                 <tr key={patient.id} onClick={() => handleClick(patient.id)}>
                   <td className='flex items-center gap-4'>
-                    <input type='checkbox' className='checkbox-primary checkbox' />{' '}
-                    <Link to={patient.id}>{patient.name}</Link>
+                    <input type='checkbox' className='checkbox-primary checkbox' /> <p>{patient.name}</p>
                   </td>
                   <td>{patient.date}</td>
                   <td>{patient.doctor}</td>
