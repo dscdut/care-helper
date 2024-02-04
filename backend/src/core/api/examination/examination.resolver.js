@@ -1,6 +1,9 @@
 import { Module } from 'packages/handler/Module';
 import { examinationId, page, size } from 'core/common/swagger';
-import { CreateExaminationInterceptor, UpdateExaminationInterceptor } from 'core/modules/examination/interceptor';
+import {
+    CreateExaminationInterceptor,
+    UpdateExaminationInterceptor,
+} from 'core/modules/examination/interceptor';
 import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
 import { ExaminationController } from './examination.controller';
 
@@ -41,7 +44,7 @@ export const ExaminationResolver = Module.builder()
             controller: ExaminationController.createExamination,
             model: 'ExaminationDto',
             preAuthorization: true,
-            description: 'create a new empty examination'
+            description: 'create a new empty examination',
         },
         {
             route: '',
@@ -52,7 +55,8 @@ export const ExaminationResolver = Module.builder()
             controller: ExaminationController.updateExamination,
             model: 'MessageDto',
             preAuthorization: true,
-            description: 'update empty examination to examination with diagnose, detail diagnose, advice(note), '
+            description:
+                'update empty examination to examination with diagnose, detail diagnose, advice(note), ',
         },
         {
             route: '/:examinationId',
@@ -61,8 +65,8 @@ export const ExaminationResolver = Module.builder()
             guards: [hasDoctorRole],
             controller: ExaminationController.deleteEmptyExamination,
             model: 'MessageDto',
-            description: 'can only be deleted for medical examinations without tests or prescriptions',
+            description:
+                'can only be deleted for medical examinations without tests or prescriptions',
             preAuthorization: true,
         },
-
     ]);

@@ -1,5 +1,6 @@
 import { Module } from 'packages/handler/Module';
 import { RecordId } from 'core/common/swagger';
+import { UpdatePatientInterceptor } from 'core/modules/user';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -16,10 +17,13 @@ export const PatientResolver = Module.builder()
             controller: PatientController.getPatientById,
             model: 'PatientDto',
         },
-        // {
-        //     route: '/',
-        //     method: 'put',
-        //     controller: PatientController.getPatientById,
-        //     model: 'PatientDto',
-        // },
+        {
+            route: '/',
+            method: 'put',
+            interceptors: [UpdatePatientInterceptor],
+            body: 'PatientUpdateDto',
+            controller: PatientController.updatePatient,
+            model: 'PatientDto',
+            preAuthorization: true,
+        },
     ]);
