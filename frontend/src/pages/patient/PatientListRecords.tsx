@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { HiMiniArrowDownCircle, HiMiniPlus } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
 import Pagination from 'src/components/Pagination'
-import { patientRecords } from 'src/data/patient/patientRecords'
+import { PatientRecords, patientRecords } from 'src/data/patient/patientRecords'
 
 export default function PatientListRecords() {
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -10,7 +10,9 @@ export default function PatientListRecords() {
 
   const lastPostIndex: number = currentPage * postsPerPage
   const firstPostIndex: number = lastPostIndex - postsPerPage
-  const currentPosts = patientRecords.slice(firstPostIndex, lastPostIndex)
+
+  const patientRecord: PatientRecords[] = patientRecords
+  const currentPosts = patientRecord.slice(firstPostIndex, lastPostIndex)
 
   return (
     <>

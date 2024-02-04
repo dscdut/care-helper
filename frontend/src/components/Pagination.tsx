@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React from 'react'
 import { HiMiniChevronDoubleLeft, HiMiniChevronDoubleRight } from 'react-icons/hi2'
 
@@ -17,20 +18,28 @@ const Pagination: React.FC<PaginationProps> = ({ totalPosts, postsPerPage, setCu
   }
 
   const getClosestPages = (currentPage: number, totalPages: number): number[] => {
-    if (currentPage === 1) {
-      return [1, 2, 3]
-    } else if (currentPage === totalPages) {
-      return [totalPages - 2, totalPages - 1, totalPages]
-    } else {
-      return [currentPage - 1, currentPage, currentPage + 1]
+    const pageRange = totalPages > 2 ? 3 : totalPages
+    const middlePage = Math.min(Math.max(currentPage, 2), totalPages - 1)
+
+    const startPage = Math.max(1, middlePage - Math.floor(pageRange / 2))
+    const endPage = Math.min(totalPages, startPage + pageRange - 1)
+
+    const pagesInRange = []
+    for (let i = startPage; i <= endPage; i++) {
+      pagesInRange.push(i)
     }
+
+    return pagesInRange
   }
 
   return (
     <div className=''>
       <button
         onClick={() => setCurrentPage(1)}
-        className={`btn ${currentPage === 1 ? 'btn-primary' : 'hover:bg-gray-200'}`}
+        className={classNames('btn', {
+          'btn-primary': currentPage === 1,
+          'hover:bg-gray-200': currentPage !== 1
+        })}
         disabled={currentPage === 1}
       >
         <HiMiniChevronDoubleLeft />
@@ -39,14 +48,20 @@ const Pagination: React.FC<PaginationProps> = ({ totalPosts, postsPerPage, setCu
         <button
           key={index}
           onClick={() => setCurrentPage(page)}
-          className={`btn mx-2 ${page === currentPage ? 'btn-primary' : 'hover:bg-gray-200'}`}
+          className={classNames('btn mx-2', {
+            'btn-primary': currentPage === page,
+            'hover:bg-gray-200': currentPage !== page
+          })}
         >
           {page}
         </button>
       ))}
       <button
         onClick={() => setCurrentPage(totalPages)}
-        className={`btn ${currentPage === totalPages ? 'btn-primary' : 'hover:bg-gray-200'}`}
+        className={classNames('btn', {
+          'btn-primary': currentPage === totalPages,
+          'hover:bg-gray-200': currentPage !== totalPages
+        })}
         disabled={currentPage === totalPages}
       >
         <HiMiniChevronDoubleRight />

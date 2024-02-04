@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Pagination from 'src/components/Pagination'
-import { patients } from 'src/data/patient/patient'
+import { Patients, patients } from 'src/data/patient/patient'
 
 export default function Patient() {
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [postsPerPage, setPostsPerPage] = useState<number>(5)
+  const [postsPerPage, setPostsPerPage] = useState<number>(8)
+  const navigate = useNavigate()
 
   const lastPostIndex: number = currentPage * postsPerPage
   const firstPostIndex: number = lastPostIndex - postsPerPage
-  const currentPosts = patients.slice(firstPostIndex, lastPostIndex)
+
+  const patient: Patients[] = patients
+  const currentPosts = patient.slice(firstPostIndex, lastPostIndex)
+
+  const handleClick = (id: string) => {
+    navigate(id)
+  }
 
   return (
     <article className='flex w-full flex-col gap-4 p-4 lg:p-8'>
@@ -31,7 +38,7 @@ export default function Patient() {
             </thead>
             <tbody>
               {currentPosts.map((patient) => (
-                <tr key={patient.id}>
+                <tr key={patient.id} onClick={() => handleClick(patient.id)}>
                   <td className='flex items-center gap-4'>
                     <input type='checkbox' className='checkbox-primary checkbox' />{' '}
                     <Link to={patient.id}>{patient.name}</Link>

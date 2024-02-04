@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PatientInformation from './PatientInformation'
 import PatientListRecords from './PatientListRecords'
+import classNames from 'classnames'
 
 export interface PatientDetailsProps {}
 
@@ -41,9 +42,10 @@ export default function PatientDetails(props: PatientDetailsProps) {
               type='radio'
               name='my_tabs_1'
               role='tab'
-              className={`tab mr-8 h-max !w-max !rounded-md !border-none py-2 text-base font-semibold ${
-                tabElement.id === tab ? 'bg-primary text-white' : 'bg-gray-300 text-black'
-              }`}
+              className={classNames('tab mr-8 h-max !w-max !rounded-md !border-none py-2 text-base font-semibold', {
+                'bg-primary text-white': tabElement.id === tab,
+                'bg-gray-300 text-black': tabElement.id !== tab
+              })}
               aria-label={tabElement.title}
               checked={tabElement.id === tab}
               onChange={() => handleChange(tabElement.id)}
