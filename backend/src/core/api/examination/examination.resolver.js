@@ -21,6 +21,7 @@ export const ExaminationResolver = Module.builder()
                 type: 'array',
                 $ref: 'ExaminationDto',
             },
+            description: 'Get data about medical visits that the patient or doctor are related to',
             preAuthorization: true,
         },
         {
@@ -29,6 +30,7 @@ export const ExaminationResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.getDetailExamination,
+            description: 'Get medical examination data as a patient or doctor. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             model: { $ref: 'ExaminationDto' },
             preAuthorization: true,
         },
