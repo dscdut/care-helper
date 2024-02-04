@@ -3,7 +3,7 @@ import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('MedicalTestDto', {
     id: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
-    test_rows: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
+    testRows: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
     examinationId: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
     createdAt: SwaggerDocument.ApiProperty({ type: 'dateTime', readOnly: true }),
 });
