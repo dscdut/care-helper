@@ -15,7 +15,7 @@ export const DoctorResolver = Module.builder()
             method: 'get',
             params: [RecordId],
             controller: DoctorController.getDoctorById,
-            model: 'DoctorDto',
+            model: { $ref: 'DoctorDto' },
         },
         {
             route: '/',
@@ -23,7 +23,7 @@ export const DoctorResolver = Module.builder()
             interceptors: [DoctorVerifyInterceptor],
             controller: DoctorController.verifyDoctor,
             body: 'DoctorVerifyDto',
-            model: 'DoctorDto',
+            model: { $ref: 'DoctorDto' },
             preAuthorization: true,
         },
     ]);

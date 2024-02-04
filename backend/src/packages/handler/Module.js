@@ -181,7 +181,7 @@ export class Module {
             guards?: [],
             preAuthorization?: boolean,
             description?: string,
-            model?:any,
+            model?: any,
             params?: any
         }]
      } apis
