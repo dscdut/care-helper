@@ -1,17 +1,10 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Pagination from 'src/components/pagination/Pagination'
-import { POSTS_PER_PAGE } from 'src/constants/common'
 import { path } from 'src/constants/path'
 import { patients } from 'src/data/patient'
 
 export default function Patient() {
-  const [currentPage, setCurrentPage] = useState<number>(1)
   const navigate = useNavigate()
-
-  const lastPostIndex: number = currentPage * POSTS_PER_PAGE
-  const firstPostIndex: number = lastPostIndex - POSTS_PER_PAGE
-  const currentPosts = patients.slice(firstPostIndex, lastPostIndex)
 
   const handleNavigateDetails = (id: number) => {
     navigate(`${path.patients}/${id}`)
@@ -40,7 +33,7 @@ export default function Patient() {
               </tr>
             </thead>
             <tbody>
-              {currentPosts.map((patient) => (
+              {patients.map((patient) => (
                 <tr className='hover cursor-pointer' key={patient.id} onClick={() => handleNavigateDetails(patient.id)}>
                   <td className='flex items-center gap-4'>
                     <input type='checkbox' className='checkbox-primary checkbox' onClick={handleCheckBox} />
@@ -55,7 +48,7 @@ export default function Patient() {
           </table>
         </div>
         <div className='mt-2 flex items-center justify-end'>
-          <Pagination totalPosts={patients.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+          <Pagination />
         </div>
       </section>
     </article>

@@ -8,5 +8,3 @@ export const AUTH_FIELD_NAME = {
   email: 'email',
   password: 'password'
 } as const
-
-export const POSTS_PER_PAGE = 8
