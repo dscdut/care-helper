@@ -19,6 +19,22 @@ class Repository extends DataRepository {
             },
         );
     }
+
+    findByExaminationId(examinationId) {
+        return this.query()
+            .where('prescriptions.examination_id', '=', examinationId)
+            .select(
+                'prescriptions.id',
+                { examinationId: 'prescriptions.examination_id' },
+                'prescriptions.details',
+                'prescriptions.note',
+                { startTime: 'prescriptions.start_time' },
+                { endTime: 'prescriptions.end_time' },
+                {
+                    prescriptionFilename: 'prescriptions.prescription_filename',
+                },
+            );
+    }
 }
 
 export const PrescriptonRepository = new Repository('prescriptions');

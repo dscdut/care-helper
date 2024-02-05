@@ -90,22 +90,22 @@ class Service {
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations = await this.medicalTestRepository.findByExaminationDoctorId(
+        const dataTests = await this.medicalTestRepository.findByExaminationDoctorId(
             doctorId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => MedicalTestDto(e));
+        return dataTests.map(e => MedicalTestDto(e));
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
-        const dataExaminations = await this.medicalTestRepository.findByExaminationPatientId(
+        const dataTests = await this.medicalTestRepository.findByExaminationPatientId(
             patientId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => MedicalTestDto(e));
+        return dataTests.map(e => MedicalTestDto(e));
     }
 
     async getOneById(testId) {
@@ -117,6 +117,13 @@ class Service {
         }
 
         return MedicalTestDto(dataTests[0]);
+    }
+
+    async getTestsByExaminationId(examinationId) {
+        const dataTests = await this.medicalTestRepository.findByExaminationId(
+            examinationId,
+        );
+        return dataTests.map(e => MedicalTestDto(e));
     }
 }
 

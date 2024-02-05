@@ -1,17 +1,19 @@
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
 import { MessageDto } from 'core/common/dto';
 import { Role } from 'core/common/enum';
+import { ExaminationService } from 'core/modules/examination';
 import { MedicalTestService } from 'core/modules/medicalTest';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 import { ForbiddenException } from 'packages/httpException';
 
 class Controller {
     constructor() {
-        this.service = MedicalTestService;
+        this.medicalTestService = MedicalTestService;
+        this.examinationService = ExaminationService;
     }
 
     createMedicalTest = async req => {
-        const data = await this.service.createMedicalTest(
+        const data = await this.medicalTestService.createMedicalTest(
             req.body,
             req.user.payload.id,
         );
@@ -20,7 +22,7 @@ class Controller {
 
     updateMedicalTest = async req => {
         const doctorId = req.user.payload.id;
-        await this.service.updateMedicalTestByDoctor(req.body, doctorId);
+        await this.medicalTestService.updateMedicalTestByDoctor(req.body, doctorId);
         return ValidHttpResponse.toOkResponse(
             MessageDto({ message: 'Update examination successfully!' }),
         );
@@ -28,7 +30,7 @@ class Controller {
 
     deleteMedicalTest = async req => {
         const doctorId = req.user.payload.id;
-        await this.service.deleteMedicalTest(req.params.id, doctorId);
+        await this.medicalTestService.deleteMedicalTest(req.params.id, doctorId);
         return ValidHttpResponse.toOkResponse(
             MessageDto({ message: 'Delete examination successfully!' }),
         );
@@ -59,7 +61,7 @@ class Controller {
     };
 
     getDetailMyTest = async req => {
-        const data = await this.service.getOneById(req.params.id);
+        const data = await this.medicalTestService.getOneById(req.params.id);
         const userId = req.user.payload.id;
         const userRole = req.user.payload.role;
 
@@ -68,6 +70,19 @@ class Controller {
                 throw new ForbiddenException();
             }
         }
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
+    getTestsByExamination = async req => {
+        const userId = req.user.payload.id;
+        const userRole = req.user.payload.role;
+
+        if (userRole === Role.PATIENT) {
+            if (this.examinationService.checkMyExaminationByPatient(req.params.id, userId)) {
+                throw new ForbiddenException();
+            }
+        }
+        const data = await this.medicalTestService.getTestsByExaminationId(req.params.id);
         return ValidHttpResponse.toOkResponse(data);
     };
 }
