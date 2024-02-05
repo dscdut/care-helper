@@ -6,7 +6,7 @@ import { fakerVI } from '@faker-js/faker';
 import { numExaminations } from './04-examinations';
 
 const tableName = 'tests';
-export const numTests = 44;// You can adjust the number of tests you want to create
+export const numTests = 60;// You can adjust the number of tests you want to create
 const test_types = [
     { name: 'Huyết áp', unit: 'mmHg' },
     { name: 'Nhiệt độ cơ thể', unit: 'Độ C hoặc Độ F' },

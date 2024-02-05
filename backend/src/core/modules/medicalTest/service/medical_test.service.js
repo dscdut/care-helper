@@ -7,7 +7,12 @@ import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
 import { ExaminationRepository } from 'core/modules/examination/examination.repository';
 import { ForbiddenException } from 'packages/httpException/ForbiddenException';
-import { CreateTestDto, MedicalTestDto, UpdateTestDto } from '../dto';
+import {
+    CreateTestDto,
+    MedicalTestDto,
+    UpdateTestDto,
+    PaginationTestDto,
+} from '../dto';
 import { TestRepository } from '../medical_test.repository';
 
 class Service {
@@ -25,7 +30,9 @@ class Service {
                 `No examination found with id = ${medicalTestDto.examinationId} to create a medical test`,
             );
         } else if (existExamination[0].doctorId !== doctorId) {
-            throw new ForbiddenException(`You do not have access to this examination id = ${medicalTestDto.examinationId} to create a medical test`);
+            throw new ForbiddenException(
+                `You do not have access to this examination id = ${medicalTestDto.examinationId} to create a medical test`,
+            );
         }
         const trx = await getTransaction();
         try {
@@ -90,26 +97,42 @@ class Service {
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.medicalTestRepository.countByExaminationDoctorId(
+            doctorId,
+        );
         const dataTests = await this.medicalTestRepository.findByExaminationDoctorId(
             doctorId,
             offset,
             pageSize,
         );
-        return dataTests.map(e => MedicalTestDto(e));
+        return PaginationTestDto({
+            content: dataTests.map(e => MedicalTestDto(e)),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.medicalTestRepository.countByExaminationPatientId(
+            patientId,
+        );
         const dataTests = await this.medicalTestRepository.findByExaminationPatientId(
             patientId,
             offset,
             pageSize,
         );
-        return dataTests.map(e => MedicalTestDto(e));
+        return PaginationTestDto({
+            content: dataTests.map(e => MedicalTestDto(e)),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getOneById(testId) {
-        const dataTests = await this.medicalTestRepository.findJoinExaminationPatientIdAndDoctorIdById(testId);
+        const dataTests = await this.medicalTestRepository.findJoinExaminationPatientIdAndDoctorIdById(
+            testId,
+        );
         if (dataTests.length < 1) {
             throw new NotFoundException(
                 `Cannot find Medical Test with id ${testId}`,

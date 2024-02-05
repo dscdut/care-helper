@@ -20,10 +20,7 @@ export const MedicalTestResolver = Module.builder()
             params: [page, size],
             guards: [hasDoctorOrPatientRole],
             controller: MedicalTestController.getPaginationMyTest,
-            model: {
-                type: 'array',
-                items: { $ref: 'MedicalTestDto' },
-            },
+            model: { $ref: 'PaginationTestDto' },
             description:
                 'Get data about medical tests that the patient or doctor are related to',
             preAuthorization: true,
