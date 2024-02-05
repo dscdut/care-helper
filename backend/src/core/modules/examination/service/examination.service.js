@@ -1,6 +1,5 @@
 import {
     BadRequestException,
-    ForbiddenException,
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
@@ -9,8 +8,7 @@ import { logger } from 'packages/logger';
 import { FOREIGN_KEY_CONSTRAINT_VIOLATION } from 'core/common/exceptions/constants';
 import { ExaminationRepository } from '../examination.repository';
 import { HospitalRepository } from '../../hospital/hospital.repository';
-import { ExaminationDto } from '../dto/examination.dto';
-import { PaginationExaminationDto } from '../dto/pagination_examination';
+import { PaginationExaminationDto, ExaminationDto } from '../dto';
 
 class Service {
     constructor() {
