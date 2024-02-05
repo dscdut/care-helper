@@ -5,8 +5,8 @@ const tableName = 'prescriptions';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.dateTime('start_time');
-        table.datetime('end_time');
+        table.date('start_date');
+        table.date('end_date');
         table.text('details');
         table.string('note', 512);
         table.string('prescription_filename', 255);
@@ -18,7 +18,7 @@ exports.up = async knex => {
             .references('id')
             .inTable('examinations')
             .onDelete('CASCADE');
-        table.timestamps(false, true);
+        table.timestamps(true, true);
     });
 
     await knex.raw(`

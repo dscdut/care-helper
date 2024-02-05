@@ -1,10 +1,10 @@
 import { InternalServerException } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
+import { MessageDto } from 'core/common/dto';
 import { MESSAGE } from './message.enum';
 import { PrescriptonRepository } from '../repository';
 import { PrescriptionDto } from '../dto/prescription.dto';
-import { CreatePrescriptionResponseDto } from '../dto/prescription.create.response.dto';
 
 class Service {
     constructor() {
@@ -24,7 +24,7 @@ class Service {
             throw new InternalServerException();
         }
         await trx.commit();
-        return CreatePrescriptionResponseDto({
+        return MessageDto({
             message: MESSAGE.PRESCRIPTION_CREATED,
         });
     }

@@ -23,7 +23,7 @@ exports.seed = async knex => {
             doctor_id: fakerVI.number.int({ min: 1, max: numDoctors }),
             patient_id: fakerVI.number.int({ min: 1, max: numPatients }),
             hospital_id: fakerVI.number.int({ min: 1, max: numHospitals }),
-            createdAt: fakerVI.date.past({ years: 11 }),
+            created_at: fakerVI.date.past({ years: 11 }),
         };
 
         examinations.push(examination);

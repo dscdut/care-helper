@@ -24,10 +24,13 @@ exports.seed = async knex => {
             locked: false,
             quota_code: `V.08.${category}.${rank}`,
             expertise: fakerVI.lorem.lines(1),
-            experience: `${fakerVI.number.int({ min: 0, max: 70 })} năm kinh nghiệm`,
+            experience: `${fakerVI.number.int({
+                min: 0,
+                max: 70,
+            })} năm kinh nghiệm`,
             work_unit: fakerVI.company.name(),
             certificate_name: fakerVI.lorem.words(8),
-            certificate_number: fakerVI.random.numeric(12),
+            certificate_number: fakerVI.string.numeric(12),
             certificate_provider: fakerVI.lorem.words(8),
         };
     });

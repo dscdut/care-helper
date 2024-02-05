@@ -6,7 +6,7 @@
 export class SwaggerDocument {
     static DEFAULT_GENERATOR = 'string';
 
-    static PRIMITIVE_TYPES = ['string', 'int', 'dateTime', 'bool'];
+    static PRIMITIVE_TYPES = ['string', 'int', 'dateTime', 'bool', 'date'];
 
     static type = {
         string: {
@@ -19,6 +19,10 @@ export class SwaggerDocument {
         dateTime: {
             type: 'string',
             format: 'date-time',
+        },
+        date: {
+            type: 'string',
+            format: 'date',
         },
         bool: {
             type: 'boolean',
@@ -36,27 +40,27 @@ export class SwaggerDocument {
                     type: 'array',
                     items: {
                         ...SwaggerDocument.type[item],
-                        ...params
-                    }
+                        ...params,
+                    },
                 };
             }
             return {
                 type: 'array',
                 items: {
                     $ref: `#/components/schemas/${item}`,
-                }
+                },
             };
         },
         enum: (enumModel, params = {}) => ({
             type: 'string',
             enum: Object.values(enumModel),
-            ...params
+            ...params,
         }),
         model: (dtoModel, params = {}) => ({
             $ref: `#/components/schemas/${dtoModel}`,
-            ...params
+            ...params,
         }),
-    }
+    };
 
     /**
      *
@@ -72,9 +76,7 @@ export class SwaggerDocument {
             example,
         } = options;
         let swaggerType;
-        if (type === 'enum'
-            || type === 'model'
-            || type === 'array') {
+        if (type === 'enum' || type === 'model' || type === 'array') {
             swaggerType = SwaggerDocument.type[type](model, { example });
         } else {
             swaggerType = SwaggerDocument.type[type];
@@ -106,9 +108,7 @@ export class SwaggerDocument {
 
         let swaggerType;
 
-        if (type === 'enum'
-            || type === 'model'
-            || type === 'array') {
+        if (type === 'enum' || type === 'model' || type === 'array') {
             swaggerType = SwaggerDocument.type[type](model, { example });
         } else {
             swaggerType = SwaggerDocument.type[type];
@@ -120,7 +120,7 @@ export class SwaggerDocument {
             schema: swaggerType,
             required,
             example,
-            description
+            description,
         };
     }
 
