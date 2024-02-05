@@ -10,6 +10,7 @@ import { FOREIGN_KEY_CONSTRAINT_VIOLATION } from 'core/common/exceptions/constan
 import { ExaminationRepository } from '../examination.repository';
 import { HospitalRepository } from '../../hospital/hospital.repository';
 import { ExaminationDto } from '../dto/examination.dto';
+import { PaginationExaminationDto } from '../dto/pagination_examination';
 
 class Service {
     constructor() {
@@ -42,9 +43,7 @@ class Service {
             // Check if the error is a foreign key constraint violation
             if (error.code === FOREIGN_KEY_CONSTRAINT_VIOLATION) {
                 // Handle foreign key constraint violation
-                throw new BadRequestException(
-                    error.message,
-                );
+                throw new BadRequestException(error.message);
             }
             throw new InternalServerException(error.message);
         }
@@ -66,7 +65,9 @@ class Service {
         }
 
         if (deletedExamination === 0) {
-            throw new NotFoundException(`No examination of you found with id = ${examinationId} to delete`);
+            throw new NotFoundException(
+                `No examination of you found with id = ${examinationId} to delete`,
+            );
         }
     }
 
@@ -93,28 +94,44 @@ class Service {
         }
         trx.commit();
         if (updatedExamination === 0) {
-            throw new BadRequestException(`No examination of you found with id = ${examinationDto.id} to update`);
+            throw new BadRequestException(
+                `No examination of you found with id = ${examinationDto.id} to update`,
+            );
         }
     }
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.examinationRepository.countByDoctorId(
+            doctorId,
+        );
         const dataExaminations = await this.examinationRepository.findJoinHospitalByDoctorId(
             doctorId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => ExaminationDto({ examination: e }));
+        return PaginationExaminationDto({
+            content: dataExaminations.map(e => ExaminationDto({ examination: e })),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.examinationRepository.countByPatientId(
+            patientId,
+        );
         const dataExaminations = await this.examinationRepository.findJoinHospitalByPatientId(
             patientId,
             offset,
             pageSize,
         );
-        return dataExaminations.map(e => ExaminationDto({ examination: e }));
+        return PaginationExaminationDto({
+            content: dataExaminations.map(e => ExaminationDto({ examination: e })),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getOneById(examinationId) {
@@ -133,7 +150,10 @@ class Service {
     }
 
     async checkMyExaminationByPatient(examinationId, patientId) {
-        const result = await this.examinationRepository.existByIdAndPatientId(examinationId, patientId);
+        const result = await this.examinationRepository.existByIdAndPatientId(
+            examinationId,
+            patientId,
+        );
         return result;
     }
 }

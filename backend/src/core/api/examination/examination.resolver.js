@@ -20,10 +20,7 @@ export const ExaminationResolver = Module.builder()
             params: [page, size],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.listMyExaminations,
-            model: {
-                type: 'array',
-                items: { $ref: 'ExaminationDto' },
-            },
+            model: { $ref: 'PaginationExaminationDto' },
             description:
                 'Get data about medical visits that the patient or doctor are related to',
             preAuthorization: true,

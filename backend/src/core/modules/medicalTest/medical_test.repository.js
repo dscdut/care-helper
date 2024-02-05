@@ -65,6 +65,14 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
+    countByExaminationDoctorId(doctorId) {
+        return this.query()
+            .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
+            .where('examinations.doctor_id', '=', doctorId)
+            .count('tests.id')
+            .first();
+    }
+
     findByExaminationPatientId(patientId, offset, pageSize) {
         return this.query()
             .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
@@ -77,6 +85,14 @@ class Repository extends DataRepository {
             )
             .offset(offset)
             .limit(pageSize);
+    }
+
+    countByExaminationPatientId(patientId) {
+        return this.query()
+            .leftJoin('examinations', 'examinations.id', 'tests.examination_id')
+            .where('examinations.patient_id', '=', patientId)
+            .count('tests.id')
+            .first();
     }
 
     findJoinExaminationPatientIdAndDoctorIdById(id) {

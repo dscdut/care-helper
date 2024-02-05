@@ -9,6 +9,7 @@ import { ExaminationRepository } from 'core/modules/examination/examination.repo
 import { ForbiddenException } from 'packages/httpException/ForbiddenException';
 import { CreateTestDto, MedicalTestDto, UpdateTestDto } from '../dto';
 import { TestRepository } from '../medical_test.repository';
+import { PaginationTestDto } from '../dto/pagination_test.dto';
 
 class Service {
     constructor() {
@@ -90,22 +91,36 @@ class Service {
 
     async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.medicalTestRepository.countByExaminationDoctorId(
+            doctorId,
+        );
         const dataTests = await this.medicalTestRepository.findByExaminationDoctorId(
             doctorId,
             offset,
             pageSize,
         );
-        return dataTests.map(e => MedicalTestDto(e));
+        return PaginationTestDto({
+            content: dataTests.map(e => MedicalTestDto(e)),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
         const offset = (page - 1) * pageSize;
+        const total = await this.medicalTestRepository.countByExaminationPatientId(
+            patientId,
+        );
         const dataTests = await this.medicalTestRepository.findByExaminationPatientId(
             patientId,
             offset,
             pageSize,
         );
-        return dataTests.map(e => MedicalTestDto(e));
+        return PaginationTestDto({
+            content: dataTests.map(e => MedicalTestDto(e)),
+            pageSize,
+            total: total.count,
+        });
     }
 
     async getOneById(testId) {

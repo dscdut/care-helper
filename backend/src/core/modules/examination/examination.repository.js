@@ -94,6 +94,18 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
+    countByPatientId(patientId) {
+        return this.query()
+            .where('examinations.patient_id', '=', patientId)
+            .count('id').first();
+    }
+
+    countByDoctorId(doctorId) {
+        return this.query()
+            .where('examinations.doctor_id', '=', doctorId)
+            .count('id').first();
+    }
+
     findById(id) {
         return this.query()
             .where('examinations.id', '=', id)

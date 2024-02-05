@@ -44,14 +44,14 @@ class Controller {
         const size = req.query.size || DEFAULT_PAGE_SIZE;
 
         if (userRole === Role.PATIENT) {
-            data = await this.service.getPaginationByPatientId(
+            data = await this.medicalTestService.getPaginationByPatientId(
                 userId,
                 page,
                 size,
             );
         }
         if (userRole === Role.DOCTOR) {
-            data = await this.service.getPaginationByDoctorId(
+            data = await this.medicalTestService.getPaginationByDoctorId(
                 userId,
                 page,
                 size,
