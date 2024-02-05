@@ -34,9 +34,9 @@ exports.seed = async knex => {
             start_date: startDate,
             end_date: endDate,
             details: JSON.stringify(
-                fakerVI.helpers.arrayElements(drugsList).map(e => ({
+                fakerVI.helpers.arrayElements(drugsList, { min: 1, max: 10 }).map(e => ({
                     medicineName: e,
-                    usage: fakerVI.lorem.sentence({ max: 3 }),
+                    usage: fakerVI.lorem.sentence({ max: 10 }),
                     quantity: `${fakerVI.number.int({ max: 300 })} viên`,
                 })),
             ),
