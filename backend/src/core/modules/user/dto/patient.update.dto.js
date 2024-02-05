@@ -5,7 +5,7 @@ import { SwaggerDocument } from 'packages/swagger';
 ApiDocument.addModel('PatientUpdateDto', {
     fullName: SwaggerDocument.ApiProperty({ type: 'string' }),
     gender: SwaggerDocument.ApiProperty({ type: 'enum', example: Gender.MALE }),
-    birthday: SwaggerDocument.ApiProperty({ type: 'dateTime' }),
+    birthday: SwaggerDocument.ApiProperty({ type: 'date' }),
     address: SwaggerDocument.ApiProperty({ type: 'string' }),
     nationalIdCard: SwaggerDocument.ApiProperty({ type: 'string' }),
     insurance: SwaggerDocument.ApiProperty({ type: 'string' }),

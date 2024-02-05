@@ -6,8 +6,8 @@ export const CreatePrescriptionInterceptor = new DefaultValidatorInterceptor(
     Joi.object({
         note: JoiUtils.optionalString(),
         details: JoiUtils.medicineRecord(),
-        startTime: JoiUtils.dateTime().required(),
-        endTime: JoiUtils.dateTime().required(),
+        startDate: JoiUtils.date().required(),
+        endDate: JoiUtils.date().required(),
         prescriptionFilename: JoiUtils.optionalString(),
         examinationId: JoiUtils.positiveNumber().required(),
     }),

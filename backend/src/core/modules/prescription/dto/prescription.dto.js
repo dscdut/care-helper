@@ -7,8 +7,8 @@ ApiDocument.addModel('PrescriptionDto', {
         type: 'array',
         model: 'PrescriptionDetailsDto',
     }),
-    startTime: SwaggerDocument.ApiProperty({ type: 'dateTime' }),
-    endTime: SwaggerDocument.ApiProperty({ type: 'dateTime' }),
+    startDate: SwaggerDocument.ApiProperty({ type: 'date' }),
+    endDate: SwaggerDocument.ApiProperty({ type: 'date' }),
     prescriptionFilename: SwaggerDocument.ApiProperty({
         type: 'string',
         required: false,
