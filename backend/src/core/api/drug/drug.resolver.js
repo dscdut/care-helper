@@ -16,7 +16,7 @@ export const DrugResolver = Module.builder()
             controller: DrugController.getPaginationDrugs,
             model: {
                 type: 'array',
-                name: 'string',
+                items: { type: 'string' },
             },
             preAuthorization: true,
         },
@@ -27,7 +27,7 @@ export const DrugResolver = Module.builder()
             controller: DrugController.listDrugsName,
             model: {
                 type: 'array',
-                name: 'string',
+                items: { type: 'string' },
             },
             preAuthorization: true,
         },

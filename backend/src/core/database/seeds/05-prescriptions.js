@@ -22,22 +22,23 @@ exports.seed = async knex => {
     const drugsList = await readJsonFile(drugsFilePath);
 
     const prescriptions = Array.from({ length: numPrescriptions }, () => {
-        const startDate = fakerVI.date.between(
-            fakerVI.date.future(),
-            fakerVI.date.past(),
-        );
-        const endDate = fakerVI.date.between(startDate, startDate + 90);
+        const startDate = fakerVI.date.between({
+            from: fakerVI.date.past(),
+            to: fakerVI.date.future(),
+        });
+        const endDate = fakerVI.date.between({
+            from: startDate,
+            to: new Date(startDate.getTime() + 90 * 24 * 60 * 60 * 1000), // 90 days
+        });
         return {
-            startDate,
-            endDate,
+            start_date: startDate,
+            end_date: endDate,
             details: JSON.stringify(
-                fakerVI.helpers
-                    .arrayElements(drugsList)
-                    .map(e => ({
-                        medicineName: e,
-                        usage: fakerVI.lorem.sentence({ max: 3 }),
-                        quantity: fakerVI.number.int({ max: 300 }),
-                    })),
+                fakerVI.helpers.arrayElements(drugsList).map(e => ({
+                    medicineName: e,
+                    usage: fakerVI.lorem.sentence({ max: 3 }),
+                    quantity: `${fakerVI.number.int({ max: 300 })} viên`,
+                })),
             ),
             note: fakerVI.lorem.sentence(),
             prescription_filename: fakerVI.image.urlLoremFlickr(),

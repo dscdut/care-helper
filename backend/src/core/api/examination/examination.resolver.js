@@ -1,6 +1,9 @@
 import { Module } from 'packages/handler/Module';
 import { RecordId, page, size } from 'core/common/swagger';
-import { CreateExaminationInterceptor, UpdateExaminationInterceptor } from 'core/modules/examination/interceptor';
+import {
+    CreateExaminationInterceptor,
+    UpdateExaminationInterceptor,
+} from 'core/modules/examination/interceptor';
 import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
 import { ExaminationController } from './examination.controller';
 
@@ -19,9 +22,10 @@ export const ExaminationResolver = Module.builder()
             controller: ExaminationController.listMyExaminations,
             model: {
                 type: 'array',
-                $ref: 'ExaminationDto',
+                items: { $ref: 'ExaminationDto' },
             },
-            description: 'Get data about medical visits that the patient or doctor are related to',
+            description:
+                'Get data about medical visits that the patient or doctor are related to',
             preAuthorization: true,
         },
         {
@@ -30,7 +34,8 @@ export const ExaminationResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.getDetailExamination,
-            description: 'Get medical examination data as a patient or doctor. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
+            description:
+                'Get medical examination data as a patient or doctor. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             model: { $ref: 'ExaminationDto' },
             preAuthorization: true,
         },

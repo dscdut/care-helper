@@ -12,8 +12,8 @@ class Repository extends DataRepository {
             { examinationId: 'prescriptions.examination_id' },
             'prescriptions.details',
             'prescriptions.note',
-            { startTime: 'prescriptions.start_time' },
-            { endTime: 'prescriptions.end_time' },
+            { startDate: 'prescriptions.start_date' },
+            { endDate: 'prescriptions.end_date' },
             {
                 prescriptionFilename: 'prescriptions.prescription_filename',
             },
