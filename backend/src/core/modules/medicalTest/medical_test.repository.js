@@ -92,6 +92,17 @@ class Repository extends DataRepository {
                 { doctorId: 'examinations.doctor_id' },
             );
     }
+
+    findByExaminationId(examinationId) {
+        return this.query()
+            .where('tests.examination_id', '=', examinationId)
+            .select(
+                'tests.id',
+                { testRows: 'tests.test_rows' },
+                { examinationId: 'tests.examination_id' },
+                { createdAt: 'tests.created_at' },
+            );
+    }
 }
 
 export const TestRepository = new Repository('tests');

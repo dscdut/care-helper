@@ -107,6 +107,14 @@ class Repository extends DataRepository {
                 { createdAt: 'examinations.created_at' },
             );
     }
+
+    existByIdAndPatientId(id, patientId) {
+        return this.query()
+            .from('examinations')
+            .where('examinations.id', '=', id)
+            .andWhere('examinations.patient_id', '=', patientId)
+            .first();
+    }
 }
 
 export const ExaminationRepository = new Repository('examinations');

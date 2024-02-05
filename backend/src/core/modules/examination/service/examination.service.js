@@ -1,5 +1,6 @@
 import {
     BadRequestException,
+    ForbiddenException,
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
@@ -129,6 +130,11 @@ class Service {
         return ExaminationDto({
             examination: dataExaminations[0],
         });
+    }
+
+    async checkMyExaminationByPatient(examinationId, patientId) {
+        const result = await this.examinationRepository.existByIdAndPatientId(examinationId, patientId);
+        return result;
     }
 }
 

@@ -35,6 +35,13 @@ class Service {
         );
         return PrescriptionDto({ prescription: prescriptions[0] });
     }
+
+    async getPrescriptionsByExaminationId(examinationId) {
+        const prescriptions = await this.prescriptionRepository.findByExaminationId(
+            examinationId,
+        );
+        return prescriptions.map(e => PrescriptionDto({ prescription: e }));
+    }
 }
 
 export const PrescriptionService = new Service();
