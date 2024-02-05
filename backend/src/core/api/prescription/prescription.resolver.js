@@ -36,7 +36,7 @@ export const PrescriptionResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: PrescriptionController.getPrescriptionsByExamination,
-            model: { type: 'array', $ref: 'PrescriptionDto' },
+            model: { type: 'array', items: { $ref: 'PrescriptionDto' } },
             description: 'Get prescriptions data as a patient or doctor by examination id. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             preAuthorization: true,
         },

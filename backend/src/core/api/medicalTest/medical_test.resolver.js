@@ -45,7 +45,7 @@ export const MedicalTestResolver = Module.builder()
             params: [RecordId],
             guards: [hasDoctorOrPatientRole],
             controller: MedicalTestController.getTestsByExamination,
-            model: { type: 'array', $ref: 'MedicalTestDto' },
+            model: { type: 'array', items: { $ref: 'MedicalTestDto' } },
             description: 'Get medical tests data as a patient or doctor by examination id. For patients, you can only get your own medical examination data and cannot view other people \'s data.',
             preAuthorization: true,
         },
