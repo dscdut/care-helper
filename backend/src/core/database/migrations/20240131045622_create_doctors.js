@@ -6,7 +6,7 @@ const tableName = 'doctors';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.string('email').index();
+        table.string('email').unique().index();
         table.string('phone').index();
         table.string('password').defaultTo(DEFAULT_PASSWORD);
         table.string('full_name');

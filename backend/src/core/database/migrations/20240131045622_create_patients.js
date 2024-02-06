@@ -9,7 +9,7 @@ exports.up = async knex => {
         table.increments('id').unsigned().primary();
         table.string('full_name');
         table.string('email').index();
-        table.string('phone').index();
+        table.string('phone').unique().index();
         table.string('password').defaultTo(DEFAULT_PASSWORD);
         table.boolean('active').defaultTo(false);
         table.boolean('locked').defaultTo(false);
