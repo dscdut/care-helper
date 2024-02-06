@@ -24,6 +24,7 @@ exports.seed = async knex => {
         { name: 'Bệnh viện Tâm Trí Đà Nẵng', address: 'Đà Nẵng' },
         { name: 'Bệnh viện quốc tế Vinmec Đà Nẵng', address: 'Đà Nẵng' },
         { name: 'Bệnh viện đa khoa tư nhân Vĩnh Toàn', address: 'Đà Nẵng' },
+        { name: 'Phòng khám tư', address: 'Đà Nẵng' },
     ];
 
     await knex(tableName).insert(hospitals);
