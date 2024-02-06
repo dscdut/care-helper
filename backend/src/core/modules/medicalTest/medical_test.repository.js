@@ -61,6 +61,7 @@ class Repository extends DataRepository {
                 { examinationId: 'tests.examination_id' },
                 { createdAt: 'tests.created_at' },
             )
+            .orderBy('tests.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }
@@ -83,6 +84,7 @@ class Repository extends DataRepository {
                 { examinationId: 'tests.examination_id' },
                 { createdAt: 'tests.created_at' },
             )
+            .orderBy('tests.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }

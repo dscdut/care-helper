@@ -71,6 +71,7 @@ class Repository extends DataRepository {
                 { hospitalName: 'hospitals.name' },
                 { createdAt: 'examinations.created_at' },
             ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .orderBy('examinations.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }
@@ -90,6 +91,7 @@ class Repository extends DataRepository {
                 { hospitalName: 'hospitals.name' },
                 { createdAt: 'examinations.created_at' },
             ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .orderBy('examinations.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }
