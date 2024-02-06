@@ -13,7 +13,6 @@ class Repository extends DataRepository {
     findByPhone(phone) {
         return this.query()
             .whereNull('patients.deleted_at')
-            .where('patients.active', '=', true)
             .where('patients.phone', '=', phone)
             .select(
                 'patients.id',
@@ -28,13 +27,13 @@ class Repository extends DataRepository {
                 { nationalIdCard: 'patients.national_id_card' },
                 'patients.insurance',
                 'patients.profesion',
+                'patients.active'
             );
     }
 
     findById(id) {
         return this.query()
             .whereNull('patients.deleted_at')
-            .where('patients.active', '=', true)
             .where('patients.id', '=', id)
             .select(
                 'patients.id',
@@ -49,6 +48,7 @@ class Repository extends DataRepository {
                 { nationalIdCard: 'patients.national_id_card' },
                 'patients.insurance',
                 'patients.profesion',
+                'patients.active',
             );
     }
 }

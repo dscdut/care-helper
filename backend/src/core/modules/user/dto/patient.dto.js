@@ -7,12 +7,13 @@ ApiDocument.addModel('PatientDto', {
     fullName: SwaggerDocument.ApiProperty({ type: 'string' }),
     gender: SwaggerDocument.ApiProperty({ type: 'string' }),
     phone: SwaggerDocument.ApiProperty({ type: 'string' }),
-    birthday: SwaggerDocument.ApiProperty({ type: 'dateTime' }),
+    birthday: SwaggerDocument.ApiProperty({ type: 'date' }),
     avatar: SwaggerDocument.ApiProperty({ type: 'string' }),
     address: SwaggerDocument.ApiProperty({ type: 'string' }),
     nationalIdCard: SwaggerDocument.ApiProperty({ type: 'string' }),
     insurance: SwaggerDocument.ApiProperty({ type: 'string' }),
     profesion: SwaggerDocument.ApiProperty({ type: 'string' }),
+    active: SwaggerDocument.ApiProperty({ type: 'bool' }),
 });
 
 export const PatientDto = patient => ({
@@ -27,4 +28,5 @@ export const PatientDto = patient => ({
     nationalIdCard: patient.nationalIdCard,
     insurance: patient.insurance,
     profesion: patient.profesion,
+    active: patient.active,
 });
