@@ -30,8 +30,10 @@ export class JoiUtils {
 
     static #PrescriptionDetailSchema = Joi.object({
         medicineName: Joi.string().required(),
+        medicineType: Joi.string().required(),
+        quantity: Joi.number().required(),
+        amount: Joi.string().required(),
         usage: Joi.string().required(),
-        quantity: Joi.string().required(),
     });
 
     static medicineRecord() {
