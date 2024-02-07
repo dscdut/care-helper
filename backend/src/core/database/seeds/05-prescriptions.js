@@ -57,10 +57,10 @@ exports.seed = async knex => {
                     .arrayElements(drugsList, { min: 1, max: 10 })
                     .map(e => ({
                         medicineName: e,
-                        medicineType: 'Viên nén',
-                        quantity: fakerVI.number.int({ max: 300 }),
-                        amount: fakerVI.lorem.sentence({ max: 10 }),
-                        usage: fakerVI.lorem.sentence({ max: 10 }),
+                        medicineType: 'pills',
+                        quantity: fakerEN.number.int({ max: 300 }),
+                        amount: fakerEN.lorem.sentence({ max: 10 }),
+                        usage: fakerEN.lorem.sentence({ max: 10 }),
                     })),
             ),
             note: fakerEN.lorem.sentence(),
