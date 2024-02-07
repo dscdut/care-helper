@@ -111,7 +111,7 @@ class Service {
         });
     }
 
-    async phoneRegister(phone) {
+    async phoneRegister({ phone }) {
         Optional.of(
             await this.userService.findPatientByPhone(phone),
         ).throwIfPresent(
