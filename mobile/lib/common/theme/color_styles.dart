@@ -54,4 +54,12 @@ abstract class ColorStyles {
   // Icon color
   static const Color lightIconColor = Color(0xFF000118);
   static const Color darkIconColor = Colors.white;
+
+  // Primary color
+  static const Color firstPrimaryColor = Color(0xFF112950);
+  static const Color secondPrimaryColor = Color(0xFF5D7EB2);
+
+  // CommonRoundedButton color
+  static const Color congressBlue = Color(0xFF004A99);
+  static const Color mineShaft = Color(0xFF272727);
 }
