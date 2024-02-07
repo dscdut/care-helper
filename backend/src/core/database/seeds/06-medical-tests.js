@@ -6,7 +6,7 @@ import { fakerVI } from '@faker-js/faker';
 import { numExaminations } from './04-examinations';
 
 const tableName = 'tests';
-export const numTests = 60;// You can adjust the number of tests you want to create
+export const numTests = 1200;// You can adjust the number of tests you want to create
 const test_types = [
     { name: 'Huyết áp', unit: 'mmHg' },
     { name: 'Nhiệt độ cơ thể', unit: 'Độ C hoặc Độ F' },
@@ -50,10 +50,27 @@ const test_types = [
 exports.seed = async knex => {
     await knex(tableName).del();
 
+    // Evenly distribute values
+    let shuffledExaminationIds = Array.from(
+        {
+            length: Math.floor(
+                (numExaminations / numTests) * numExaminations,
+            ),
+        },
+        (_, index) => ((index + 1) % numExaminations !== 0 ? ((index + 1) % numExaminations) : numExaminations),
+    );
+    shuffledExaminationIds = shuffledExaminationIds.concat(
+        numTests - shuffledExaminationIds.length > 0
+            ? Array.from(
+                { length: numTests - shuffledExaminationIds.length },
+                (_, index) => fakerVI.number.int({ min: 1, max: numExaminations }),
+            )
+            : [],
+    );
+
     const tests = [];
 
-    // eslint-disable-next-line no-plusplus
-    for (let i = 1; i <= numTests; i++) {
+    for (let i = 1; i <= numTests; i += 1) {
         const test = {
             test_rows: JSON.stringify(
                 fakerVI.helpers.arrayElements(test_types).map(e => ({
@@ -61,10 +78,7 @@ exports.seed = async knex => {
                     value: fakerVI.number.float({ fractionDigits: 1, max: 1000 }),
                 }))
             ),
-            examination_id: fakerVI.number.int({
-                min: 1,
-                max: numExaminations,
-            }), // Assuming examinations are already seeded
+            examination_id: shuffledExaminationIds.splice(shuffledExaminationIds.length * Math.random() || 0, 1)[0],
             created_at: fakerVI.date.past({ years: 10 }),
         };
 

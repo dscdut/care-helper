@@ -8,7 +8,7 @@ import { numDoctors } from './02-doctors';
 import { numHospitals } from './03-hospitals';
 
 const tableName = 'examinations';
-export const numExaminations = 50;// You can adjust the number of examinations you want to create
+export const numExaminations = 1000;// You can adjust the number of examinations you want to create
 exports.seed = async knex => {
     await knex(tableName).del();
 
