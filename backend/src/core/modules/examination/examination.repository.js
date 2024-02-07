@@ -45,8 +45,8 @@ class Repository extends DataRepository {
             .select(
                 'examinations.id',
                 'examinations.diagnose',
-                'examinations.detail_diagnose',
                 'examinations.advice',
+                { detailDiagnose: 'examinations.detail_diagnose' },
                 { doctorId: 'examinations.doctor_id' },
                 { patientId: 'examinations.patient_id' },
                 { hospitalId: 'examinations.hospital_id' },
