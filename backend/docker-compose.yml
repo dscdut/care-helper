@@ -46,7 +46,7 @@ services:
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=care-helper
+            - POSTGRES_DB=carehelper-mvp
         ports:
             - '5432:5432'
         networks:

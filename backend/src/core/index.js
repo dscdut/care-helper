@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import { SecurityFilter } from 'packages/authModel/core/security/SecurityFilter';
 import { ApiDocument } from 'core/config/swagger.config';
 import * as Sentry from '@sentry/node';
@@ -7,10 +8,11 @@ import { HttpExceptionFilter } from '../packages/httpException/HttpExceptionFilt
 import { InvalidUrlFilter } from '../packages/handler/filter/InvalidUrlFilter';
 import { AppBundle } from './config';
 import { ModuleResolver } from './api';
-import { SENTRY_DSN } from './env';
+import { CLIENT_URL, SENTRY_DSN } from './env';
 
 const app = express();
 
+app.use(cors({ origin: CLIENT_URL }));
 Sentry.init({
     dsn: SENTRY_DSN,
 });
