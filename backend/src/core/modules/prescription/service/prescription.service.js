@@ -1,13 +1,10 @@
-import {
-    InternalServerException,
-    NotFoundException,
-} from 'packages/httpException';
+import { InternalServerException } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
+import { MessageDto } from 'core/common/dto';
 import { MESSAGE } from './message.enum';
 import { PrescriptonRepository } from '../repository';
 import { PrescriptionDto } from '../dto/prescription.dto';
-import { CreatePrescriptionResponseDto } from '../dto/prescription.create.response.dto';
 
 class Service {
     constructor() {
@@ -26,8 +23,8 @@ class Service {
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
-        return CreatePrescriptionResponseDto({
+        await trx.commit();
+        return MessageDto({
             message: MESSAGE.PRESCRIPTION_CREATED,
         });
     }
@@ -36,11 +33,14 @@ class Service {
         const prescriptions = await this.prescriptionRepository.findById(
             prescriptionId,
         );
-        if (prescriptions.length > 0)
-            return PrescriptionDto({ prescription: prescriptions[0] });
-        throw new NotFoundException(
-            `Cannot find prescription with id ${prescriptionId}`,
+        return PrescriptionDto({ prescription: prescriptions[0] });
+    }
+
+    async getPrescriptionsByExaminationId(examinationId) {
+        const prescriptions = await this.prescriptionRepository.findByExaminationId(
+            examinationId,
         );
+        return prescriptions.map(e => PrescriptionDto({ prescription: e }));
     }
 }
 

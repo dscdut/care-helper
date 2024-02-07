@@ -28,11 +28,7 @@ export type LoginReqBody = {
   password: string
 }
 
-export type RegisterReqBody = LoginReqBody & {
-  phone: string
-  fullName: string
-  role: string
-}
+export type RegisterReqBody = LoginReqBody
 
 export type AuthErrorResponse = {
   message: string

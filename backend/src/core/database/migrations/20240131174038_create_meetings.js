@@ -7,8 +7,8 @@ exports.up = async knex => {
         table.increments('id').unsigned().primary();
         table.dateTime('start_time');
         table.datetime('end_time');
-        table.string('place',255);
-        table.string('note',512);
+        table.string('place', 255);
+        table.string('note', 512);
         table
             .integer('doctor_id')
             .unsigned()
@@ -40,7 +40,7 @@ exports.up = async knex => {
 /**
  * @param { import("knex").Knex } knex
  */
-exports.down = async knex=>{
+exports.down = async knex => {
     await knex.schema.dropTable(tableName);
     await knex.raw(`DROP TRIGGER IF EXISTS update_timestamp ON ${tableName};`);
 };
