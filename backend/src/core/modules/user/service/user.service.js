@@ -1,23 +1,23 @@
-import { Role } from 'core/common/enum';
-import { UserRepository } from 'core/modules/user/repository/user.repository';
 import { Optional, logger } from 'core/utils';
 import { getTransaction } from 'core/database';
 import {
     DuplicateException,
     InternalServerException,
+    NotFoundException,
 } from 'packages/httpException';
 import { DoctorRepository, PatientRepository } from '../repository';
+import { DoctorDto } from '../dto/doctor.dto';
+import { PatientDto } from '../dto/patient.dto';
 
 class Service {
     constructor() {
-        this.userRepository = UserRepository;
         this.patientRepository = PatientRepository;
         this.doctorRepository = DoctorRepository;
     }
 
     async findDoctorByEmail(email) {
         try {
-            const data = await this.userRepository.findDoctorByEmail(email);
+            const data = await this.doctorRepository.findByEmail(email);
             return data[0];
         } catch (error) {
             logger.error(error.message);
@@ -25,11 +25,31 @@ class Service {
         }
     }
 
+    async findDoctorById(id) {
+        try {
+            const data = await this.doctorRepository.findById(id);
+            if (data.length > 0) return data[0];
+        } catch (error) {
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+        throw new NotFoundException(`Cannot find doctor with id ${id}`);
+    }
+
+    async findPatientById(id) {
+        try {
+            const data = await this.patientRepository.findById(id);
+            if (data.length > 0) return data[0];
+        } catch (error) {
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+        throw new NotFoundException(`Cannot find patient with id ${id}`);
+    }
+
     async findPatientByPhone(phoneNumber) {
         try {
-            const data = await this.userRepository.findPatientByPhone(
-                phoneNumber,
-            );
+            const data = await this.patientRepository.findByPhone(phoneNumber);
             return data[0];
         } catch (error) {
             logger.error(error.message);
@@ -38,63 +58,76 @@ class Service {
     }
 
     async addDoctor(doctorRegisterDto) {
-        if (doctorRegisterDto.email)
+        if (doctorRegisterDto.email) {
             Optional.of(
                 await this.findDoctorByEmail(doctorRegisterDto.email),
             ).throwIfPresent(
                 new DuplicateException('This email is already existed'),
             );
+        }
         const trx = await getTransaction();
-        doctorRegisterDto.role = Role.DOCTOR;
+        let doctorId;
         try {
-            const {
-                quota_code,
-                expertise,
-                experience,
-                work_unit,
-                certificate,
-                ...user
-            } = doctorRegisterDto;
-            let doctor = {
-                quota_code,
-                expertise,
-                experience,
-                work_unit,
-                certificate,
-            };
-            const returnData = await this.userRepository.createUser(user, trx);
-            doctor = { user_id: returnData[0].id, ...doctor };
-            await this.doctorRepository.upsertDoctor(doctor, trx);
+            const returnData = await this.doctorRepository.upsertDoctor(
+                doctorRegisterDto,
+                trx,
+            );
+            doctorId = returnData[0].id;
         } catch (error) {
             await trx.rollback();
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
+        return doctorId;
+    }
+
+    async updateDoctor(doctorUpdate) {
+        let doctor = await this.doctorRepository.findById(doctorUpdate.id);
+        if (doctor.length === 0) {
+            throw new NotFoundException('Cannot find your account');
+        }
+        const trx = await getTransaction();
+        try {
+            await this.doctorRepository.upsertDoctor(doctorUpdate, trx);
+        } catch (error) {
+            await trx.rollback();
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+        await trx.commit();
+        doctor = await this.doctorRepository.findById(doctorUpdate.id);
+        return DoctorDto(doctor[0]);
     }
 
     async addPatient(patientRegisterDto) {
-        if (patientRegisterDto.phone)
-            Optional.of(
-                await this.findPatientByPhone(patientRegisterDto.phone),
-            ).throwIfPresent(
-                new DuplicateException('This phone number is already existed'),
-            );
         const trx = await getTransaction();
-        patientRegisterDto.role = Role.PATIENT;
         try {
-            const { national_id_card, insurance, profesion, ...user } =
-                patientRegisterDto;
-            let patient = { national_id_card, insurance, profesion };
-            const returnData = await this.userRepository.createUser(user, trx);
-            patient = { user_id: returnData[0].id, ...patient };
-            await this.patientRepository.upsertPatient(patient, trx);
+            await this.patientRepository.upsertPatient(patientRegisterDto, trx);
         } catch (error) {
             await trx.rollback();
             logger.error(error.message);
             throw new InternalServerException();
         }
-        trx.commit();
+        await trx.commit();
+    }
+
+    async updatePatient(patientUpdate) {
+        let patient = await this.patientRepository.findById(patientUpdate.id);
+        if (patient.length === 0) {
+            throw new NotFoundException('Cannot find your account');
+        }
+        const trx = await getTransaction();
+        try {
+            await this.patientRepository.upsertPatient(patientUpdate, trx);
+        } catch (error) {
+            await trx.rollback();
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+        await trx.commit();
+        patient = await this.patientRepository.findById(patientUpdate.id);
+        return PatientDto(patient[0]);
     }
 }
 

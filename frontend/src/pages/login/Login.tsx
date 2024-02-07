@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Schema, schema } from 'src/utils/rules'
+import { AuthSchema, authSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Input from 'src/components/input/Input'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,19 +10,19 @@ import { AuthErrorResponse, LoginReqBody } from 'src/types/auth.type'
 import authApi from 'src/apis/auth.api'
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
-import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { AUTH_FIELD_NAME } from 'src/constants/common'
+import { AUTH_MESSAGES } from 'src/constants/message'
+import { isAxiosError } from 'src/utils/utils'
 
 export interface LoginProps {}
 
-type SchemaLogin = Pick<Schema, typeof AUTH_FIELD_NAME.email | typeof AUTH_FIELD_NAME.password>
-const schemaLogin = schema.pick([AUTH_FIELD_NAME.email, AUTH_FIELD_NAME.password])
+type SchemaLogin = Omit<AuthSchema, typeof AUTH_FIELD_NAME.confirmPassword>
+const schemaLogin = authSchema.omit([AUTH_FIELD_NAME.confirmPassword])
 
 export default function Login(props: LoginProps) {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<SchemaLogin>({
     defaultValues: {
@@ -35,23 +35,15 @@ export default function Login(props: LoginProps) {
   const loginMutation = useMutation({
     mutationFn: (body: LoginReqBody) => authApi.login(body),
     onSuccess: (data) => {
-      toast.success('Login successfully.', {
+      toast.success(AUTH_MESSAGES.LOGIN_SUCCESS, {
         progressClassName: 'bg-primary'
       })
       setIsAuthenticated(true)
       navigate(path.home)
     },
     onError: (error) => {
-      if (isAxiosUnprocessableEntityError<AuthErrorResponse>(error)) {
-        const formError = error.response?.data.detail
-        if (formError && formError.length > 0) {
-          formError.forEach((error) => {
-            setError(error.type as keyof SchemaLogin, {
-              message: error.message,
-              type: 'Server'
-            })
-          })
-        }
+      if (isAxiosError<AuthErrorResponse>(error)) {
+        toast.error(error.response?.data.message)
       }
     }
   })
@@ -66,13 +58,13 @@ export default function Login(props: LoginProps) {
       </h1>
       <div className='w-full'>
         <form className='flex flex-col gap-1' onSubmit={handleSubmit(onSubmit)}>
-          <Input<Pick<Schema, 'email'>>
+          <Input<Pick<AuthSchema, 'email'>>
             register={register}
             name='email'
             placeholder='Email'
             errorMessage={errors.email?.message}
           />
-          <Input<Pick<Schema, 'password'>>
+          <Input<Pick<AuthSchema, 'password'>>
             register={register}
             name='password'
             placeholder='Password'

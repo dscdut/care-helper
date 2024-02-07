@@ -6,5 +6,6 @@ export const PASSWORD_LENGTH = {
 export const PHONE_REGEX = /^[0-9]+$/
 export const AUTH_FIELD_NAME = {
   email: 'email',
-  password: 'password'
+  password: 'password',
+  confirmPassword: 'confirmPassword'
 } as const

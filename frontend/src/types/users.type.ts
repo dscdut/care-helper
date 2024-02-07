@@ -1,12 +1,14 @@
 export type User = {
   id: number
-  fullName: string
-  gender: string | null
   email: string
-  password: string
-  phone: string
-  birthday: string | null
-  avatar: string | null
-  address: string | null
-  role: string
+  fullName: string | null
+  phone: string | null
+  quotaCode: string | null
+  expertise: string | null
+  experience: string | null
+  workUnit: string | null
+  certificateName: string | null
+  certificateNumber: string | null
+  certificateProvider: string | null
+  active: boolean
 }

@@ -1,8 +1,13 @@
 import { AuthService } from 'core/modules/auth/service/auth.service';
-import { DoctorLoginDto, PatientLoginDto } from 'core/modules/auth';
+import {
+    DoctorLoginDto,
+    DoctorRegisterDto,
+    OtpVerifyDto,
+    PatientLoginDto,
+    PhoneDto,
+    PhoneVerifiedRegisterDto,
+} from 'core/modules/auth';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
-import { PatientRegisterDto } from 'core/modules/auth/dto/patient.register.dto';
-import { DoctorRegisterDto } from 'core/modules/auth/dto/doctor.register.dto';
 
 class Controller {
     constructor() {
@@ -19,9 +24,19 @@ class Controller {
         return ValidHttpResponse.toOkResponse(data);
     };
 
+    phoneRegister = async req => {
+        const data = await this.service.phoneRegister(PhoneDto(req.body));
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
+    verifyOTP = async req => {
+        const data = await this.service.otpVerify(OtpVerifyDto(req.body));
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
     patientRegister = async req => {
         const data = await this.service.patientRegister(
-            PatientRegisterDto(req.body),
+            PhoneVerifiedRegisterDto(req.body),
         );
         return ValidHttpResponse.toOkResponse(data);
     };

@@ -1,0 +1,1 @@
+export * from './drug.service';

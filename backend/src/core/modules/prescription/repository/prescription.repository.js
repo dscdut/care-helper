@@ -12,12 +12,28 @@ class Repository extends DataRepository {
             { examinationId: 'prescriptions.examination_id' },
             'prescriptions.details',
             'prescriptions.note',
-            { startTime: 'prescriptions.start_time' },
-            { endTime: 'prescriptions.end_time' },
+            { startDate: 'prescriptions.start_date' },
+            { endDate: 'prescriptions.end_date' },
             {
                 prescriptionFilename: 'prescriptions.prescription_filename',
             },
         );
+    }
+
+    findByExaminationId(examinationId) {
+        return this.query()
+            .where('prescriptions.examination_id', '=', examinationId)
+            .select(
+                'prescriptions.id',
+                { examinationId: 'prescriptions.examination_id' },
+                'prescriptions.details',
+                'prescriptions.note',
+                { startDate: 'prescriptions.start_date' },
+                { endDate: 'prescriptions.end_date' },
+                {
+                    prescriptionFilename: 'prescriptions.prescription_filename',
+                },
+            );
     }
 }
 

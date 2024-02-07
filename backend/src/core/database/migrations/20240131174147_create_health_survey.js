@@ -7,7 +7,7 @@ const tableName = 'health_survey';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.enu('status',Object.values(FormStatus)).defaultTo(FormStatus.WAITING);
+        table.enu('status', Object.values(FormStatus)).defaultTo(FormStatus.WAITING);
         table.text('form');
         table
             .integer('doctor_id')
@@ -40,7 +40,7 @@ exports.up = async knex => {
 /**
  * @param { import("knex").Knex } knex
  */
-exports.down = async knex=>{
+exports.down = async knex => {
     await knex.schema.dropTable(tableName);
     await knex.raw(`DROP TRIGGER IF EXISTS update_timestamp ON ${tableName};`);
 };

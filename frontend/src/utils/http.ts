@@ -64,14 +64,14 @@ export class Http {
       },
       (error: AxiosError) => {
         // Chỉ toast lỗi không phải 422 và 401
-        if (
-          ![HttpStatusCode.UnprocessableEntity, HttpStatusCode.Unauthorized].includes(error.response?.status as number)
-        ) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const data: any | undefined = error.response?.data
-          const message = data?.message || error.message
-          toast.error(message)
-        }
+        // if (
+        //   ![HttpStatusCode.UnprocessableEntity, HttpStatusCode.Unauthorized].includes(error.response?.status as number)
+        // ) {
+        //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        //   const data: any | undefined = error.response?.data
+        //   const message = data?.message || error.message
+        //   toast.error(message)
+        // }
 
         // Lỗi Unauthorized (401) có rất nhiều trường hợp
         // - Token không đúng
