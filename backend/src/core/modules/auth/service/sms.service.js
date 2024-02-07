@@ -22,7 +22,7 @@ class SMSServiceImpl {
 
     async getOtpAndToken(phone) {
         const otp = this.#generateOTP(phone);
-        const token = this.jwtService.sign(phone, this.otpTokenExpiresIn);
+        const token = this.jwtService.sign({ phone }, this.otpTokenExpiresIn);
         await this.otpRepository.addOTP(otp, token);
         return { otp, token };
     }

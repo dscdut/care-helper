@@ -25,7 +25,7 @@ class Controller {
     };
 
     phoneRegister = async req => {
-        const data = await this.service.phoneRegister(PhoneDto(req.body.phone));
+        const data = await this.service.phoneRegister(PhoneDto(req.body));
         return ValidHttpResponse.toOkResponse(data);
     };
 

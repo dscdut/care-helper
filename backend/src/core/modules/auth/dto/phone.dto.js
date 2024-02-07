@@ -5,4 +5,4 @@ ApiDocument.addModel('PhoneDto', {
     phone: SwaggerDocument.ApiProperty({ type: 'string' }),
 });
 
-export const PhoneDto = phone => phone;
+export const PhoneDto = ({ phone }) => ({ phone });
