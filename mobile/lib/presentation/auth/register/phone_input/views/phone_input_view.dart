@@ -13,12 +13,13 @@ class PhoneInputView extends StatefulWidget {
 
 class _PhoneInputViewState extends State<PhoneInputView> {
   bool _validate = false;
+  final TextEditingController _phoneController = TextEditingController();
 
   _onSubmitPhone(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return const PinAuthenView();
+          return PinAuthenView(phoneNumber: _phoneController.text);
         },
       ),
     );
@@ -39,11 +40,11 @@ class _PhoneInputViewState extends State<PhoneInputView> {
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey[300]!,
-                  width: 1.0,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: TextFormField(
+                controller: _phoneController,
                 decoration: InputDecoration(
                   label: const Text('So dien thoai'),
                   hintStyle: TextStyle(color: Colors.grey[400]),

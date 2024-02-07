@@ -6,7 +6,9 @@ import 'package:flutter_template/presentation/widgets/header.dart';
 import 'package:flutter_template/presentation/auth/register/new_password/new_password.dart';
 
 class PinAuthenView extends StatefulWidget {
-  const PinAuthenView({super.key});
+  const PinAuthenView({Key? key, required this.phoneNumber}) : super(key: key);
+
+  final String phoneNumber;
 
   @override
   State<PinAuthenView> createState() => _PinAuthenViewState();
@@ -57,9 +59,9 @@ class _PinAuthenViewState extends State<PinAuthenView> {
     return Scaffold(
       body: Column(
         children: [
-          const Header(
+          Header(
             heading1: 'Xac thuc',
-            heading2: '6 chu so da duoc gui den',
+            heading2: '6 chu so da duoc gui den ${widget.phoneNumber}',
           ),
           const SizedBox(height: 24),
           Form(
@@ -154,14 +156,17 @@ class _PinAuthenViewState extends State<PinAuthenView> {
                   ),
                 ),
                 const SizedBox(height: 28),
-                CustomButton(
-                    label: 'Tiep tuc',
-                    onPressed: () {
-                      focusNode.unfocus();
-                      formKey.currentState!.validate()
-                          ? _handleCorrectPin(context)
-                          : null;
-                    }),
+                Container(
+                  margin: const EdgeInsets.only(left: 16, right: 16),
+                  child: CustomButton(
+                      label: 'Tiep tuc',
+                      onPressed: () {
+                        focusNode.unfocus();
+                        formKey.currentState!.validate()
+                            ? _handleCorrectPin(context)
+                            : null;
+                      }),
+                ),
               ],
             ),
           ),
