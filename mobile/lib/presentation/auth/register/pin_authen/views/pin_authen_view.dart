@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/constants/endpoints.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinput/pinput.dart';
 
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
@@ -19,6 +22,7 @@ class _PinAuthenViewState extends State<PinAuthenView> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
+  final dio = Dio();
 
   @override
   void dispose() {
@@ -27,7 +31,20 @@ class _PinAuthenViewState extends State<PinAuthenView> {
     super.dispose();
   }
 
+  Future<void> _verifyOtp() async {
+    try {
+      final registerBox = await Hive.openBox('registerBox');
+      final token = registerBox.get('token');
+      final response = await dio.post(Endpoints.authVerifyOtp,
+          data: {'token': token, 'otp': '000000'});
+      print('verify otp response status code: ${response.statusCode}');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   _handleCorrectPin(BuildContext context) {
+    _verifyOtp();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
@@ -79,7 +96,7 @@ class _PinAuthenViewState extends State<PinAuthenView> {
                     defaultPinTheme: defaultPinTheme,
                     separatorBuilder: (index) => const SizedBox(width: 8),
                     validator: (value) {
-                      return value == '222222' ? null : 'Ma pin sai';
+                      return value == '000000' ? null : 'Ma pin sai';
                     },
                     hapticFeedbackType: HapticFeedbackType.lightImpact,
                     onCompleted: (pin) {

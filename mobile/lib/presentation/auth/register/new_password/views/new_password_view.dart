@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
+import 'package:hive/hive.dart';
 
 class NewPasswordView extends StatefulWidget {
   const NewPasswordView({super.key});
@@ -15,6 +18,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool isMatch = true;
+  final dio = Dio();
 
   @override
   void initState() {
@@ -26,6 +30,20 @@ class _NewPasswordViewState extends State<NewPasswordView> {
     setState(() {
       isMatch = _passwordController.text == _confirmPasswordController.text;
     });
+  }
+
+  Future<void> _onPatientRegister() async {
+    try {
+      final registerBox = await Hive.openBox('registerBox');
+      final token = registerBox.get('token');
+      final response = await dio.post(Endpoints.patientRegister, data: {
+        'token': token,
+        'password': _passwordController.text,
+      });
+      print('register response status code: ${response.statusCode}');
+    } catch (e) {
+      print('error: $e');
+    }
   }
 
   @override
@@ -52,7 +70,6 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey[300]!,
-                      width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -81,7 +98,6 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey[300]!,
-                      width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -107,7 +123,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
             margin: const EdgeInsets.only(left: 16, right: 16),
             child: CustomButton(
               label: 'Tiep tuc',
-              onPressed: () {},
+              onPressed: () => _onPatientRegister(),
             ),
           ),
         ],

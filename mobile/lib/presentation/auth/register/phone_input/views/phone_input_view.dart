@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/constants/endpoints.dart';
 
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
 import 'package:flutter_template/presentation/auth/register/pin_authen/pin_authen.dart';
+import 'package:hive/hive.dart';
 
 class PhoneInputView extends StatefulWidget {
   const PhoneInputView({super.key});
@@ -14,8 +17,22 @@ class PhoneInputView extends StatefulWidget {
 class _PhoneInputViewState extends State<PhoneInputView> {
   bool _validate = false;
   final TextEditingController _phoneController = TextEditingController();
+  final dio = Dio();
+
+  Future<void> _getToken() async {
+    try {
+      final response = await dio
+          .post(Endpoints.authOtp, data: {'phone': _phoneController.text});
+      final token = response.data['token'];
+      final registerBox = await Hive.openBox('registerBox');
+      registerBox.put('token', token);
+    } catch (e) {
+      print('error: $e');
+    }
+  }
 
   _onSubmitPhone(BuildContext context) {
+    _getToken();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
