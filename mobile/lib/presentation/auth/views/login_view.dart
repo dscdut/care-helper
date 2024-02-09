@@ -1,99 +1,117 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_template/common/extensions/context_extension.dart';
-import 'package:flutter_template/common/extensions/string_extension.dart';
-import 'package:flutter_template/common/theme/app_size.dart';
-import 'package:flutter_template/common/utils/toast_util.dart';
-import 'package:flutter_template/data/repositories/user_repository.dart';
-import 'package:flutter_template/di/di.dart';
-import 'package:flutter_template/generated/locale_keys.g.dart';
-import 'package:flutter_template/presentation/auth/bloc/auth/auth_bloc.dart';
-import 'package:flutter_template/presentation/auth/bloc/login/login_bloc.dart';
-import 'package:flutter_template/presentation/auth/widgets/login_form.dart';
-import 'package:flutter_template/presentation/widgets/common_rounded_button.dart';
+import 'package:flutter_template/common/theme/color_styles.dart';
+import 'package:flutter_template/presentation/auth/views/pin_authen_view.dart';
+import 'package:flutter_template/presentation/auth/widgets/custom_button_widget.dart';
+import 'package:flutter_template/presentation/auth/widgets/header_phone_input_widget.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LoginBloc(
-        authBloc: context.read<AuthBloc>(),
-        userRepository: getIt.get<UserRepository>(),
-      ),
-      child: BlocListener<LoginBloc, LoginState>(
-        listener: _listenLoginStateChanged,
-        child: _LoginView(),
-      ),
-    );
-  }
-
-  void _listenLoginStateChanged(BuildContext context, LoginState state) {
-    if (state is LoginNotSuccess && state.error.isNullOrEmpty) {
-      ToastUtil.showError(
-        context,
-      );
-    }
-  }
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginView extends StatelessWidget {
-  _LoginView();
+class _LoginViewState extends State<LoginView> {
+  bool _validate = false;
+  final TextEditingController _phoneController = TextEditingController();
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailEditController = TextEditingController();
-  final TextEditingController _passwordEditController = TextEditingController();
-
-  void _submitLogin(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      context.read<LoginBloc>().add(
-            LoginSubmit(
-              email: _emailEditController.text,
-              password: _passwordEditController.text,
-            ),
-          );
+  _onTapForgotPassword() {
+    if (_phoneController.text.isEmpty) {
+      setState(() {
+        _validate = true;
+      });
+    } else if (_phoneController.text.length == 10) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const PinAuthenView(
+            phoneNumber: '2222',
+          ),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
+      body: Column(
+        children: [
+          const HeaderPhoneInputWidget(
+            heading1: 'Dang nhap',
+            heading2: 'Nhap so dien thoai va mat khau',
+          ),
+          Form(
             child: Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: AppSize.horizontalSpacing,
-              ),
+              margin: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    LocaleKeys.auth_welcome_back.tr(),
-                    style: context.bodyLarge,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextFormField(
+                      controller: _phoneController,
+                      decoration: InputDecoration(
+                        label: const Text('So dien thoai'),
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        contentPadding: const EdgeInsets.all(12),
+                        border: InputBorder.none,
+                        errorText: _validate ? 'Phai nhap du 10 so' : null,
+                      ),
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {
+                        setState(() {
+                          _validate = value.length != 10;
+                        });
+                      },
+                    ),
                   ),
-                  LoginForm(
-                    formKey: _formKey,
-                    emailEditController: _emailEditController,
-                    passwordEditController: _passwordEditController,
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        label: const Text('Mat khau'),
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        contentPadding: const EdgeInsets.all(12),
+                        border: InputBorder.none,
+                      ),
+                    ),
                   ),
-                  BlocBuilder<LoginBloc, LoginState>(
-                    builder: (context, state) {
-                      return CommonRoundedButton(
-                        onPressed: () => _submitLogin(context),
-                        isLoading: state is LoginLoading,
-                        content: LocaleKeys.auth_sign_in.tr(),
-                        width: double.infinity,
-                      );
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => _onTapForgotPassword(),
+                        child: const Text(
+                          'Quen mat khau?',
+                          style: TextStyle(color: ColorStyles.blue700),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
-        ),
+          const SizedBox(height: 28),
+          Container(
+            margin: const EdgeInsets.only(left: 16, right: 16),
+            child: CustomButtonWidget(
+              label: 'Dang nhap',
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
