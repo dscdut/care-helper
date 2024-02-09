@@ -3,10 +3,9 @@
  */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { fakerVI } from '@faker-js/faker';
-import { numExaminations } from './04-examinations';
+import { numPatients } from './02-patients';
 
 const tableName = 'medical_histories';
-export const numPatients = 100;
 
 exports.seed = async knex => {
     await knex(tableName).del();

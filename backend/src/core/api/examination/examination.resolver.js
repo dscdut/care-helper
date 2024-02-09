@@ -1,5 +1,7 @@
 import { Module } from 'packages/handler/Module';
-import { RecordId, page, size } from 'core/common/swagger';
+import {
+    RecordId, keyword, page, size
+} from 'core/common/swagger';
 import {
     CreateExaminationInterceptor,
     UpdateExaminationInterceptor,
@@ -17,7 +19,7 @@ export const ExaminationResolver = Module.builder()
         {
             route: '/my-examinations',
             method: 'get',
-            params: [page, size],
+            params: [page, size, keyword],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.listMyExaminations,
             model: { $ref: 'PaginationExaminationDto' },
