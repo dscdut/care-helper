@@ -2,6 +2,8 @@ import { ValidHttpResponse } from 'packages/handler/response/validHttp.response'
 import { PatientUpdateDto, UserService } from 'core/modules/user';
 import { DEFAULT_KEYWORD, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
 import { PatientService } from 'core/modules/patient';
+import { Role } from 'core/common/enum';
+import { ForbiddenException } from 'packages/httpException';
 
 class Controller {
     constructor() {
@@ -10,7 +12,13 @@ class Controller {
     }
 
     getPatientById = async req => {
-        const data = await this.service.findPatientById(req.params.id);
+        const userId = req.user.payload.id;
+        const userRole = req.user.payload.role;
+        const patientId = req.params.id;
+        if (userRole === Role.PATIENT && userId !== patientId) {
+            throw new ForbiddenException(`You do not have access to the patient id = ${patientId} `);
+        }
+        const data = await this.service.findPatientById(patientId);
         return ValidHttpResponse.toOkResponse(data);
     };
 

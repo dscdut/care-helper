@@ -20,6 +20,8 @@ exports.up = async knex => {
         table.string('national_id_card', 20);
         table.string('insurance', 20);
         table.string('profesion');
+        table.integer('height');
+        table.float('weight', 1);
         table.dateTime('deleted_at').defaultTo(null);
         table.timestamps(false, true);
     });
