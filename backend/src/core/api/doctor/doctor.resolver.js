@@ -1,5 +1,7 @@
 import { Module } from 'packages/handler/Module';
-import { RecordId } from 'core/common/swagger';
+import {
+    RecordId, keyword, page, size
+} from 'core/common/swagger';
 import { DoctorVerifyInterceptor } from 'core/modules/user/interceptor/doctor.verify.interceptor';
 import { DoctorController } from './doctor.controller';
 
@@ -16,6 +18,14 @@ export const DoctorResolver = Module.builder()
             params: [RecordId],
             controller: DoctorController.getDoctorById,
             model: { $ref: 'DoctorDto' },
+        },
+        {
+            route: '',
+            method: 'get',
+            params: [page, size, keyword],
+            controller: DoctorController.searchDoctor,
+            model: { $ref: 'PaginationDoctorDto' },
+            description: 'Everyone can search for doctors by name, phone number, quota code, work unit, expertise through keywords.'
         },
         {
             route: '/',

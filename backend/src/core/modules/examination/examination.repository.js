@@ -56,9 +56,10 @@ class Repository extends DataRepository {
             ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id');
     }
 
-    findJoinHospitalByDoctorId(doctorId, offset, pageSize) {
+    findJoinHospitalByDoctorIdAndKeyword(doctorId, offset, pageSize, keyword) {
         return this.query()
             .where('examinations.doctor_id', '=', doctorId)
+            .andWhereRaw(`(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`)
             .select(
                 'examinations.id',
                 'examinations.diagnose',
@@ -70,15 +71,24 @@ class Repository extends DataRepository {
                 { hospitalAddress: 'hospitals.address' },
                 { hospitalName: 'hospitals.name' },
                 { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+                { doctorName: 'doctors.full_name' },
+                { doctorPhone: 'doctors.phone' },
+                { patientName: 'patients.full_name' },
+                { patientPhone: 'patients.phone' },
+            )
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .leftJoin('patients', 'patients.id', 'examinations.patient_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
             .orderBy('examinations.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }
 
-    findJoinHospitalByPatientId(patientId, offset, pageSize) {
+    findJoinHospitalByPatientIdAndKeyword(patientId, offset, pageSize, keyword) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
+            .andWhereRaw(`(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
+            or hospitals.name ilike '%${keyword}%')`)
             .select(
                 'examinations.id',
                 'examinations.diagnose',
@@ -90,22 +100,39 @@ class Repository extends DataRepository {
                 { hospitalAddress: 'hospitals.address' },
                 { hospitalName: 'hospitals.name' },
                 { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+                { doctorName: 'doctors.full_name' },
+                { doctorPhone: 'doctors.phone' },
+                { patientName: 'patients.full_name' },
+                { patientPhone: 'patients.phone' },
+            )
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .leftJoin('patients', 'patients.id', 'examinations.patient_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
             .orderBy('examinations.created_at', 'desc')
             .offset(offset)
             .limit(pageSize);
     }
 
-    countByPatientId(patientId) {
+    countByPatientIdAndKeyword(patientId, keyword) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
-            .count('id').first();
+            .leftJoin('patients', 'patients.id', 'examinations.patient_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .andWhereRaw(`(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
+            or hospitals.name ilike '%${keyword}%')`)
+            .count('examinations.id')
+            .first();
     }
 
-    countByDoctorId(doctorId) {
+    countByDoctorIdAndKeyword(doctorId, keyword) {
         return this.query()
             .where('examinations.doctor_id', '=', doctorId)
-            .count('id').first();
+            .leftJoin('patients', 'patients.id', 'examinations.patient_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
+            .andWhereRaw(`(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`)
+            .count('examinations.id')
+            .first();
     }
 
     findById(id) {

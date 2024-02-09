@@ -8,7 +8,7 @@ import { logger } from 'packages/logger';
 import { FOREIGN_KEY_CONSTRAINT_VIOLATION } from 'core/common/exceptions/constants';
 import { ExaminationRepository } from '../examination.repository';
 import { HospitalRepository } from '../../hospital/hospital.repository';
-import { PaginationExaminationDto, ExaminationDto } from '../dto';
+import { PaginationExaminationDto, ExaminationDto, InforExaminationDto } from '../dto';
 
 class Service {
     constructor() {
@@ -98,35 +98,37 @@ class Service {
         }
     }
 
-    async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
+    async getPaginationByDoctorId(doctorId, page = 1, pageSize = 10, keyword = '') {
         const offset = (page - 1) * pageSize;
-        const total = await this.examinationRepository.countByDoctorId(
-            doctorId,
+        const total = await this.examinationRepository.countByDoctorIdAndKeyword(
+            doctorId, keyword
         );
-        const dataExaminations = await this.examinationRepository.findJoinHospitalByDoctorId(
+        const dataExaminations = await this.examinationRepository.findJoinHospitalByDoctorIdAndKeyword(
             doctorId,
             offset,
             pageSize,
+            keyword
         );
         return PaginationExaminationDto({
-            content: dataExaminations.map(e => ExaminationDto({ examination: e })),
+            content: dataExaminations.map(e => InforExaminationDto(e)),
             pageSize,
             total: total.count,
         });
     }
 
-    async getPaginationByPatientId(patientId, page = 1, pageSize = 10) {
+    async getPaginationByPatientId(patientId, page = 1, pageSize = 10, keyword = '') {
         const offset = (page - 1) * pageSize;
-        const total = await this.examinationRepository.countByPatientId(
-            patientId,
+        const total = await this.examinationRepository.countByPatientIdAndKeyword(
+            patientId, keyword
         );
-        const dataExaminations = await this.examinationRepository.findJoinHospitalByPatientId(
+        const dataExaminations = await this.examinationRepository.findJoinHospitalByPatientIdAndKeyword(
             patientId,
             offset,
             pageSize,
+            keyword
         );
         return PaginationExaminationDto({
-            content: dataExaminations.map(e => ExaminationDto({ examination: e })),
+            content: dataExaminations.map(e => InforExaminationDto(e)),
             pageSize,
             total: total.count,
         });
