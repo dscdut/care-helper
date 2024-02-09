@@ -12,11 +12,20 @@ class Controller {
     };
 
     updatePatient = async req => {
-        const data = await this.service.updatePatient(PatientUpdateDto({
-            id: req.user.payload.id,
-            active: true,
-            ...(req.body),
-        }));
+        const data = await this.service.updatePatient(
+            PatientUpdateDto({
+                id: req.user.payload.id,
+                active: true,
+                ...req.body,
+            }),
+        );
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
+    getPatientsOfDoctor = async req => {
+        const data = await this.service.findPatientsByDoctorId(
+            req.user.payload.id,
+        );
         return ValidHttpResponse.toOkResponse(data);
     };
 }

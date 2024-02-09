@@ -129,6 +129,16 @@ class Service {
         patient = await this.patientRepository.findById(patientUpdate.id);
         return PatientDto(patient[0]);
     }
+
+    async findPatientsByDoctorId(id) {
+        try {
+            const data = await this.patientRepository.findByDoctorHasExamination(id);
+            return data;
+        } catch (error) {
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+    }
 }
 
 export const UserService = new Service();
