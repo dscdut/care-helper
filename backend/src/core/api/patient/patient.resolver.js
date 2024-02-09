@@ -1,6 +1,7 @@
 import { Module } from 'packages/handler/Module';
 import { RecordId } from 'core/common/swagger';
 import { UpdatePatientInterceptor } from 'core/modules/user';
+import { hasDoctorRole } from 'core/modules/auth/guard';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -11,11 +12,12 @@ export const PatientResolver = Module.builder()
     })
     .register([
         {
-            route: '/:id',
+            route: '/my-patients',
             method: 'get',
-            params: [RecordId],
-            controller: PatientController.getPatientById,
-            model: { $ref: 'PatientDto' },
+            guards: [hasDoctorRole],
+            controller: PatientController.getPatientsOfDoctor,
+            model: { type: 'array', items: { $ref: 'PatientDto' } },
+            preAuthorization: true,
         },
         {
             route: '/',
@@ -25,5 +27,12 @@ export const PatientResolver = Module.builder()
             controller: PatientController.updatePatient,
             model: { $ref: 'PatientDto' },
             preAuthorization: true,
+        },
+        {
+            route: '/:id',
+            method: 'get',
+            params: [RecordId],
+            controller: PatientController.getPatientById,
+            model: { $ref: 'PatientDto' },
         },
     ]);
