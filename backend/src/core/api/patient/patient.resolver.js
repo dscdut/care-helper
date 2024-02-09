@@ -3,7 +3,7 @@ import {
     RecordId, keyword, page, size
 } from 'core/common/swagger';
 import { UpdatePatientInterceptor } from 'core/modules/user';
-import { hasDoctorRole } from 'core/modules/auth/guard';
+import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -44,7 +44,9 @@ export const PatientResolver = Module.builder()
             route: '/:id',
             method: 'get',
             params: [RecordId],
+            guards: [hasDoctorOrPatientRole],
             controller: PatientController.getPatientById,
             model: { $ref: 'PatientDto' },
+            preAuthorization: true,
         },
     ]);

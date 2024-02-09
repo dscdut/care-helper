@@ -28,6 +28,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.height',
+                'patients.weight'
             );
     }
 
@@ -49,6 +51,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.height',
+                'patients.weight'
             );
     }
 

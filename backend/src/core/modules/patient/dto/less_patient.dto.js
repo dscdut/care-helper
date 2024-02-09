@@ -2,7 +2,7 @@ import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('LessPatientDto', {
-    id: SwaggerDocument.ApiProperty({ type: 'number' }),
+    id: SwaggerDocument.ApiProperty({ type: 'int' }),
     email: SwaggerDocument.ApiProperty({ type: 'string' }),
     fullName: SwaggerDocument.ApiProperty({ type: 'string' }),
     phone: SwaggerDocument.ApiProperty({ type: 'string' }),
