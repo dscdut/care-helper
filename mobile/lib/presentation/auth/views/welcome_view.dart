@@ -68,9 +68,7 @@ class WelcomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(AppRouter.phoneInput),
-                  },
+                  onPressed: () => {},
                   child: Container(
                     margin: const EdgeInsets.all(24),
                     width: double.infinity,
@@ -93,7 +91,9 @@ class WelcomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRouter.login);
+                  },
                   child: Container(
                     margin: const EdgeInsets.all(24),
                     width: double.infinity,

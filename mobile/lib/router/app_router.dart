@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/presentation/auth/views/login_view.dart';
-import 'package:flutter_template/presentation/auth/views/phone_input_view.dart';
 import 'package:flutter_template/presentation/auth/views/register_view.dart';
 import 'package:flutter_template/presentation/auth/views/welcome_view.dart';
 import 'package:flutter_template/presentation/core/views/root_view.dart';
@@ -56,12 +55,7 @@ abstract final class AppRouter {
             return const SplashPage();
           },
         );
-        case phoneInput:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const RegisterPhoneInput();
-          },
-        );
+      case phoneInput:
       case welcome:
         return MaterialPageRoute(
           builder: (_) {
@@ -77,7 +71,7 @@ abstract final class AppRouter {
       case login:
         return MaterialPageRoute(
           builder: (_) {
-            return const LoginPage();
+            return const LoginView();
           },
         );
       case root:
