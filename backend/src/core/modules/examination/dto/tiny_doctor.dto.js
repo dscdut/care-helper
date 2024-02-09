@@ -1,14 +1,14 @@
 import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
 
-ApiDocument.addModel('LessPatientDto', {
+ApiDocument.addModel('TinyDoctorDto', {
     id: SwaggerDocument.ApiProperty({ type: 'int' }),
     fullname: SwaggerDocument.ApiProperty({ type: 'string' }),
     phone: SwaggerDocument.ApiProperty({ type: 'string' }),
 });
 
-export const LessPatientDto = data => ({
-    id: data.patientId,
-    fullname: data.patientName,
-    phone: data.patientPhone,
+export const TinyDoctorDto = data => ({
+    id: data.doctorId,
+    fullname: data.doctorName,
+    phone: data.doctorPhone,
 });

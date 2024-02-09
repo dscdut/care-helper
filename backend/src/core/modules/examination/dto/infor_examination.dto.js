@@ -1,7 +1,7 @@
 import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
-import { LessPatientDto } from './less_patient.dto';
-import { LessDoctorDto } from './less_doctor.dto';
+import { TinyPatientDto } from './tiny_patient.dto';
+import { TinyDoctorDto } from './tiny_doctor.dto';
 
 ApiDocument.addModel('InforExaminationDto', {
     id: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
@@ -17,12 +17,12 @@ ApiDocument.addModel('InforExaminationDto', {
     }),
     doctor: SwaggerDocument.ApiProperty({
         type: 'model',
-        model: 'LessDoctorDto',
+        model: 'TinyDoctorDto',
         readOnly: true,
     }),
     patient: SwaggerDocument.ApiProperty({
         type: 'model',
-        model: 'LessPatientDto',
+        model: 'TinyPatientDto',
         readOnly: true,
     }),
     hospital: SwaggerDocument.ApiProperty({
@@ -38,8 +38,8 @@ export const InforExaminationDto = data => ({
     detailDiagnose: data.detailDiagnose,
     advice: data.advice,
     createdAt: data.createdAt,
-    doctor: LessDoctorDto(data),
-    patient: LessPatientDto(data),
+    doctor: TinyDoctorDto(data),
+    patient: TinyPatientDto(data),
     hospital: {
         id: data.hospitalId,
         name: data.hospitalName,
