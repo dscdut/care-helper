@@ -17,7 +17,7 @@ exports.seed = async knex => {
         return {
             full_name: fakerEN.person.fullName(),
             email: fakerEN.internet.email(),
-            phone: fakerEN.phone.number(),
+            phone: fakerEN.string.numeric({ length: 10 }),
             password:
                 '$2b$10$4WxWKojNnKfDAicVsveh7.ogkWOBMV1cvRUSPCXwxA05NRX18F0QW',
             active: true,
