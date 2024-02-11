@@ -1,6 +1,6 @@
 import { PatientAdministrative, PatientRecord, PatientType } from 'src/types/users.type'
 
-export const patients: PatientType[] = Array(5)
+export const patients: PatientType[] = Array(50)
   .fill(0)
   .map((_, index) => ({
     id: index,
@@ -8,7 +8,13 @@ export const patients: PatientType[] = Array(5)
     date: '17/01/2010',
     phone: '75675643',
     doctor: 'Bitcoin Doctor',
-    diagnose: 'Huyet ap'
+    diagnose: 'Huyet ap',
+    survey: {
+      id: index,
+      status: index % 2 ? 'Finished' : 'Waiting',
+      date: '03/09/2010',
+      diagnose: 'Sample diagnosis 1'
+    }
   }))
 
 export const patientRecords: PatientRecord[] = Array(5)
