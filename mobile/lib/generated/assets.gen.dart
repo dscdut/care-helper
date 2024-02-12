@@ -22,8 +22,60 @@ class $AssetsFontsGen {
   /// File path: assets/fonts/Mulish-Regular.ttf
   String get mulishRegular => 'assets/fonts/Mulish-Regular.ttf';
 
+  /// File path: assets/fonts/Roboto-Black.ttf
+  String get robotoBlack => 'assets/fonts/Roboto-Black.ttf';
+
+  /// File path: assets/fonts/Roboto-BlackItalic.ttf
+  String get robotoBlackItalic => 'assets/fonts/Roboto-BlackItalic.ttf';
+
+  /// File path: assets/fonts/Roboto-Bold.ttf
+  String get robotoBold => 'assets/fonts/Roboto-Bold.ttf';
+
+  /// File path: assets/fonts/Roboto-BoldItalic.ttf
+  String get robotoBoldItalic => 'assets/fonts/Roboto-BoldItalic.ttf';
+
+  /// File path: assets/fonts/Roboto-Italic.ttf
+  String get robotoItalic => 'assets/fonts/Roboto-Italic.ttf';
+
+  /// File path: assets/fonts/Roboto-Light.ttf
+  String get robotoLight => 'assets/fonts/Roboto-Light.ttf';
+
+  /// File path: assets/fonts/Roboto-LightItalic.ttf
+  String get robotoLightItalic => 'assets/fonts/Roboto-LightItalic.ttf';
+
+  /// File path: assets/fonts/Roboto-Medium.ttf
+  String get robotoMedium => 'assets/fonts/Roboto-Medium.ttf';
+
+  /// File path: assets/fonts/Roboto-MediumItalic.ttf
+  String get robotoMediumItalic => 'assets/fonts/Roboto-MediumItalic.ttf';
+
+  /// File path: assets/fonts/Roboto-Regular.ttf
+  String get robotoRegular => 'assets/fonts/Roboto-Regular.ttf';
+
+  /// File path: assets/fonts/Roboto-Thin.ttf
+  String get robotoThin => 'assets/fonts/Roboto-Thin.ttf';
+
+  /// File path: assets/fonts/Roboto-ThinItalic.ttf
+  String get robotoThinItalic => 'assets/fonts/Roboto-ThinItalic.ttf';
+
   /// List of all assets
-  List<String> get values => [mulishBold, mulishMedium, mulishRegular];
+  List<String> get values => [
+        mulishBold,
+        mulishMedium,
+        mulishRegular,
+        robotoBlack,
+        robotoBlackItalic,
+        robotoBold,
+        robotoBoldItalic,
+        robotoItalic,
+        robotoLight,
+        robotoLightItalic,
+        robotoMedium,
+        robotoMediumItalic,
+        robotoRegular,
+        robotoThin,
+        robotoThinItalic
+      ];
 }
 
 class $AssetsIconsGen {
@@ -144,7 +196,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 
