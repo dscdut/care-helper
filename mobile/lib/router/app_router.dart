@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/presentation/auth/views/login_view.dart';
 import 'package:flutter_template/presentation/core/views/root_view.dart';
+import 'package:flutter_template/presentation/greeting/views/greeting_view.dart';
 import 'package:flutter_template/presentation/splash/splash.dart';
 
 abstract final class AppRouter {
@@ -61,6 +62,12 @@ abstract final class AppRouter {
         return MaterialPageRoute(
           builder: (_) {
             return const RootPage();
+          },
+        );
+      case register:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const GreetingView();
           },
         );
       default:
