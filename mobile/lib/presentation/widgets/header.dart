@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/theme/color_styles.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -12,17 +13,13 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color accent = Color(0xff112950);
-
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            accent,
-            Colors.blueAccent,
+            ColorStyles.primaryColor,
+            ColorStyles.secondaryColor,
           ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
         ),
       ),
       height: MediaQuery.of(context).size.height * 0.25,

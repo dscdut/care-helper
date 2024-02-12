@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/theme/color_styles.dart';
 
 import 'package:flutter_template/presentation/auth/register/phone_input/phone_input.dart';
 
 class GreetingView extends StatelessWidget {
   const GreetingView({super.key});
-  final Color _accent = const Color(0xff112950);
 
   onTapRegister(BuildContext context) {
     Navigator.of(context).pushReplacement(
@@ -18,16 +18,16 @@ class GreetingView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  _accent,
-                  Colors.blueAccent,
+                  ColorStyles.primaryColor,
+                  ColorStyles.secondaryColor,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),

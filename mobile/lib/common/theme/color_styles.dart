@@ -54,4 +54,8 @@ abstract class ColorStyles {
   // Icon color
   static const Color lightIconColor = Color(0xFF000118);
   static const Color darkIconColor = Colors.white;
+
+  // app color
+  static const Color primaryColor = Color(0xff112950);
+  static const Color secondaryColor = Colors.blueAccent;
 }
