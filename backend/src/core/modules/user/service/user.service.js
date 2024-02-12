@@ -50,7 +50,7 @@ class Service {
     async findPatientByPhone(phoneNumber) {
         try {
             const data = await this.patientRepository.findByPhone(phoneNumber);
-            return PatientDto(data[0]);
+            return data[0];
         } catch (error) {
             logger.error(error.message);
             throw new InternalServerException();
@@ -133,7 +133,7 @@ class Service {
     async findPatientsByDoctorId(id) {
         try {
             const data = await this.patientRepository.findByDoctorHasExamination(id);
-            return data;
+            return data.map(p => PatientDto(p));
         } catch (error) {
             logger.error(error.message);
             throw new InternalServerException();
