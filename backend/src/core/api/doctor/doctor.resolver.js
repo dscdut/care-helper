@@ -3,6 +3,7 @@ import {
     RecordId, keyword, page, size
 } from 'core/common/swagger';
 import { DoctorVerifyInterceptor } from 'core/modules/user/interceptor/doctor.verify.interceptor';
+import { hasDoctorRole } from 'core/modules/auth/guard';
 import { DoctorController } from './doctor.controller';
 
 export const DoctorResolver = Module.builder()
@@ -31,6 +32,7 @@ export const DoctorResolver = Module.builder()
             route: '/',
             method: 'put',
             interceptors: [DoctorVerifyInterceptor],
+            guards: [hasDoctorRole],
             controller: DoctorController.verifyDoctor,
             body: 'DoctorVerifyDto',
             model: { $ref: 'DoctorDto' },

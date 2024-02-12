@@ -3,7 +3,7 @@ import {
     RecordId, keyword, page, size
 } from 'core/common/swagger';
 import { UpdatePatientInterceptor } from 'core/modules/user';
-import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
+import { hasDoctorOrPatientRole, hasDoctorRole, hasPatientRole } from 'core/modules/auth/guard';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -34,6 +34,7 @@ export const PatientResolver = Module.builder()
         {
             route: '/',
             method: 'put',
+            guards: [hasPatientRole],
             interceptors: [UpdatePatientInterceptor],
             body: 'PatientUpdateDto',
             controller: PatientController.updatePatient,
