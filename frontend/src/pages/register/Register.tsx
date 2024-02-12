@@ -5,12 +5,13 @@ import { useMutation } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import authApi from 'src/apis/auth.api'
+import Button from 'src/components/button/Button'
 import Input from 'src/components/input/Input'
 import { AUTH_MESSAGES } from 'src/constants/message'
 import { path } from 'src/constants/path'
 import { AuthErrorResponse, RegisterReqBody } from 'src/types/auth.type'
 import { AuthSchema, authSchema } from 'src/utils/rules'
-import { isAxiosError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { isAxiosError } from 'src/utils/utils'
 
 export interface RegisterProps {}
 
@@ -67,21 +68,21 @@ export default function Register(props: RegisterProps) {
             register={register}
             name='email'
             placeholder='Email'
-            errorMessage={errors.email?.message}
+            errorMessage={errors.email?.message || ' '}
           />
           <Input<Pick<SchemaRegister, 'password'>>
             register={register}
             name='password'
             placeholder='Password'
             type='password'
-            errorMessage={errors.password?.message}
+            errorMessage={errors.password?.message || ' '}
           />
           <Input<Pick<SchemaRegister, 'confirmPassword'>>
             register={register}
             name='confirmPassword'
             placeholder='Confirm Password'
             type='password'
-            errorMessage={errors.confirmPassword?.message}
+            errorMessage={errors.confirmPassword?.message || ' '}
           />
           <div className='flex items-center justify-center'>
             <label className='label cursor-pointer gap-2'>
@@ -92,7 +93,7 @@ export default function Register(props: RegisterProps) {
               </span>
             </label>
           </div>
-          <button className='btn btn-primary mt-8 w-full text-white'>Sign Up</button>
+          <Button title='Sign Up' className='btn-primary mt-8 w-full text-white' loading={registerMutation.isLoading} />
         </form>
       </div>
       <div className='divider mt-4'>or</div>

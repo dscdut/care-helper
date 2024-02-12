@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import dayjs from 'dayjs'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { ErrorResponse } from 'src/types/utils.type'
 
@@ -20,4 +21,8 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): err
     isAxiosUnauthorizedError<ErrorResponse<{ name: string; message: string }>>(error) &&
     error.response?.data?.data?.name === 'EXPIRED_TOKEN'
   )
+}
+
+export const formatDate = (date: string, formatType: string) => {
+  return dayjs(date).format(formatType)
 }

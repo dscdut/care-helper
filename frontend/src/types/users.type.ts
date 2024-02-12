@@ -41,3 +41,20 @@ export type PatientAdministrative = {
   }
   healthOverview: TitleValuePair[]
 }
+
+export type PatientOfDoctor = {
+  id: number
+  fullName: string
+  gender: string
+  email: string
+  phone: string
+  birthday: string
+  avatar: string
+  address: string
+  nationalIdCard: string
+  insurance: string
+  profesion: string
+  active: boolean
+  weight: number
+  height: number
+}

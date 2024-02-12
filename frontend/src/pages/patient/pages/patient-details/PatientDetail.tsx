@@ -1,6 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import classNames from 'classnames'
-import { PatientListRecords, PatientInformation } from 'src/pages/patient/components'
+import { PatientInformation } from 'src/pages/patient/components'
+import { Outlet, useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import patientApi from 'src/apis/patient.api'
+import { PatientOfDoctor } from 'src/types/users.type'
+import Loading from 'src/components/loading/Loading'
 
 export interface PatientDetailsProps {}
 
@@ -10,22 +15,44 @@ enum ETabType {
   MedicalHistory = 'HISTORY'
 }
 
-const tabs: { [p in ETabType]: { title: string; content: React.ReactNode } } = {
-  [ETabType.ExaminationHistory]: { title: 'Lịch sử lần khám', content: <PatientListRecords /> },
-  [ETabType.Administrative]: { title: 'Hành chính', content: <PatientInformation /> },
-  [ETabType.MedicalHistory]: { title: 'Bệnh sử', content: <div>Bệnh Sử</div> }
+enum ETabName {
+  ExaminationHistory = 'Examination History',
+  Administrative = 'Administrative',
+  MedicalHistory = 'Medical History'
 }
 
 export default function PatientDetails(props: PatientDetailsProps) {
+  const { patientId } = useParams() as { patientId: string }
+  const { data, isLoading } = useQuery({
+    queryKey: ['patientById', patientId],
+    queryFn: () => patientApi.getPatientById(Number(patientId))
+  })
+  const patientByIdData = data?.data
   const [tabIndex, setTabIndex] = useState<ETabType>(ETabType.Administrative)
   const handleChangeTab = (tabIndex: ETabType) => {
     setTabIndex(tabIndex)
+  }
+  const tabs: { [p in ETabType]: { title: string; content: React.ReactNode } } = useMemo(() => {
+    return {
+      [ETabType.ExaminationHistory]: {
+        title: ETabName.ExaminationHistory,
+        content: <Outlet context={patientByIdData?.fullName} />
+      },
+      [ETabType.Administrative]: {
+        title: ETabName.Administrative,
+        content: <PatientInformation patientByIdData={patientByIdData as PatientOfDoctor} />
+      },
+      [ETabType.MedicalHistory]: { title: ETabName.MedicalHistory, content: <div>{ETabName.MedicalHistory}</div> }
+    }
+  }, [patientByIdData])
+  if (isLoading) {
+    return <Loading />
   }
   return (
     <article className='flex w-full flex-col gap-8 p-4 lg:p-8'>
       <article>
         <h1 className='text-2xl'>
-          Bệnh nhân <span className='font-bold'>Nguyễn Văn A</span>
+          Patient <span className='font-bold'>{patientByIdData?.fullName}</span>
         </h1>
       </article>
       <div role='tablist' className='tabs tabs-bordered grid-cols-3 lg:grid-cols-4'>
