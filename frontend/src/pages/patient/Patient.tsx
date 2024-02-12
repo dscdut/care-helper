@@ -9,6 +9,9 @@ export default function Patient() {
   const handleNavigateDetails = (id: number) => {
     navigate(`${path.patients}/${id}`)
   }
+  const handleNavigateSurvey = (id: number) => {
+    navigate(`${path.surveys}?${id}`)
+  }
 
   const handleCheckBox = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     event.stopPropagation()
@@ -20,8 +23,8 @@ export default function Patient() {
         <h1 className='self-center text-2xl font-bold'>Danh sách bệnh nhân</h1>
       </section>
       <section className='rounded-lg bg-white p-4 shadow-lg'>
-        <div className='overflow-x-auto'>
-          <table className='table'>
+        <div className='flex overflow-x-auto'>
+          <table className='flex-3 table border-r-4'>
             <thead>
               <tr className='border-primary text-sm'>
                 <th className='flex items-center gap-4'>
@@ -42,6 +45,20 @@ export default function Patient() {
                   <td>{patient.date}</td>
                   <td>{patient.doctor}</td>
                   <td>{patient.diagnose}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <table className='table flex-1'>
+            <thead>
+              <tr className='border-primary text-sm'>
+                <th className=' py-3.5'>Tình trạng khảo sát</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patients.map((patient) => (
+                <tr className='hover cursor-pointer' key={patient.id} onClick={() => handleNavigateSurvey(patient.id)}>
+                  <td className='btn btn-link'>Show</td>
                 </tr>
               ))}
             </tbody>
