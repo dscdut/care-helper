@@ -13,13 +13,6 @@ export type User = {
   active: boolean
 }
 
-export type Survey = {
-  id: number
-  status: string
-  date: string
-  diagnose: string
-}
-
 export type PatientType = {
   id: number
   name: string
@@ -27,7 +20,6 @@ export type PatientType = {
   phone: string
   doctor: string
   diagnose: string
-  survey: Survey
 }
 
 export type PatientRecord = Pick<PatientType, 'date' | 'doctor' | 'id'>

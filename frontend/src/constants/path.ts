@@ -5,8 +5,7 @@ export const path = {
   register: '/auth/register',
   patients: '/patients',
   patientDetail: '/patients/:id',
-  surveys: '/surveys',
-  surveyDetail: '/surveys/:id/patients/:id',
   schedules: '/schedules',
+  surveys: '/surveys',
   personals: '/personals'
 } as const
