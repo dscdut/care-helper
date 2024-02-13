@@ -6,6 +6,7 @@ import {
     DEFAULT_PAGE_SIZE,
 } from 'core/common/constants';
 import { PatientService } from 'core/modules/patient';
+import { ExaminationService } from 'core/modules/examination';
 import { Role } from 'core/common/enum';
 import { ForbiddenException } from 'packages/httpException';
 
@@ -13,6 +14,7 @@ class Controller {
     constructor() {
         this.service = UserService;
         this.patientService = PatientService;
+        this.examinationService = ExaminationService;
     }
 
     getPatientById = async req => {
@@ -40,6 +42,16 @@ class Controller {
     getPatientsOfDoctor = async req => {
         const data = await this.service.findPatientsByDoctorId(
             req.user.payload.id,
+        );
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
+    listExaminations = async req => {
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
+        console.log(req.params.patientId);
+        const data = await this.examinationService.findExaminationsByPatient(
+            req.params.patientId, page, size
         );
         return ValidHttpResponse.toOkResponse(data);
     };

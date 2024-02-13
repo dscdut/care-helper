@@ -8,7 +8,9 @@ import { logger } from 'packages/logger';
 import { FOREIGN_KEY_CONSTRAINT_VIOLATION } from 'core/common/exceptions/constants';
 import { ExaminationRepository } from '../examination.repository';
 import { HospitalRepository } from '../../hospital/hospital.repository';
-import { PaginationExaminationDto, ExaminationDto, InforExaminationDto } from '../dto';
+import {
+    PaginationExaminationDto, ExaminationDto, InforExaminationDto, PatientExaminationDto, PaginationPatientExaminationDto
+} from '../dto';
 
 class Service {
     constructor() {
@@ -155,6 +157,23 @@ class Service {
             patientId,
         );
         return result;
+    }
+
+    async findExaminationsByPatient(patientId, page = 1, pageSize = 10) {
+        const offset = (page - 1) * pageSize;
+        const total = await this.examinationRepository.countByPatientId(
+            patientId
+        );
+        const dataExaminations = await this.examinationRepository.findJoinHospitalByPatientId(
+            patientId,
+            offset,
+            pageSize
+        );
+        return PaginationPatientExaminationDto({
+            content: dataExaminations.map(e => PatientExaminationDto(e)),
+            pageSize,
+            total: total.count,
+        });
     }
 }
 
