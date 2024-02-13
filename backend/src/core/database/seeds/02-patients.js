@@ -28,6 +28,8 @@ exports.seed = async knex => {
         national_id_card: fakerEN.string.numeric(12),
         insurance: fakerEN.string.numeric(10),
         profesion: fakerEN.person.jobTitle(),
+        weight: `${fakerEN.number.float({ min: 5, max: 120, fractionDigits: 1 })} kg`,
+        height: `${fakerEN.number.int({ min: 80, max: 200 })} m`,
         deleted_at: null,
         created_at: fakerEN.date.past(),
         updated_at: fakerEN.date.past(),

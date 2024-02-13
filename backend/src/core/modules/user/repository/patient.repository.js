@@ -28,6 +28,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.height',
+                'patients.weight'
             );
     }
 
@@ -49,6 +51,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.height',
+                'patients.weight'
             );
     }
 
@@ -62,7 +66,6 @@ class Repository extends DataRepository {
                 { fullName: 'patients.full_name' },
                 'patients.gender',
                 'patients.email',
-                'patients.password',
                 'patients.phone',
                 'patients.birthday',
                 'patients.avatar',
@@ -71,6 +74,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.weight',
+                'patients.height',
             );
     }
 }

@@ -1,8 +1,14 @@
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
 import { PatientUpdateDto, UserService } from 'core/modules/user';
-import { DEFAULT_KEYWORD, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
+import {
+    DEFAULT_KEYWORD,
+    DEFAULT_PAGE,
+    DEFAULT_PAGE_SIZE,
+} from 'core/common/constants';
 import { PatientService } from 'core/modules/patient';
 import { ExaminationService } from 'core/modules/examination';
+import { Role } from 'core/common/enum';
+import { ForbiddenException } from 'packages/httpException';
 
 class Controller {
     constructor() {
@@ -12,18 +18,24 @@ class Controller {
     }
 
     getPatientById = async req => {
-        const data = await this.service.findPatientById(req.params.id);
+        const userId = req.user.payload.id;
+        const userRole = req.user.payload.role;
+        const patientId = req.params.id;
+        if (userRole === Role.PATIENT && userId !== patientId) {
+            throw new ForbiddenException(
+                `You do not have access to the patient id = ${patientId} `,
+            );
+        }
+        const data = await this.service.findPatientById(patientId);
         return ValidHttpResponse.toOkResponse(data);
     };
 
     updatePatient = async req => {
-        const data = await this.service.updatePatient(
-            PatientUpdateDto({
-                id: req.user.payload.id,
-                active: true,
-                ...req.body,
-            }),
-        );
+        const data = await this.service.updatePatient({
+            ...PatientUpdateDto(req.body),
+            id: req.user.payload.id,
+            active: true,
+        });
         return ValidHttpResponse.toOkResponse(data);
     };
 
@@ -49,7 +61,11 @@ class Controller {
         const size = req.query.size || DEFAULT_PAGE_SIZE;
         const keyword = req.query.keyword || DEFAULT_KEYWORD;
 
-        const data = await this.patientService.searchPatient(page, size, keyword);
+        const data = await this.patientService.searchPatient(
+            page,
+            size,
+            keyword,
+        );
         return ValidHttpResponse.toOkResponse(data);
     };
 }
