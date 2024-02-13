@@ -113,6 +113,37 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
+    findJoinHospitalByPatientId(patientId, offset, pageSize) {
+        return this.query()
+            .where('examinations.patient_id', '=', patientId)
+            .select(
+                'examinations.id',
+                'examinations.diagnose',
+                'examinations.detail_diagnose',
+                'examinations.advice',
+                { doctorId: 'examinations.doctor_id' },
+                { patientId: 'examinations.patient_id' },
+                { hospitalId: 'examinations.hospital_id' },
+                { hospitalAddress: 'hospitals.address' },
+                { hospitalName: 'hospitals.name' },
+                { createdAt: 'examinations.created_at' },
+                { doctorName: 'doctors.full_name' },
+                { doctorPhone: 'doctors.phone' },
+            )
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
+            .orderBy('examinations.created_at', 'desc')
+            .offset(offset)
+            .limit(pageSize);
+    }
+
+    countByPatientId(patientId) {
+        return this.query()
+            .where('examinations.patient_id', '=', patientId)
+            .count('examinations.id')
+            .first();
+    }
+
     countByPatientIdAndKeyword(patientId, keyword) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
