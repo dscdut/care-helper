@@ -1,3 +1,4 @@
+import { SurveyStatus } from 'src/types/survey.type'
 import { PatientAdministrative, PatientRecord, PatientType } from 'src/types/users.type'
 
 export const patients: PatientType[] = Array(5)
@@ -11,7 +12,7 @@ export const patients: PatientType[] = Array(5)
     diagnose: 'Huyet ap',
     survey: {
       id: index,
-      status: index % 2 ? 'Finished' : 'Waiting',
+      status: index % 2 ? SurveyStatus.Waiting : SurveyStatus.Finished,
       date: '03/09/2010',
       diagnose: 'Sample diagnosis 1'
     }

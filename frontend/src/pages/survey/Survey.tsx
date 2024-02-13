@@ -4,8 +4,7 @@ import { HiMagnifyingGlass, HiMiniPlus, HiXMark } from 'react-icons/hi2'
 import classNames from 'classnames'
 import { path } from 'src/constants/path'
 import { patients } from 'src/data/patient'
-import ChoosePatient from './components/ChoosePatient'
-import AddQuestions from './components/AddQuestions'
+import { ChoosePatient, AddQuestions } from 'src/pages/survey/components'
 import Pagination from 'src/components/pagination/Pagination'
 
 export default function Survey() {
@@ -17,20 +16,27 @@ export default function Survey() {
   const location = useLocation()
 
   useEffect(() => {
-    const idPatient = location.search.split('?')[1]
-    if (idPatient !== null) {
-      const patientSearch = patients.find((patient) => patient.id === parseInt(idPatient))
-      setSearch(patientSearch?.name.toLowerCase() || '')
+    const searchParams = new URLSearchParams(location.search)
+    const queryId = searchParams.get('query')
+    if (queryId) {
+      const id = parseInt(queryId)
+      const patientName = patients.find((patient) => patient.id === id)?.name || ''
+      setSearch(patientName.toLowerCase())
     }
   }, [location.search])
 
-  const handleNavigateSurvey = ([idPatient, idSurvey]: number[]) => {
-    navigate(`${path.surveys}/${idSurvey}${path.patients}/${idPatient}`)
+  const handleNavigateSurvey = (id: number) => {
+    navigate(`${path.surveys}/${id}`)
   }
 
   const handleNext = () => {
     setShowChoosePatient(false)
     setShowAddQuestions(true)
+  }
+
+  const handleBack = () => {
+    setShowChoosePatient(true)
+    setShowAddQuestions(false)
   }
 
   const handleCloseAllModals = () => {
@@ -83,7 +89,7 @@ export default function Survey() {
                     </button>
                   </div>
                   {showChoosePatient && <ChoosePatient onNext={handleNext} />}
-                  {showAddQuestions && <AddQuestions onClose={handleCloseAllModals} />}
+                  {showAddQuestions && <AddQuestions onClose={handleCloseAllModals} onBack={handleBack} />}
                 </div>
               </dialog>
             )}
@@ -108,7 +114,7 @@ export default function Survey() {
                   <tr
                     className='hover cursor-pointer'
                     key={patient.id}
-                    onClick={() => handleNavigateSurvey([patient.id, patient.survey.id])}
+                    onClick={() => handleNavigateSurvey(patient.survey.id)}
                   >
                     <td>{patient.name}</td>
                     <td>

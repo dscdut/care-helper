@@ -9,9 +9,10 @@ interface Question {
 
 interface AddQuestionsProps {
   onClose: () => void
+  onBack: () => void
 }
 
-export default function AddQuestions({ onClose }: AddQuestionsProps) {
+export default function AddQuestions({ onClose, onBack }: AddQuestionsProps) {
   const [question, setQuestion] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [listQuestions, setListQuestions] = useState<Question[]>(questions)
@@ -19,6 +20,7 @@ export default function AddQuestions({ onClose }: AddQuestionsProps) {
   const handleSubmit = () => {
     const newQuestion: Question = { id: listQuestions.length + 1, content: question }
     setListQuestions((prevQuestions) => [...prevQuestions, newQuestion])
+    setIsOpen(false)
     setQuestion('')
   }
 
@@ -27,13 +29,36 @@ export default function AddQuestions({ onClose }: AddQuestionsProps) {
   }
 
   const handleConfirm = () => {
-    console.log('close modal')
     onClose()
   }
 
   const handleTrash = (id: number) => {
     setListQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id))
+    setIsOpen(false)
   }
+
+  const handleBack = () => {
+    onBack()
+  }
+
+  const renderFooter = () => (
+    <div className={`flex justify-${isOpen ? 'between items-center' : 'end'}`}>
+      {isOpen ? (
+        <p className='text-sm'>
+          <span className='font-semibold'>Note:</span> Please ensure thorough examination before proceeding. The survey
+          will be promptly sent to the patient immediately upon confirmation.
+        </p>
+      ) : null}
+      {!isOpen && (
+        <button className='btn mr-4 bg-primary text-white' onClick={handleBack}>
+          Back
+        </button>
+      )}
+      <button className='btn bg-primary text-white' onClick={isOpen ? handleConfirm : handleNext}>
+        {isOpen ? 'Confirm' : 'Next'}
+      </button>
+    </div>
+  )
 
   return (
     <div>
@@ -48,7 +73,7 @@ export default function AddQuestions({ onClose }: AddQuestionsProps) {
           Add
         </button>
       </div>
-      <div className='mt-4 max-h-80 overflow-y-scroll'>
+      <div className='my-4 max-h-80 overflow-y-scroll'>
         <ul className='menu mt-4 w-[inherit] rounded-box bg-base-200'>
           {listQuestions.map((q) => (
             <details key={q.id} className='collapse mt-4 bg-base-200'>
@@ -67,25 +92,7 @@ export default function AddQuestions({ onClose }: AddQuestionsProps) {
           ))}
         </ul>
       </div>
-      <div className='mt-4 flex justify-end '>
-        {isOpen && (
-          <div className='flex self-center rounded-lg bg-slate-300 p-4 text-black'>
-            <p>
-              <span className='font-bold'>Chú ý:</span> Yêu cầu kiểm tra kĩ khảo sát. Kháo sát sẽ được gửi ngay lặp tức
-              cho bệnh nhân ngay sau khi bấm xác nhận
-            </p>
-            <button className='btn ml-4 bg-primary text-white' onClick={handleConfirm}>
-              Xác nhận
-            </button>
-          </div>
-        )}
-
-        {!isOpen && (
-          <button className='btn ml-4 bg-primary text-white' onClick={handleNext}>
-            Next
-          </button>
-        )}
-      </div>
+      {renderFooter()}
     </div>
   )
 }

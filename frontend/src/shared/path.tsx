@@ -40,7 +40,7 @@ export const PRIVATE_ROUTER: RouteObject[] = [
     element: <AppointmentSchedule />
   },
   {
-    path: path.surveys,
+    path: path.surveysSearch,
     element: <MedicalSurvey />
   },
   {

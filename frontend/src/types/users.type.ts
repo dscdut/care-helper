@@ -1,3 +1,5 @@
+import { Survey } from './survey.type'
+
 export type User = {
   id: number
   email: string
@@ -11,13 +13,6 @@ export type User = {
   certificateNumber: string | null
   certificateProvider: string | null
   active: boolean
-}
-
-export type Survey = {
-  id: number
-  status: string
-  date: string
-  diagnose: string
 }
 
 export type PatientType = {
