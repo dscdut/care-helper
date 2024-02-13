@@ -3,6 +3,7 @@ import 'package:flutter_template/common/theme/color_styles.dart';
 import 'package:flutter_template/presentation/auth/views/pin_authen_view.dart';
 import 'package:flutter_template/presentation/auth/widgets/custom_button_widget.dart';
 import 'package:flutter_template/presentation/auth/widgets/header_phone_input_widget.dart';
+import 'package:flutter_template/router/app_router.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -108,7 +109,9 @@ class _LoginViewState extends State<LoginView> {
             margin: const EdgeInsets.only(left: 16, right: 16),
             child: CustomButtonWidget(
               label: 'Dang nhap',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRouter.profile);
+              },
             ),
           ),
         ],

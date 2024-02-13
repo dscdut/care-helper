@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/presentation/auth/register/phone_input/views/phone_input_view.dart';
 import 'package:flutter_template/presentation/auth/views/login_view.dart';
-import 'package:flutter_template/presentation/auth/views/register_view.dart';
 import 'package:flutter_template/presentation/auth/views/welcome_view.dart';
 import 'package:flutter_template/presentation/core/views/root_view.dart';
-import 'package:flutter_template/presentation/greeting/views/greeting_view.dart';
+import 'package:flutter_template/presentation/profile/administrative/view/administrative_view.dart';
+import 'package:flutter_template/presentation/profile/profile.dart';
+import 'package:flutter_template/presentation/profile/view/profile_detail_view.dart';
+import 'package:flutter_template/presentation/profile/view/profile_navigation1_view.dart';
 import 'package:flutter_template/presentation/splash/splash.dart';
 
 abstract final class AppRouter {
@@ -14,6 +17,10 @@ abstract final class AppRouter {
   static const String register = '/register';
   static const String welcome = '/welcome';
   static const String phoneInput = '/phone-input';
+  static const String profile = '/profile';
+  static const String profile_nav1 = '/profile-nav1';
+  static const String profile_detail = '/profile-detail';
+  static const String administrative = '/administrative';
 
   // Root
   static const String root = '/root';
@@ -63,12 +70,12 @@ abstract final class AppRouter {
             return const WelcomePage();
           },
         );
-      case register:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const RegisterView();
-          },
-        );
+      // case register:
+      //   return MaterialPageRoute(
+      //     builder: (_) {
+      //       return const RegisterView();
+      //     },
+      //   );
       case login:
         return MaterialPageRoute(
           builder: (_) {
@@ -84,9 +91,31 @@ abstract final class AppRouter {
       case register:
         return MaterialPageRoute(
           builder: (_) {
-            return const GreetingView();
+            return const PhoneInputView();
           },
         );
+      case profile:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const ProfilePage();
+          },
+        );
+      case profile_nav1:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const ProfileNav1View();
+          },
+        );
+      case profile_detail:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const ProfileDetailView();
+          },
+        );
+      case administrative:
+        return MaterialPageRoute(builder: (_) {
+          return const AdministrativeView();
+        });
       default:
         return null;
     }

@@ -81,7 +81,7 @@ static const Map<String,dynamic> vi = {
     "not_match_password": "Mật khẩu xác nhận không trùng khớp"
   },
   "loading": {
-    "ads": "Đang tải quảng cáo ..."
+    "ads": "Đang tải quảng cáo..."
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};

@@ -68,7 +68,9 @@ class WelcomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () => {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRouter.register);
+                  },
                   child: Container(
                     margin: const EdgeInsets.all(24),
                     width: double.infinity,

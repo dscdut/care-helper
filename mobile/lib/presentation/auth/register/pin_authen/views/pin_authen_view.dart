@@ -77,7 +77,7 @@ class _PinAuthenViewState extends State<PinAuthenView> {
       body: Column(
         children: [
           Header(
-            heading1: 'Xac thuc',
+            heading1: 'Xác thực',
             heading2: '6 chu so da duoc gui den ${widget.phoneNumber}',
           ),
           const SizedBox(height: 24),
