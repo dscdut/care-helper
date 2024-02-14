@@ -9,12 +9,16 @@ import { PatientService } from 'core/modules/patient';
 import { ExaminationService } from 'core/modules/examination';
 import { Role } from 'core/common/enum';
 import { ForbiddenException } from 'packages/httpException';
+import { SurveyService } from 'core/modules/survey';
+import { MessageDto } from 'core/common/dto';
+import { FillSurveyDto } from 'core/modules/survey/dto/fill.survey.dto';
 
 class Controller {
     constructor() {
         this.service = UserService;
         this.patientService = PatientService;
         this.examinationService = ExaminationService;
+        this.surveyService = SurveyService;
     }
 
     getPatientById = async req => {
@@ -49,9 +53,10 @@ class Controller {
     listExaminations = async req => {
         const page = req.query.page || DEFAULT_PAGE;
         const size = req.query.size || DEFAULT_PAGE_SIZE;
-        console.log(req.params.patientId);
         const data = await this.examinationService.findExaminationsByPatient(
-            req.params.patientId, page, size
+            req.params.patientId,
+            page,
+            size,
         );
         return ValidHttpResponse.toOkResponse(data);
     };
@@ -67,6 +72,26 @@ class Controller {
             keyword,
         );
         return ValidHttpResponse.toOkResponse(data);
+    };
+
+    getMySurveys = async req => {
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
+
+        const data = await this.surveyService.getSurveyPaginationByPatientId(
+            req.user.payload.id,
+            page,
+            size,
+        );
+        return ValidHttpResponse.toOkResponse(data);
+    };
+
+    fillSurvey = async req => {
+        const { form } = FillSurveyDto(req.body);
+        await this.surveyService.fillSurvey(req.params.id, form);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'You have filled survey' }),
+        );
     };
 }
 
