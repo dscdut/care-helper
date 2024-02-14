@@ -1,8 +1,21 @@
 part of 'register_bloc.dart';
 
-sealed class RegisterEvent extends Equatable {
-  const RegisterEvent();
+abstract class RegisterEvent {}
 
-  @override
-  List<Object> get props => [];
+class GetTokenEvent extends RegisterEvent {
+  final GetTokenByPhoneRequestDTO param;
+
+  GetTokenEvent(this.param);
+}
+
+class VerifyOtpEvent extends RegisterEvent {
+  final VerifyOtpRequestDTO params;
+
+  VerifyOtpEvent(this.params);
+}
+
+class RegisterPatientEvent extends RegisterEvent {
+  final RegisterPatientRequestDTO params;
+
+  RegisterPatientEvent(this.params);
 }
