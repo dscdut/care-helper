@@ -22,6 +22,15 @@ export const PatientResolver = Module.builder()
             preAuthorization: true,
         },
         {
+            route: '/my-surveys',
+            method: 'get',
+            guards: [hasPatientRole],
+            params: [page, size],
+            controller: PatientController.getMySurveys,
+            model: { $ref: 'PaginationSurveyDto' },
+            preAuthorization: true,
+        },
+        {
             route: '/:patientId/examinations',
             method: 'get',
             params: [page, size, patientId],
@@ -39,7 +48,8 @@ export const PatientResolver = Module.builder()
             controller: PatientController.searchPatient,
             model: { $ref: 'PaginationPatientDto' },
             preAuthorization: true,
-            description: 'Only doctors have the right to find patient information via phone number, name, address, national id card, insurance by keyword.'
+            description:
+                'Only doctors have the right to find patient information via phone number, name, address, national id card, insurance by keyword.',
         },
         {
             route: '/',
