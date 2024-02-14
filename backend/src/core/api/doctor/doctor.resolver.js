@@ -5,7 +5,7 @@ import {
 import { DoctorVerifyInterceptor } from 'core/modules/user/interceptor';
 import { CreateSurveyInterceptor } from 'core/modules/survey';
 import { hasDoctorRole } from 'core/modules/auth/guard';
-import { canGetSurvey } from 'core/modules/survey/guard';
+import { canDeleteSurvey, canGetSurvey } from 'core/modules/survey/guard';
 import { DoctorController } from './doctor.controller';
 
 export const DoctorResolver = Module.builder()
@@ -52,6 +52,16 @@ export const DoctorResolver = Module.builder()
             model: { $ref: 'SurveyDto' },
             guards: [canGetSurvey],
             preAuthorization: true,
+        },
+        {
+            route: '/surveys/:id',
+            method: 'delete',
+            params: [RecordId],
+            controller: DoctorController.deleteSurveyById,
+            model: { $ref: 'MessageDto' },
+            guards: [canDeleteSurvey],
+            preAuthorization: true,
+            description: 'Delete survey by id',
         },
         {
             route: '/:id',

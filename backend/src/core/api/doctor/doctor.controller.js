@@ -63,6 +63,14 @@ class Controller {
         throw new NotFoundException(`Survey with id ${id} not exist`);
     };
 
+    deleteSurveyById = async req => {
+        const { id } = req.params;
+        await this.surveyService.deleteSurveyById(id);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Survey deleted' }),
+        );
+    };
+
     // getDoneSurveyAnswersByTimeDesc = async req => {
     //     const data = await this.service.findDoctorById(req.params.id);
     //     return ValidHttpResponse.toOkResponse(data);

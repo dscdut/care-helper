@@ -20,6 +20,10 @@ class Repository extends DataRepository {
             );
     }
 
+    deleteById(id) {
+        return this.query().where('surveys.id', '=', id).del();
+    }
+
     // findByExaminationId(examinationId) {
     //     return this.query()
     //         .where('prescriptions.examination_id', '=', examinationId)
