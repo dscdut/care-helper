@@ -41,24 +41,31 @@ export default function AddQuestions({ onClose, onBack }: AddQuestionsProps) {
     onBack()
   }
 
-  const renderFooter = () => (
-    <div className={`flex justify-${isOpen ? 'between items-center' : 'end'}`}>
-      {isOpen ? (
-        <p className='text-sm'>
-          <span className='font-semibold'>Note:</span> Please ensure thorough examination before proceeding. The survey
-          will be promptly sent to the patient immediately upon confirmation.
-        </p>
-      ) : null}
-      {!isOpen && (
+  const renderFooter = () => {
+    if (isOpen) {
+      return (
+        <div className={`flex items-center justify-between`}>
+          <p className='text-sm'>
+            <span className='font-semibold'>Note:</span> Please ensure thorough examination before proceeding. The
+            survey will be promptly sent to the patient immediately upon confirmation.
+          </p>
+          <button className='btn bg-primary text-white' onClick={handleConfirm}>
+            Confirm
+          </button>
+        </div>
+      )
+    }
+    return (
+      <div className={`flex justify-end`}>
         <button className='btn mr-4 bg-primary text-white' onClick={handleBack}>
           Back
         </button>
-      )}
-      <button className='btn bg-primary text-white' onClick={isOpen ? handleConfirm : handleNext}>
-        {isOpen ? 'Confirm' : 'Next'}
-      </button>
-    </div>
-  )
+        <button className='btn bg-primary text-white' onClick={handleNext}>
+          Next
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div>

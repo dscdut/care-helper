@@ -12,7 +12,7 @@ export const patients: PatientType[] = Array(5)
     diagnose: 'Huyet ap',
     survey: {
       id: index,
-      status: index % 2 ? SurveyStatus.Waiting : SurveyStatus.Finished,
+      status: index % 2 ? SurveyStatus.FINISHED : SurveyStatus.WAITING,
       date: '03/09/2010',
       diagnose: 'Sample diagnosis 1'
     }

@@ -6,7 +6,6 @@ export const path = {
   patients: '/patients',
   patientDetail: '/patients/:id',
   surveys: '/surveys',
-  surveysSearch: '/surveys/search',
   surveyDetail: '/surveys/:id',
   schedules: '/schedules',
   personals: '/personals'

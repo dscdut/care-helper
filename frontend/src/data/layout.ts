@@ -54,7 +54,7 @@ export const sidebarOption: SidebarOption[] = [
   {
     id: 4,
     title: 'Medical Survey',
-    to: path.surveysSearch,
+    to: path.surveys,
     icon: HiOutlineClipboardDocumentCheck
   },
   {

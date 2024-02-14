@@ -10,7 +10,10 @@ export default function Patient() {
     navigate(`${path.patients}/${id}`)
   }
   const handleNavigateSurvey = (id: number) => {
-    navigate(`${path.surveys}/search?query=${id}`)
+    navigate({
+      pathname: `${path.surveys}`,
+      search: `${path.patients}/${id}`
+    })
   }
 
   const handleCheckBox = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {

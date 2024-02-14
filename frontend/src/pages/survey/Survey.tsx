@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { HiMagnifyingGlass, HiMiniPlus, HiXMark } from 'react-icons/hi2'
 import classNames from 'classnames'
 import { path } from 'src/constants/path'
@@ -10,20 +10,8 @@ import Pagination from 'src/components/pagination/Pagination'
 export default function Survey() {
   const [showChoosePatient, setShowChoosePatient] = useState(true)
   const [showAddQuestions, setShowAddQuestions] = useState(false)
-  const [search, setSearch] = useState('')
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
-  const location = useLocation()
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search)
-    const queryId = searchParams.get('query')
-    if (queryId) {
-      const id = parseInt(queryId)
-      const patientName = patients.find((patient) => patient.id === id)?.name || ''
-      setSearch(patientName.toLowerCase())
-    }
-  }, [location.search])
 
   const handleNavigateSurvey = (id: number) => {
     navigate(`${path.surveys}/${id}`)
@@ -65,8 +53,6 @@ export default function Survey() {
               </div>
               <input
                 type='text'
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
                 className='input input-bordered !h-11 w-full !rounded-xl border-2 ps-10 hover:border-primary focus:border-primary focus:outline-none'
                 placeholder='Tìm khảo sát theo bệnh nhân...'
               />
@@ -106,30 +92,26 @@ export default function Survey() {
               </tr>
             </thead>
             <tbody>
-              {patients
-                .filter((item) => {
-                  return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search)
-                })
-                .map((patient) => (
-                  <tr
-                    className='hover cursor-pointer'
-                    key={patient.id}
-                    onClick={() => handleNavigateSurvey(patient.survey.id)}
-                  >
-                    <td>{patient.name}</td>
-                    <td>
-                      <div
-                        className={classNames('btn-active w-fit rounded-xl px-20 py-2', {
-                          'btn-primary  text-white ': patient.survey.status === 'Waiting'
-                        })}
-                      >
-                        {patient.survey.status}
-                      </div>
-                    </td>
-                    <td>{patient.survey.date}</td>
-                    <td>{patient.survey.diagnose}</td>
-                  </tr>
-                ))}
+              {patients.map((patient) => (
+                <tr
+                  className='hover cursor-pointer'
+                  key={patient.id}
+                  onClick={() => handleNavigateSurvey(patient.survey.id)}
+                >
+                  <td>{patient.name}</td>
+                  <td>
+                    <div
+                      className={classNames('btn-active w-fit rounded-xl px-20 py-2', {
+                        'btn-primary  text-white ': patient.survey.status === 'Waiting'
+                      })}
+                    >
+                      {patient.survey.status}
+                    </div>
+                  </td>
+                  <td>{patient.survey.date}</td>
+                  <td>{patient.survey.diagnose}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

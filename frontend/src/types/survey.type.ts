@@ -6,8 +6,8 @@ export type Survey = {
 }
 
 export enum SurveyStatus {
-  Waiting = 'Waiting',
-  Finished = 'Finished'
+  WAITING = 'Waiting',
+  FINISHED = 'Finished'
 }
 
 export type AnswersSurvey = {
