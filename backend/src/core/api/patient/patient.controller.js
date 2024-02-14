@@ -43,13 +43,6 @@ class Controller {
         return ValidHttpResponse.toOkResponse(data);
     };
 
-    getPatientsOfDoctor = async req => {
-        const data = await this.service.findPatientsByDoctorId(
-            req.user.payload.id,
-        );
-        return ValidHttpResponse.toOkResponse(data);
-    };
-
     listExaminations = async req => {
         const page = req.query.page || DEFAULT_PAGE;
         const size = req.query.size || DEFAULT_PAGE_SIZE;

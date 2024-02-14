@@ -29,7 +29,7 @@ class Repository extends DataRepository {
                 'patients.profesion',
                 'patients.active',
                 'patients.height',
-                'patients.weight'
+                'patients.weight',
             );
     }
 
@@ -52,14 +52,20 @@ class Repository extends DataRepository {
                 'patients.profesion',
                 'patients.active',
                 'patients.height',
-                'patients.weight'
+                'patients.weight',
             );
     }
 
-    findByDoctorHasExamination(doctorId) {
+    findByDoctorHasExamination(doctorId, offset, pageSize) {
         return this.query()
             .whereNull('patients.deleted_at')
-            .innerJoin('examinations', 'examinations.doctor_id', '=', doctorId)
+            .innerJoin(
+                'examinations',
+                'examinations.patient_id',
+                '=',
+                'patients.id',
+            )
+            .where('examinations.doctor_id', '=', doctorId)
             .distinct()
             .select(
                 'patients.id',
@@ -76,7 +82,24 @@ class Repository extends DataRepository {
                 'patients.active',
                 'patients.weight',
                 'patients.height',
-            );
+            )
+            .offset(offset)
+            .limit(pageSize);
+    }
+
+    countByDoctorHasExamination(doctorId) {
+        return this.query()
+            .whereNull('patients.deleted_at')
+            .innerJoin(
+                'examinations',
+                'examinations.patient_id',
+                '=',
+                'patients.id',
+            )
+            .where('examinations.doctor_id', '=', doctorId)
+            .distinct()
+            .count()
+            .first();
     }
 }
 
