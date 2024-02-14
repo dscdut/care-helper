@@ -2,7 +2,7 @@ import { getUserContext } from 'packages/authModel/module/user';
 import { Role } from 'core/common/enum';
 import { SurveyService } from '../service';
 
-export class DeleteSurveyGuard {
+export class FillSurveyGuard {
     constructor() {
         this.surveyService = SurveyService;
     }
@@ -10,6 +10,6 @@ export class DeleteSurveyGuard {
     async canActive(req) {
         const { id, role } = getUserContext(req).payload;
         const survey = await this.surveyService.getSurveyById(req.params.id);
-        return !survey || (role === Role.DOCTOR && survey.doctorId === id);
+        return !survey || (role === Role.PATIENT && survey.patientId === id);
     }
 }

@@ -44,6 +44,12 @@ class Repository extends DataRepository {
             .offset(offset)
             .limit(pageSize);
     }
+
+    update(id, data = {}, trx = null) {
+        const queryBuilder = this.query().where({ id }).update(data);
+        if (trx) queryBuilder.transacting(trx);
+        return queryBuilder;
+    }
 }
 
 export const SurveyRepository = new Repository('surveys');

@@ -10,6 +10,8 @@ import { ExaminationService } from 'core/modules/examination';
 import { Role } from 'core/common/enum';
 import { ForbiddenException } from 'packages/httpException';
 import { SurveyService } from 'core/modules/survey';
+import { MessageDto } from 'core/common/dto';
+import { FillSurveyDto } from 'core/modules/survey/dto/fill.survey.dto';
 
 class Controller {
     constructor() {
@@ -82,6 +84,14 @@ class Controller {
             size,
         );
         return ValidHttpResponse.toOkResponse(data);
+    };
+
+    fillSurvey = async req => {
+        const { form } = FillSurveyDto(req.body);
+        await this.surveyService.fillSurvey(req.params.id, form);
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'You have filled survey' }),
+        );
     };
 }
 

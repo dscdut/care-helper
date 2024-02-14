@@ -5,6 +5,7 @@ import {
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
 import { Optional } from 'core/utils';
+import { FormStatus } from 'core/common/enum';
 import { SurveyRepository } from '../repository';
 import { SurveyDto } from '../dto/survey.dto';
 
@@ -65,6 +66,25 @@ class Service {
             pageSize,
             total: parseInt(total.count, 10),
         };
+    }
+
+    async fillSurvey(id, form) {
+        Optional.of(await this.getSurveyById(id)).throwIfNotPresent(
+            new NotFoundException(`Servey with id ${id} does not exist`),
+        );
+        const trx = await getTransaction();
+        try {
+            await this.surveyRepository.update(
+                id,
+                { form, status: FormStatus.DONE },
+                trx,
+            );
+        } catch (error) {
+            trx.rollback();
+            logger.error(error.message);
+            throw new InternalServerException();
+        }
+        trx.commit();
     }
 }
 

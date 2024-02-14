@@ -4,6 +4,7 @@ import {
 } from 'core/common/swagger';
 import { UpdatePatientInterceptor } from 'core/modules/user';
 import { hasDoctorOrPatientRole, hasDoctorRole, hasPatientRole } from 'core/modules/auth/guard';
+import { canFillSurvey } from 'core/modules/survey/guard';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -28,6 +29,16 @@ export const PatientResolver = Module.builder()
             params: [page, size],
             controller: PatientController.getMySurveys,
             model: { $ref: 'PaginationSurveyDto' },
+            preAuthorization: true,
+        },
+        {
+            route: '/surveys/:id',
+            method: 'put',
+            guards: [canFillSurvey],
+            params: [RecordId],
+            body: 'FillSurveyDto',
+            controller: PatientController.fillSurvey,
+            model: { $ref: 'MessageDto' },
             preAuthorization: true,
         },
         {
