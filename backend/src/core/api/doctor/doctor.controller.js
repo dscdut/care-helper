@@ -7,6 +7,7 @@ import {
     DEFAULT_PAGE_SIZE,
 } from 'core/common/constants';
 import { DoctorService } from 'core/modules/doctor';
+import { PaginationPatientDto } from 'core/modules/patient';
 
 class Controller {
     constructor() {
@@ -35,6 +36,17 @@ class Controller {
 
         const data = await this.doctorService.searchDoctor(page, size, keyword);
         return ValidHttpResponse.toOkResponse(data);
+    };
+
+    getMyPatients = async req => {
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
+        const data = await this.service.findPatientsByDoctorId(
+            req.user.payload.id,
+            page,
+            size,
+        );
+        return ValidHttpResponse.toOkResponse(PaginationPatientDto(data));
     };
 }
 

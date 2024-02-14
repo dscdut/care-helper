@@ -15,14 +15,6 @@ export const PatientResolver = Module.builder()
     })
     .register([
         {
-            route: '/my-patients',
-            method: 'get',
-            guards: [hasDoctorRole],
-            controller: PatientController.getPatientsOfDoctor,
-            model: { type: 'array', items: { $ref: 'PatientDto' } },
-            preAuthorization: true,
-        },
-        {
             route: '/my-surveys',
             method: 'get',
             guards: [hasPatientRole],
