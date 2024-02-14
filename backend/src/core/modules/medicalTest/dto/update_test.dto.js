@@ -9,6 +9,6 @@ ApiDocument.addModel('UpdateTestDto', {
 
 export const UpdateTestDto = dto => ({
     id: dto.id,
-    test_rows: JSON.stringify(dto.testRows),
+    test_rows: typeof dto.testRows === 'string' ? dto.testRows : JSON.stringify(dto.testRows),
     examination_id: dto.examinationId,
 });
