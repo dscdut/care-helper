@@ -17,11 +17,18 @@ export default function Button({
   Icon,
   iconClass,
   ...rest
-}: ButtonProps) {
+}: ButtonProps & ({ title: string } | { Icon: IconType })) {
+  if (loading)
+    return (
+      <button className={twMerge('btn', className)} {...rest}>
+        {<span className={twMerge('loading loading-spinner', loadingClass)}></span>}
+        {title}
+      </button>
+    )
   return (
     <button className={twMerge('btn', className)} {...rest}>
-      {Icon && !loading && <Icon className={twMerge('h-6 w-6', iconClass)} />}
-      {loading && <span className={twMerge('loading loading-spinner', loadingClass)}></span>} {title}
+      {Icon && <Icon className={twMerge('h-6 w-6', iconClass)} />}
+      {title}
     </button>
   )
 }

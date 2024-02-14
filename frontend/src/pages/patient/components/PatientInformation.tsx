@@ -40,42 +40,33 @@ export default function PatientInformation({ patientByIdData }: PatientInformati
         </div>
       </div>
       <div className='mt-4 flex flex-col justify-between gap-5 lg:flex-row'>
-        <div className='w-full rounded-lg bg-white p-5 shadow-lg'>
-          <p className='pb-5 font-bold'>Reason For Hospitalization</p>
-          <p></p>
-        </div>
-        <div className='flex flex-col gap-5'>
-          <div className='card w-full min-w-max rounded-lg bg-slate-300 text-black shadow-lg lg:w-96'>
-            <div className='card-body py-5'>
-              <h2 className='card-title'>Health Insurance</h2>
-              <div className='stats stats-vertical text-center shadow lg:stats-horizontal'>
-                {Array(INSURANCE_AREA_NUMBER)
-                  .fill(0)
-                  .map((_, index) => (
-                    <div key={index} className='stat p-3'>
-                      <div className='stat-title text-black'>
-                        {index === INSURANCE_AREA_NUMBER - 1
-                          ? patientByIdData?.insurance.substring(index * 2)
-                          : patientByIdData?.insurance.substring(index * 2, index * 2 + 2)}
-                      </div>
+        <div className='card w-full min-w-max rounded-lg bg-slate-300 text-black shadow-lg'>
+          <div className='card-body py-5'>
+            <h2 className='card-title'>Health Insurance</h2>
+            <div className='stats stats-vertical text-center shadow lg:stats-horizontal'>
+              {Array(INSURANCE_AREA_NUMBER)
+                .fill(0)
+                .map((_, index) => (
+                  <div key={index} className='stat p-3'>
+                    <div className='stat-title text-black'>
+                      {index === INSURANCE_AREA_NUMBER - 1
+                        ? patientByIdData?.insurance.substring(index * 2)
+                        : patientByIdData?.insurance.substring(index * 2, index * 2 + 2)}
                     </div>
-                  ))}
-              </div>
-              <p>
-                Object: <span className='font-bold'></span>
-              </p>
+                  </div>
+                ))}
             </div>
           </div>
-          <div className='card w-full min-w-max rounded-lg bg-slate-300 text-black shadow-lg lg:w-96'>
-            <div className='card-body py-5'>
-              <h2 className='card-title'>Health Overview</h2>
-              <p>
-                Height: <span className='font-bold'>{patientByIdData.height} cm</span>
-              </p>
-              <p>
-                Weight: <span className='font-bold'>{patientByIdData.weight} kg</span>
-              </p>
-            </div>
+        </div>
+        <div className='card w-full min-w-max rounded-lg bg-slate-300 text-black shadow-lg'>
+          <div className='card-body py-5'>
+            <h2 className='card-title'>Health Overview</h2>
+            <p>
+              Height: <span className='font-bold'>{patientByIdData.height}</span>
+            </p>
+            <p>
+              Weight: <span className='font-bold'>{patientByIdData.weight}</span>
+            </p>
           </div>
         </div>
       </div>

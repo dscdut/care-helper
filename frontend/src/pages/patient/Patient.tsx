@@ -1,3 +1,4 @@
+import { HiMiniPlus } from 'react-icons/hi2'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import patientApi from 'src/apis/patient.api'
@@ -29,11 +30,12 @@ export default function Patient() {
 
   return (
     <article className='flex w-full flex-col gap-4 p-4 lg:p-8'>
-      <section className='flex w-full items-start justify-between'>
-        <h1 className='self-center text-2xl font-bold'>Patient List</h1>
+      <section className='flex w-full flex-col items-start justify-between gap-2 sm:flex-row'>
+        <h1 className='text-2xl font-bold sm:self-center'>Patient List</h1>
+        <Button title='Add New Patient' Icon={HiMiniPlus} className='btn-primary font-bold text-white' />
       </section>
       <section className='rounded-lg bg-white p-4 shadow-lg'>
-        <div className='max-h-[calc(100vh_-_15.5rem)] overflow-auto'>
+        <div className='max-h-[calc(100vh_-_14.5rem)] overflow-auto lg:max-h-[calc(100vh_-_16.5rem)]'>
           <table className='table'>
             <thead>
               <tr className='border-primary text-sm'>

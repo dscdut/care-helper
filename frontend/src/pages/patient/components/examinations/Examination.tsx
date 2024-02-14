@@ -21,15 +21,15 @@ export default function Examination(props: ExaminationProps) {
   const { user } = useContext<AppContextType>(AppContext)
   const data = useQueries([
     {
-      queryKey: ['medicalTestExaminationId', examinationId],
+      queryKey: ['medicalTestExaminationId', Number(examinationId)],
       queryFn: () => medicalTestsApi.getMedicalTestExaminationById(Number(examinationId))
     },
     {
-      queryKey: ['examinationId', examinationId],
+      queryKey: ['examinationId', Number(examinationId)],
       queryFn: () => examinationApi.getExaminationById(Number(examinationId))
     },
     {
-      queryKey: ['prescriptionExaminationId', examinationId],
+      queryKey: ['prescriptionExaminationId', Number(examinationId)],
       queryFn: () => prescriptionsApi.getPrescriptionExaminationId(Number(examinationId))
     }
   ])

@@ -24,6 +24,7 @@ export default function MedicalTest({ medicalTestData }: MedicalTestProps) {
       }
       case TestType.BLOOD_FAT: {
         classifyData.bloodFats.push(data)
+        break
       }
     }
   })

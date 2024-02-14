@@ -24,7 +24,7 @@ enum ETabName {
 export default function PatientDetails(props: PatientDetailsProps) {
   const { patientId } = useParams() as { patientId: string }
   const { data, isLoading } = useQuery({
-    queryKey: ['patientById', patientId],
+    queryKey: ['patientById', Number(patientId)],
     queryFn: () => patientApi.getPatientById(Number(patientId))
   })
   const patientByIdData = data?.data

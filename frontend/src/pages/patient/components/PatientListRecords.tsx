@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { HiMiniPlus } from 'react-icons/hi2'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import examinationApi from 'src/apis/examination.api'
+import patientApi from 'src/apis/patient.api'
 import Button from 'src/components/button/Button'
 import Pagination from 'src/components/pagination/Pagination'
 import { PAGE_SIZE_DEFAULT } from 'src/constants/common'
@@ -12,12 +12,12 @@ export default function PatientListRecords() {
   const { patientId } = useParams() as { patientId: string }
   const navigate = useNavigate()
   const examinationFilter: PagingFilter = {
-    page: 1,
+    page: 1, // TODO
     size: PAGE_SIZE_DEFAULT
   }
   const { data: examinationsData } = useQuery({
-    queryKey: ['examinations', patientId],
-    queryFn: () => examinationApi.getExaminations(examinationFilter)
+    queryKey: ['examinationsOfPatient', Number(patientId)],
+    queryFn: () => patientApi.getExaminationsOfPatient(examinationFilter, Number(patientId))
   })
 
   const handleNavigate = (idMedicalRecord: string) => {
