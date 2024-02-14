@@ -45,6 +45,15 @@ export const DoctorResolver = Module.builder()
             preAuthorization: true,
         },
         {
+            route: '/surveys/patients/:id',
+            method: 'get',
+            params: [page, size, RecordId],
+            guards: [hasDoctorRole],
+            controller: DoctorController.getSurveysOfPatient,
+            model: { $ref: 'PaginationSurveyDto' },
+            preAuthorization: true,
+        },
+        {
             route: '/surveys/:id',
             method: 'get',
             params: [RecordId],

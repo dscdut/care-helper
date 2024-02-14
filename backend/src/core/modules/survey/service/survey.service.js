@@ -6,6 +6,7 @@ import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
 import { Optional } from 'core/utils';
 import { SurveyRepository } from '../repository';
+import { SurveyDto } from '../dto/survey.dto';
 
 class Service {
     constructor() {
@@ -51,13 +52,20 @@ class Service {
         trx.commit();
     }
 
-    // async getPrescriptionsByExaminationId(examinationId) {
-    //     const prescriptions =
-    //         await this.prescriptionRepository.findByExaminationId(
-    //             examinationId,
-    //         );
-    //     return prescriptions.map(e => PrescriptionDto({ prescription: e }));
-    // }
+    async getSurveyPaginationByPatientId(patientId, page = 1, pageSize = 10) {
+        const offset = (page - 1) * pageSize;
+        const total = await this.surveyRepository.countByPatientId(patientId);
+        const data = await this.surveyRepository.findByPatientId(
+            patientId,
+            offset,
+            pageSize,
+        );
+        return {
+            content: data.map(e => SurveyDto(e)),
+            pageSize,
+            total: parseInt(total.count, 10),
+        };
+    }
 }
 
 export const SurveyService = new Service();

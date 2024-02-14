@@ -11,6 +11,7 @@ import { CreateSurveyDto, SurveyService } from 'core/modules/survey';
 import { MessageDto } from 'core/common/dto';
 import { NotFoundException } from 'packages/httpException';
 import { SurveyDto } from 'core/modules/survey/dto/survey.dto';
+import { PaginationSurveyDto } from 'core/modules/survey/dto/pagination-survey.dto';
 
 class Controller {
     constructor() {
@@ -71,10 +72,19 @@ class Controller {
         );
     };
 
-    // getDoneSurveyAnswersByTimeDesc = async req => {
-    //     const data = await this.service.findDoctorById(req.params.id);
-    //     return ValidHttpResponse.toOkResponse(data);
-    // };
+    getSurveysOfPatient = async req => {
+        const patientId = req.params.id;
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
+
+        const data = await this.surveyService.getSurveyPaginationByPatientId(
+            patientId,
+            page,
+            size,
+        );
+
+        return ValidHttpResponse.toOkResponse(PaginationSurveyDto(data));
+    };
 
     // getSurveyAnswersOfPatient = async req => {
     //     const data = await this.service.findDoctorById(req.params.id);
