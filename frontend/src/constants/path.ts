@@ -4,7 +4,8 @@ export const path = {
   login: '/auth/login',
   register: '/auth/register',
   patients: '/patients',
-  patientDetail: '/patients/:id',
+  patientDetail: '/patients/:patientId',
+  patientDetailExamination: '/patients/:patientId/medical-records/:examinationId',
   schedules: '/schedules',
   surveys: '/surveys',
   personals: '/personals'

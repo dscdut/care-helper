@@ -26,3 +26,24 @@ export const FIRST_NAME_MESSAGE = {
 export const LAST_NAME_MESSAGE = {
   required: 'Last name is required.'
 } as const
+
+export const PRESCRIPTION_MESSAGE = {
+  MEDICINE_NAME: {
+    required: 'Medicine name is required.'
+  },
+  MEDICINE_TYPE: {
+    required: 'Medicine form is required.'
+  },
+  QUANTITY: {
+    required: 'Quantity is required.'
+  },
+  AMOUNT: {
+    required: 'Amount is required.'
+  },
+  USAGE: {
+    required: 'Usage is required.'
+  },
+  DATE: {
+    required: 'Date is required.'
+  }
+} as const

@@ -8,6 +8,7 @@ import MedicalSurvey from 'src/pages/survey/Survey'
 import PatientDetails from 'src/pages/patient/pages/patient-details/PatientDetail'
 import { RouteObject } from 'react-router-dom'
 import { path } from 'src/constants/path'
+import { Examination, PatientListRecords } from 'src/pages/patient/components'
 
 // private routes (path, component)
 export const AUTH_ROUTER: RouteObject[] = [
@@ -32,7 +33,17 @@ export const PRIVATE_ROUTER: RouteObject[] = [
   },
   {
     path: path.patientDetail,
-    element: <PatientDetails />
+    element: <PatientDetails />,
+    children: [
+      {
+        path: path.patientDetail,
+        element: <PatientListRecords />
+      },
+      {
+        path: path.patientDetailExamination,
+        element: <Examination />
+      }
+    ]
   },
   {
     path: path.schedules,
