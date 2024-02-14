@@ -11,6 +11,7 @@ import { PatientResolver } from './patient/patient.resolver';
 import { MedicalTestResolver } from './medicalTest/medical_test.resolver';
 import { DrugResolver } from './drug/drug.resolver';
 import { MedicalHistoryResolver } from './medicalHistory/medical-history.resolver';
+import { SurveyResolver } from './survey/survey.resolver';
 
 export const ModuleResolver = HandlerResolver.builder()
     .addSwaggerBuilder(ApiDocument)
@@ -26,4 +27,5 @@ export const ModuleResolver = HandlerResolver.builder()
         MedicalTestResolver,
         DrugResolver,
         MedicalHistoryResolver,
+        SurveyResolver
     ]);
