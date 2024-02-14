@@ -7,11 +7,14 @@ import {
     DEFAULT_PAGE_SIZE,
 } from 'core/common/constants';
 import { DoctorService } from 'core/modules/doctor';
+import { CreateSurveyDto, SurveyService } from 'core/modules/survey';
+import { MessageDto } from 'core/common/dto';
 
 class Controller {
     constructor() {
         this.service = UserService;
         this.doctorService = DoctorService;
+        this.surveyService = SurveyService;
     }
 
     getDoctorById = async req => {
@@ -36,6 +39,48 @@ class Controller {
         const data = await this.doctorService.searchDoctor(page, size, keyword);
         return ValidHttpResponse.toOkResponse(data);
     };
+
+    createSurvey = async req => {
+        const { form, patientId } = CreateSurveyDto(req.body);
+        await this.surveyService.createSurvey(
+            patientId,
+            form,
+            req.user.payload.id,
+        );
+        return ValidHttpResponse.toOkResponse(
+            MessageDto({ message: 'Survey created' }),
+        );
+    };
+
+    // createSurveyToPatient = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
+
+    // attachSurveyToPatient = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
+
+    // getSurveyById = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
+
+    // getDoneSurveyAnswersByTimeDesc = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
+
+    // getSurveyAnswersOfPatient = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
+
+    // getSurveyAnswerById = async req => {
+    //     const data = await this.service.findDoctorById(req.params.id);
+    //     return ValidHttpResponse.toOkResponse(data);
+    // };
 }
 
 export const DoctorController = new Controller();
