@@ -9,6 +9,8 @@ import {
 import { DoctorService } from 'core/modules/doctor';
 import { CreateSurveyDto, SurveyService } from 'core/modules/survey';
 import { MessageDto } from 'core/common/dto';
+import { NotFoundException } from 'packages/httpException';
+import { SurveyDto } from 'core/modules/survey/dto/survey.dto';
 
 class Controller {
     constructor() {
@@ -52,20 +54,14 @@ class Controller {
         );
     };
 
-    // createSurveyToPatient = async req => {
-    //     const data = await this.service.findDoctorById(req.params.id);
-    //     return ValidHttpResponse.toOkResponse(data);
-    // };
-
-    // attachSurveyToPatient = async req => {
-    //     const data = await this.service.findDoctorById(req.params.id);
-    //     return ValidHttpResponse.toOkResponse(data);
-    // };
-
-    // getSurveyById = async req => {
-    //     const data = await this.service.findDoctorById(req.params.id);
-    //     return ValidHttpResponse.toOkResponse(data);
-    // };
+    getSurveyById = async req => {
+        const { id } = req.params;
+        const data = await this.surveyService.getSurveyById(id);
+        if (data) {
+            return ValidHttpResponse.toOkResponse(SurveyDto(data));
+        }
+        throw new NotFoundException(`Survey with id ${id} not exist`);
+    };
 
     // getDoneSurveyAnswersByTimeDesc = async req => {
     //     const data = await this.service.findDoctorById(req.params.id);

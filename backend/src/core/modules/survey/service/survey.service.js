@@ -1,7 +1,4 @@
-import {
-    DuplicateException,
-    InternalServerException,
-} from 'packages/httpException';
+import { InternalServerException } from 'packages/httpException';
 import { getTransaction } from 'core/database';
 import { logger } from 'packages/logger';
 import { SurveyRepository } from '../repository';
@@ -30,12 +27,10 @@ class Service {
         trx.commit();
     }
 
-    // async getPrescriptionById(prescriptionId) {
-    //     const prescriptions = await this.prescriptionRepository.findById(
-    //         prescriptionId,
-    //     );
-    //     return PrescriptionDto({ prescription: prescriptions[0] });
-    // }
+    async getSurveyById(id) {
+        const survey = await this.surveyRepository.findById(id);
+        return survey[0];
+    }
 
     // async getPrescriptionsByExaminationId(examinationId) {
     //     const prescriptions =

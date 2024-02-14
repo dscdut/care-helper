@@ -5,6 +5,7 @@ import {
 import { DoctorVerifyInterceptor } from 'core/modules/user/interceptor';
 import { CreateSurveyInterceptor } from 'core/modules/survey';
 import { hasDoctorRole } from 'core/modules/auth/guard';
+import { canGetSurvey } from 'core/modules/survey/guard';
 import { DoctorController } from './doctor.controller';
 
 export const DoctorResolver = Module.builder()
@@ -14,13 +15,6 @@ export const DoctorResolver = Module.builder()
         module: 'DoctorModule',
     })
     .register([
-        {
-            route: '/:id',
-            method: 'get',
-            params: [RecordId],
-            controller: DoctorController.getDoctorById,
-            model: { $ref: 'DoctorDto' },
-        },
         {
             route: '',
             method: 'get',
@@ -49,5 +43,21 @@ export const DoctorResolver = Module.builder()
             body: 'CreateSurveyDto',
             model: { $ref: 'MessageDto' },
             preAuthorization: true,
+        },
+        {
+            route: '/surveys/:id',
+            method: 'get',
+            params: [RecordId],
+            controller: DoctorController.getSurveyById,
+            model: { $ref: 'SurveyDto' },
+            guards: [canGetSurvey],
+            preAuthorization: true,
+        },
+        {
+            route: '/:id',
+            method: 'get',
+            params: [RecordId],
+            controller: DoctorController.getDoctorById,
+            model: { $ref: 'DoctorDto' },
         },
     ]);
