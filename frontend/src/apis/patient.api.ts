@@ -5,11 +5,11 @@ import { PagingFilter, PagingResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
 
 const URL_PATIENTS = 'patients'
-const URL_MY_PATIENTS = 'patients/my-patients'
 
 const patientApi = {
-  getMyPatients: () => {
-    return http.get<PatientOfDoctor[]>(URL_MY_PATIENTS)
+  getPatients: (patientFilter: { keyword: string }) => {
+    const patientsFilterParams = queryString.stringify(patientFilter)
+    return http.get<PagingResponse<PatientOfDoctor[]>>(`${URL_PATIENTS}?${patientsFilterParams}`)
   },
   getPatientById: (id: number) => {
     return http.get<PatientOfDoctor>(`${URL_PATIENTS}/${id}`)

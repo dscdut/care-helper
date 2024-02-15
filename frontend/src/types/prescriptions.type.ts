@@ -1,5 +1,5 @@
 export type PrescriptionType = {
-  id: string
+  id?: string
   note: string
   details: {
     medicineName: string

@@ -2,33 +2,41 @@ import { Fragment, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { PatientInformation } from 'src/pages/patient/components'
 import { Outlet, useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQueries } from 'react-query'
 import patientApi from 'src/apis/patient.api'
 import { PatientOfDoctor } from 'src/types/users.type'
 import Loading from 'src/components/loading/Loading'
+import { AxiosResponse } from 'axios'
+import medicalHistoryApi from 'src/apis/medicalHistories.api'
+import { MedicalHistory } from 'src/types/medicalHistorys.type'
 
 export interface PatientDetailsProps {}
 
 enum ETabType {
   ExaminationHistory = 'EXAMINATION',
-  Administrative = 'ADMIN',
-  MedicalHistory = 'HISTORY'
+  Administrative_MedicalHistory = 'ADMIN_HISTORY'
 }
 
 enum ETabName {
   ExaminationHistory = 'Examination History',
-  Administrative = 'Administrative',
-  MedicalHistory = 'Medical History'
+  Administrative_MedicalHistory = 'Administrative & Medical History'
 }
 
 export default function PatientDetails(props: PatientDetailsProps) {
   const { patientId } = useParams() as { patientId: string }
-  const { data, isLoading } = useQuery({
-    queryKey: ['patientById', Number(patientId)],
-    queryFn: () => patientApi.getPatientById(Number(patientId))
-  })
-  const patientByIdData = data?.data
-  const [tabIndex, setTabIndex] = useState<ETabType>(ETabType.Administrative)
+  const data = useQueries([
+    {
+      queryKey: ['patientById', Number(patientId)],
+      queryFn: () => patientApi.getPatientById(Number(patientId))
+    },
+    {
+      queryKey: ['medicalHistoryPatientById', Number(patientId)],
+      queryFn: () => medicalHistoryApi.getMedicalHistoryOfPatient(Number(patientId))
+    }
+  ])
+  const [patientByIdData, medicalHistoryPatientByIdData] = data.map((childData) => childData.data)
+  const allSuccess = data.every((childData) => childData.isSuccess === true)
+  const [tabIndex, setTabIndex] = useState<ETabType>(ETabType.Administrative_MedicalHistory)
   const handleChangeTab = (tabIndex: ETabType) => {
     setTabIndex(tabIndex)
   }
@@ -36,33 +44,38 @@ export default function PatientDetails(props: PatientDetailsProps) {
     return {
       [ETabType.ExaminationHistory]: {
         title: ETabName.ExaminationHistory,
-        content: <Outlet context={patientByIdData?.fullName} />
+        content: <Outlet context={(patientByIdData as AxiosResponse<PatientOfDoctor>)?.data.fullName} />
       },
-      [ETabType.Administrative]: {
-        title: ETabName.Administrative,
-        content: <PatientInformation patientByIdData={patientByIdData as PatientOfDoctor} />
-      },
-      [ETabType.MedicalHistory]: { title: ETabName.MedicalHistory, content: <div>{ETabName.MedicalHistory}</div> }
+      [ETabType.Administrative_MedicalHistory]: {
+        title: ETabName.Administrative_MedicalHistory,
+        content: (
+          <PatientInformation
+            patientOfDoctor={(patientByIdData as AxiosResponse<PatientOfDoctor>)?.data}
+            medicalHistory={(medicalHistoryPatientByIdData as AxiosResponse<MedicalHistory>)?.data}
+          />
+        )
+      }
     }
-  }, [patientByIdData])
-  if (isLoading) {
+  }, [patientByIdData, medicalHistoryPatientByIdData])
+  if (!allSuccess) {
     return <Loading />
   }
   return (
     <article className='flex w-full flex-col gap-8 p-4 lg:p-8'>
       <article>
         <h1 className='text-2xl'>
-          Patient <span className='font-bold'>{patientByIdData?.fullName}</span>
+          Patient{' '}
+          <span className='font-bold'>{(patientByIdData as AxiosResponse<PatientOfDoctor>)?.data.fullName}</span>
         </h1>
       </article>
-      <div role='tablist' className='tabs tabs-bordered grid-cols-3 lg:grid-cols-4'>
+      <div role='tablist' className='tabs tabs-bordered grid-cols-2 2xl:grid-cols-4'>
         <Fragment>
           <input
             type='radio'
             name='my_tabs_1'
             role='tab'
             className={classNames(
-              'tab mr-8 !rounded-md !border-none text-sm font-semibold after:text-nowrap xl:text-base',
+              'tab mr-8 h-full !rounded-md !border-none text-sm font-semibold lg:text-nowrap lg:text-base',
               {
                 'bg-primary text-white': tabIndex === ETabType.ExaminationHistory
               }
@@ -81,36 +94,17 @@ export default function PatientDetails(props: PatientDetailsProps) {
             name='my_tabs_1'
             role='tab'
             className={classNames(
-              'tab mr-8 !rounded-md !border-none text-sm font-semibold after:text-nowrap xl:text-base',
+              'tab mr-8 h-full !rounded-md !border-none text-sm font-semibold lg:text-nowrap lg:text-base',
               {
-                'bg-primary text-white': tabIndex === ETabType.Administrative
+                'bg-primary text-white': tabIndex === ETabType.Administrative_MedicalHistory
               }
             )}
-            aria-label={tabs.ADMIN.title}
-            checked={tabIndex === ETabType.Administrative}
-            onChange={() => handleChangeTab(ETabType.Administrative)}
+            aria-label={tabs.ADMIN_HISTORY.title}
+            checked={tabIndex === ETabType.Administrative_MedicalHistory}
+            onChange={() => handleChangeTab(ETabType.Administrative_MedicalHistory)}
           />
           <div role='tabpanel' className='tab-content mt-10'>
-            {tabs.ADMIN.content}
-          </div>
-        </Fragment>
-        <Fragment>
-          <input
-            type='radio'
-            name='my_tabs_1'
-            role='tab'
-            className={classNames(
-              'tab mr-8 !rounded-md !border-none text-sm font-semibold after:text-nowrap xl:text-base',
-              {
-                'bg-primary text-white': tabIndex === ETabType.MedicalHistory
-              }
-            )}
-            aria-label={tabs.HISTORY.title}
-            checked={tabIndex === ETabType.MedicalHistory}
-            onChange={() => handleChangeTab(ETabType.MedicalHistory)}
-          />
-          <div role='tabpanel' className='tab-content mt-10'>
-            {tabs.HISTORY.content}
+            {tabs.ADMIN_HISTORY.content}
           </div>
         </Fragment>
       </div>

@@ -18,3 +18,5 @@ export type MedialTestType = {
   examinationId: number
   createdAt: string
 }
+
+export type MedicalTestReqBody = { testRows: string; examinationId: number }

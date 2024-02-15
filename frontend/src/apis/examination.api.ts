@@ -1,7 +1,7 @@
 import http from 'src/utils/http'
 import queryString from 'query-string'
 import { PagingFilter, PagingResponse } from 'src/types/utils.type'
-import { ExaminationType } from 'src/types/examination.type'
+import { ExaminationReqBody, ExaminationType, ExaminationUpdateReqBody } from 'src/types/examination.type'
 
 const URL_MY_EXAMINATION = 'examinations/my-examinations'
 const URL_EXAMINATIONS = 'examinations'
@@ -13,6 +13,12 @@ const examinationApi = {
   },
   getExaminationById: (idMedicalRecord: number) => {
     return http.get<ExaminationType>(`${URL_EXAMINATIONS}/${idMedicalRecord}`)
+  },
+  postExamination: (examinationBody: ExaminationReqBody) => {
+    return http.post<ExaminationType>(`${URL_EXAMINATIONS}`, examinationBody)
+  },
+  putExamination: (examinationUpdateBody: ExaminationUpdateReqBody) => {
+    return http.put<{ message: string }>(`${URL_EXAMINATIONS}`, examinationUpdateBody)
   }
 }
 
