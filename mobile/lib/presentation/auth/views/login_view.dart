@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/views/pin_authen_view.dart';
 import 'package:flutter_template/presentation/auth/widgets/custom_button_widget.dart';
 import 'package:flutter_template/presentation/auth/widgets/header_phone_input_widget.dart';
@@ -36,9 +38,10 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: Column(
         children: [
-          const HeaderPhoneInputWidget(
-            heading1: 'Dang nhap',
-            heading2: 'Nhap so dien thoai va mat khau',
+          HeaderPhoneInputWidget(
+            heading1: LocaleKeys.auth_sign_in.tr(),
+            heading2:
+                LocaleKeys.auth_please_enter_phone_number_and_password.tr(),
           ),
           Form(
             child: Container(
@@ -55,11 +58,13 @@ class _LoginViewState extends State<LoginView> {
                     child: TextFormField(
                       controller: _phoneController,
                       decoration: InputDecoration(
-                        label: const Text('So dien thoai'),
+                        label: Text(LocaleKeys.auth_phone_number.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(12),
                         border: InputBorder.none,
-                        errorText: _validate ? 'Phai nhap du 10 so' : null,
+                        errorText: _validate
+                            ? LocaleKeys.auth_must_enter_10_digits.tr()
+                            : null,
                       ),
                       keyboardType: TextInputType.phone,
                       onChanged: (value) {
@@ -80,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                     child: TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        label: const Text('Mat khau'),
+                        label: Text(LocaleKeys.texts_password.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(12),
                         border: InputBorder.none,
@@ -92,9 +97,9 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       TextButton(
                         onPressed: () => _onTapForgotPassword(),
-                        child: const Text(
-                          'Quen mat khau?',
-                          style: TextStyle(color: ColorStyles.blue700),
+                        child: Text(
+                          LocaleKeys.texts_forgot_password.tr(),
+                          style: const TextStyle(color: ColorStyles.blue700),
                         ),
                       ),
                     ],
@@ -107,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
           Container(
             margin: const EdgeInsets.only(left: 16, right: 16),
             child: CustomButtonWidget(
-              label: 'Dang nhap',
+              label: LocaleKeys.auth_sign_in.tr(),
               onPressed: () {},
             ),
           ),

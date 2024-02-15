@@ -6,6 +6,7 @@ abstract class  LocaleKeys {
   static const texts_error_occur = 'texts.error_occur';
   static const texts_email_address = 'texts.email_address';
   static const texts_password = 'texts.password';
+  static const texts_forgot_password = 'texts.forgot_password';
   static const texts = 'texts';
   static const button_cancel = 'button.cancel';
   static const button_confirm = 'button.confirm';
@@ -17,6 +18,9 @@ abstract class  LocaleKeys {
   static const root = 'root';
   static const auth_welcome_back = 'auth.welcome_back';
   static const auth_sign_in = 'auth.sign_in';
+  static const auth_please_enter_phone_number_and_password = 'auth.please_enter_phone_number_and_password';
+  static const auth_phone_number = 'auth.phone_number';
+  static const auth_must_enter_10_digits = 'auth.must_enter_10_digits';
   static const auth = 'auth';
   static const validator_email_required = 'validator.email_required';
   static const validator_password_required = 'validator.password_required';

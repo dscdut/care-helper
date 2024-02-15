@@ -4,7 +4,8 @@
     "success": "Thành công",
     "error_occur": "Đã có lỗi xảy ra, vui lòng thử lại sau",
     "email_address": "Email",
-    "password": "Mật khẩu"
+    "password": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?"
   },
   "button": {
     "cancel": "Hủy",
@@ -18,7 +19,10 @@
   },
   "auth": {
     "welcome_back": "Rất vui khi được gặp lại bạn!",
-    "sign_in": "Đăng nhập"
+    "sign_in": "Đăng nhập",
+    "please_enter_phone_number_and_password": "Nhập số điện thoại và mật khẩu",
+    "phone_number": "Số điện thoại",
+    "must_enter_10_digits": "Phải nhập đủ 10 số"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",

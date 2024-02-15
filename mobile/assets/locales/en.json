@@ -4,7 +4,8 @@
     "success": "Success",
     "error_occur": "An error has occurred, please try again later",
     "email_address": "Email Address",
-    "password": "Password"
+    "password": "Password",
+    "forgot_password": "Forgot password?"
   },
   "button": {
     "cancel": "Cancel",
@@ -18,7 +19,11 @@
   },
   "auth": {
     "welcome_back": "Nice to have you back!",
-    "sign_in": "Sign in"
+    "sign_in": "Sign in",
+    "please_enter_phone_number_and_password": "Please enter your phone number and password",
+    "phone_number": "Phone number",
+    "must_enter_10_digits": "Must enter 10 digits"
+
   },
   "validator": {
     "email_required": "Please enter your email",

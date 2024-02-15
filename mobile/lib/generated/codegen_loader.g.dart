@@ -20,7 +20,8 @@ class CodegenLoader extends AssetLoader{
     "success": "Success",
     "error_occur": "An error has occurred, please try again later",
     "email_address": "Email Address",
-    "password": "Password"
+    "password": "Password",
+    "forgot_password": "Forgot password?"
   },
   "button": {
     "cancel": "Cancel",
@@ -34,7 +35,10 @@ class CodegenLoader extends AssetLoader{
   },
   "auth": {
     "welcome_back": "Nice to have you back!",
-    "sign_in": "Sign in"
+    "sign_in": "Sign in",
+    "please_enter_phone_number_and_password": "Please enter your phone number and password",
+    "phone_number": "Phone number",
+    "must_enter_10_digits": "Must enter 10 digits"
   },
   "validator": {
     "email_required": "Please enter your email",
@@ -55,7 +59,8 @@ static const Map<String,dynamic> vi = {
     "success": "Thành công",
     "error_occur": "Đã có lỗi xảy ra, vui lòng thử lại sau",
     "email_address": "Email",
-    "password": "Mật khẩu"
+    "password": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?"
   },
   "button": {
     "cancel": "Hủy",
@@ -69,7 +74,10 @@ static const Map<String,dynamic> vi = {
   },
   "auth": {
     "welcome_back": "Rất vui khi được gặp lại bạn!",
-    "sign_in": "Đăng nhập"
+    "sign_in": "Đăng nhập",
+    "please_enter_phone_number_and_password": "Nhập số điện thoại và mật khẩu",
+    "phone_number": "Số điện thoại",
+    "must_enter_10_digits": "Phải nhập đủ 10 số"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",
@@ -81,7 +89,7 @@ static const Map<String,dynamic> vi = {
     "not_match_password": "Mật khẩu xác nhận không trùng khớp"
   },
   "loading": {
-    "ads": "Đang tải quảng cáo ..."
+    "ads": "Đang tải quảng cáo..."
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
