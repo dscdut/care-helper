@@ -55,52 +55,6 @@ class Repository extends DataRepository {
                 'patients.weight',
             );
     }
-
-    findByDoctorHasExamination(doctorId, offset, pageSize) {
-        return this.query()
-            .whereNull('patients.deleted_at')
-            .innerJoin(
-                'examinations',
-                'examinations.patient_id',
-                '=',
-                'patients.id',
-            )
-            .where('examinations.doctor_id', '=', doctorId)
-            .distinct()
-            .select(
-                'patients.id',
-                { fullName: 'patients.full_name' },
-                'patients.gender',
-                'patients.email',
-                'patients.phone',
-                'patients.birthday',
-                'patients.avatar',
-                'patients.address',
-                { nationalIdCard: 'patients.national_id_card' },
-                'patients.insurance',
-                'patients.profesion',
-                'patients.active',
-                'patients.weight',
-                'patients.height',
-            )
-            .offset(offset)
-            .limit(pageSize);
-    }
-
-    countByDoctorHasExamination(doctorId) {
-        return this.query()
-            .whereNull('patients.deleted_at')
-            .innerJoin(
-                'examinations',
-                'examinations.patient_id',
-                '=',
-                'patients.id',
-            )
-            .where('examinations.doctor_id', '=', doctorId)
-            .distinct()
-            .count()
-            .first();
-    }
 }
 
 export const PatientRepository = new Repository('patients');
