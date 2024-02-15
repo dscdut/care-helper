@@ -25,7 +25,10 @@ class Repository extends DataRepository {
     }
 
     countByPatientId(patientId) {
-        return this.query().count('surveys.patient_id', '=', patientId).first();
+        return this.query()
+            .where('surveys.patient_id', '=', patientId)
+            .count()
+            .first();
     }
 
     findByPatientId(patientId, offset, pageSize) {
@@ -52,7 +55,10 @@ class Repository extends DataRepository {
     }
 
     countByDoctorId(doctorId) {
-        return this.query().count('surveys.doctor_id', '=', doctorId).first();
+        return this.query()
+            .where('surveys.doctor_id', '=', doctorId)
+            .count()
+            .first();
     }
 
     findByDoctorId(doctorId, offset, pageSize) {
