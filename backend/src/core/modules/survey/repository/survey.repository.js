@@ -9,10 +9,14 @@ class Repository extends DataRepository {
     findById(id) {
         return this.query()
             .where('surveys.id', '=', id)
+            .innerJoin('patients', 'patients.id', '=', 'surveys.patient_id')
+            .innerJoin('doctors', 'doctors.id', '=', 'surveys.doctor_id')
             .select(
                 'surveys.id',
                 { doctorId: 'surveys.doctor_id' },
+                { doctorFullName: 'doctors.full_name' },
                 { patientId: 'surveys.patient_id' },
+                { patientFullName: 'patients.full_name' },
                 'surveys.form',
                 'surveys.status',
                 { createdAt: 'surveys.created_at' },
@@ -34,11 +38,15 @@ class Repository extends DataRepository {
     findByPatientId(patientId, offset, pageSize) {
         return this.query()
             .where('surveys.patient_id', '=', patientId)
+            .innerJoin('patients', 'patients.id', '=', 'surveys.patient_id')
+            .innerJoin('doctors', 'doctors.id', '=', 'surveys.doctor_id')
             .orderBy('surveys.created_at', 'desc')
             .select(
                 'surveys.id',
                 { doctorId: 'surveys.doctor_id' },
+                { doctorFullName: 'doctors.full_name' },
                 { patientId: 'surveys.patient_id' },
+                { patientFullName: 'patients.full_name' },
                 'surveys.form',
                 'surveys.status',
                 { createdAt: 'surveys.created_at' },
@@ -64,11 +72,15 @@ class Repository extends DataRepository {
     findByDoctorId(doctorId, offset, pageSize) {
         return this.query()
             .where('surveys.doctor_id', '=', doctorId)
+            .innerJoin('patients', 'patients.id', '=', 'surveys.patient_id')
+            .innerJoin('doctors', 'doctors.id', '=', 'surveys.doctor_id')
             .orderBy('surveys.created_at', 'desc')
             .select(
                 'surveys.id',
                 { doctorId: 'surveys.doctor_id' },
+                { doctorFullName: 'doctors.full_name' },
                 { patientId: 'surveys.patient_id' },
+                { patientFullName: 'patients.full_name' },
                 'surveys.form',
                 'surveys.status',
                 { createdAt: 'surveys.created_at' },
