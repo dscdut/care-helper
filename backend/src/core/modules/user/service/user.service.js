@@ -5,6 +5,7 @@ import {
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
+import { LessPatientDto } from 'core/modules/patient';
 import { DoctorRepository, PatientRepository } from '../repository';
 import { DoctorDto } from '../dto/doctor.dto';
 import { PatientDto } from '../dto/patient.dto';
@@ -130,14 +131,21 @@ class Service {
         return PatientDto(patient[0]);
     }
 
-    async findPatientsByDoctorId(id) {
-        try {
-            const data = await this.patientRepository.findByDoctorHasExamination(id);
-            return data.map(p => PatientDto(p));
-        } catch (error) {
-            logger.error(error.message);
-            throw new InternalServerException();
-        }
+    async findPatientsByDoctorId(id, page, pageSize) {
+        const offset = (page - 1) * pageSize;
+        const total = await this.patientRepository.countByDoctorHasExamination(
+            id,
+        );
+        const data = await this.patientRepository.findByDoctorHasExamination(
+            id,
+            offset,
+            pageSize,
+        );
+        return {
+            content: data.map(e => LessPatientDto(e)),
+            pageSize,
+            total: parseInt(total.count, 10),
+        };
     }
 }
 

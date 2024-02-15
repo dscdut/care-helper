@@ -1,9 +1,10 @@
 import { Module } from 'packages/handler/Module';
 import {
-    RecordId, keyword, page, size
+    RecordId, keyword, page, patientId, size
 } from 'core/common/swagger';
 import { UpdatePatientInterceptor } from 'core/modules/user';
-import { hasDoctorOrPatientRole, hasDoctorRole } from 'core/modules/auth/guard';
+import { hasDoctorOrPatientRole, hasDoctorRole, hasPatientRole } from 'core/modules/auth/guard';
+import { canFillSurvey } from 'core/modules/survey/guard';
 import { PatientController } from './patient.controller';
 
 export const PatientResolver = Module.builder()
@@ -14,11 +15,32 @@ export const PatientResolver = Module.builder()
     })
     .register([
         {
-            route: '/my-patients',
+            route: '/my-surveys',
             method: 'get',
+            guards: [hasPatientRole],
+            params: [page, size],
+            controller: PatientController.getMySurveys,
+            model: { $ref: 'PaginationSurveyDto' },
+            preAuthorization: true,
+        },
+        {
+            route: '/surveys/:id',
+            method: 'put',
+            guards: [canFillSurvey],
+            params: [RecordId],
+            body: 'FillSurveyDto',
+            controller: PatientController.fillSurvey,
+            model: { $ref: 'MessageDto' },
+            preAuthorization: true,
+        },
+        {
+            route: '/:patientId/examinations',
+            method: 'get',
+            params: [page, size, patientId],
             guards: [hasDoctorRole],
-            controller: PatientController.getPatientsOfDoctor,
-            model: { type: 'array', items: { $ref: 'PatientDto' } },
+            controller: PatientController.listExaminations,
+            model: { $ref: 'PaginationPatientExaminationDto' },
+            description: 'Get a list of a patient\'s examinations',
             preAuthorization: true,
         },
         {
@@ -29,11 +51,13 @@ export const PatientResolver = Module.builder()
             controller: PatientController.searchPatient,
             model: { $ref: 'PaginationPatientDto' },
             preAuthorization: true,
-            description: 'Only doctors have the right to find patient information via phone number, name, address, national id card, insurance by keyword.'
+            description:
+                'Only doctors have the right to find patient information via phone number, name, address, national id card, insurance by keyword.',
         },
         {
             route: '/',
             method: 'put',
+            guards: [hasPatientRole],
             interceptors: [UpdatePatientInterceptor],
             body: 'PatientUpdateDto',
             controller: PatientController.updatePatient,

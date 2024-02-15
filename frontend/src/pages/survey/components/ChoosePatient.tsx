@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { patients } from 'src/data/patient'
+import { patientsName } from 'src/data/survey'
+// import { patients } from 'src/data/patient'
 
 interface ChoosePatientProps {
   onNext: () => void
@@ -29,7 +30,7 @@ export default function ChoosePatient({ onNext }: ChoosePatientProps) {
       </div>
       <div className='mt-4 max-h-80 overflow-y-scroll'>
         <ul className='menu mt-4 w-[inherit] rounded-box bg-base-200'>
-          {patients.map((patient) => (
+          {patientsName.map((patient) => (
             <li key={patient.id}>
               <button onClick={() => handlePatientClick(patient.name)}>{patient.name}</button>
             </li>

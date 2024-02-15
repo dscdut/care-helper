@@ -1,5 +1,3 @@
-import { Survey } from './survey.type'
-
 export type User = {
   id: number
   email: string
@@ -22,7 +20,6 @@ export type PatientType = {
   phone: string
   doctor: string
   diagnose: string
-  survey: Survey
 }
 
 export type PatientRecord = Pick<PatientType, 'date' | 'doctor' | 'id'>
@@ -43,4 +40,21 @@ export type PatientAdministrative = {
     object: string
   }
   healthOverview: TitleValuePair[]
+}
+
+export type PatientOfDoctor = {
+  id: number
+  fullName: string
+  gender: string
+  email: string
+  phone: string
+  birthday: string
+  avatar: string
+  address: string
+  nationalIdCard: string
+  insurance: string
+  profesion: string
+  active: boolean
+  weight: number
+  height: number
 }

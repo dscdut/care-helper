@@ -5,3 +5,4 @@ export * from './page-size';
 export * from './page';
 export * from './examination-id';
 export * from './keyword';
+export * from './patient-id';

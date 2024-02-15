@@ -2,27 +2,30 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import {
   clearLS,
   getAccessTokenFromLS,
+  getProfileFromLS,
   getRefreshTokenFromLS,
   setAccessTokenToLS,
+  setProfileToLS,
   setRefreshTokenToLS
 } from 'src/utils/auth'
-import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { LoginResponse, RefreshTokenResponse } from 'src/types/auth.type'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN } from 'src/apis/auth.api'
 import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from 'src/utils/utils'
 import { SECONDS_IN_DAY } from 'src/constants/common'
-import { toast } from 'react-toastify'
 import config from 'src/configs'
 import { ErrorResponse } from 'src/types/utils.type'
+import { User } from 'src/types/users.type'
 
 export class Http {
   instance: AxiosInstance
   private accessToken: string
   private refreshToken: string
+  private user: User
   private refreshTokenRequest: Promise<string> | null
   constructor() {
     this.accessToken = getAccessTokenFromLS()
     this.refreshToken = getRefreshTokenFromLS()
+    this.user = getProfileFromLS()
     this.refreshTokenRequest = null
     this.instance = axios.create({
       baseURL: config.baseUrl,
@@ -53,8 +56,10 @@ export class Http {
           const data = response.data as LoginResponse
           this.accessToken = data.accessToken
           this.refreshToken = data.refreshToken
+          this.user = data.user
           setAccessTokenToLS(this.accessToken)
           setRefreshTokenToLS(this.refreshToken)
+          setProfileToLS(this.user)
         } else if (url === URL_LOGOUT) {
           this.accessToken = ''
           this.refreshToken = ''
@@ -93,9 +98,9 @@ export class Http {
                     this.refreshTokenRequest = null
                   }, 10000)
                 })
-            return this.refreshTokenRequest.then((access_token) => {
+            return this.refreshTokenRequest.then((accessToken) => {
               // Nghĩa là chúng ta tiếp tục gọi lại request cũ vừa bị lỗi
-              return this.instance({ ...config, headers: { ...config?.headers, authorization: access_token } })
+              return this.instance({ ...config, headers: { ...config?.headers, authorization: accessToken } })
             })
           }
 
@@ -117,13 +122,13 @@ export class Http {
   private handleRefreshToken() {
     return this.instance
       .post<RefreshTokenResponse>(URL_REFRESH_TOKEN, {
-        refresh_token: this.refreshToken
+        refreshToken: this.refreshToken
       })
       .then((res) => {
-        const { access_token } = res.data.data
-        setAccessTokenToLS(access_token)
-        this.accessToken = access_token
-        return access_token
+        const { accessToken } = res.data.data
+        setAccessTokenToLS(accessToken)
+        this.accessToken = accessToken
+        return accessToken
       })
       .catch((error) => {
         clearLS()

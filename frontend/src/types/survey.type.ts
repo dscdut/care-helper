@@ -1,8 +1,16 @@
+interface Person {
+  id: number
+  fullName: string
+}
+
 export type Survey = {
   id: number
+  form: string
   status: SurveyStatus
-  date: string
-  diagnose: string
+  patient: Person
+  doctor: Person
+  createdAt: string
+  updatedAt: string
 }
 
 export enum SurveyStatus {
@@ -11,7 +19,6 @@ export enum SurveyStatus {
 }
 
 export type AnswersSurvey = {
-  id: number
   question: string
   answer: string
 }

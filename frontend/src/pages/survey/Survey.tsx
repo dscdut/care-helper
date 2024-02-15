@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { HiMagnifyingGlass, HiMiniPlus, HiXMark } from 'react-icons/hi2'
 import classNames from 'classnames'
 import { path } from 'src/constants/path'
-import { patients } from 'src/data/patient'
+// import { patients } from 'src/data/patient'
 import { ChoosePatient, AddQuestions } from 'src/pages/survey/components'
 import Pagination from 'src/components/pagination/Pagination'
+import { patientsName, sampleSurveyData } from 'src/data/survey'
 
 export default function Survey() {
   const [showChoosePatient, setShowChoosePatient] = useState(true)
@@ -88,28 +89,22 @@ export default function Survey() {
                 <th>Name</th>
                 <th>Status</th>
                 <th>Date</th>
-                <th>Diagnose</th>
               </tr>
             </thead>
             <tbody>
-              {patients.map((patient) => (
-                <tr
-                  className='hover cursor-pointer'
-                  key={patient.id}
-                  onClick={() => handleNavigateSurvey(patient.survey.id)}
-                >
-                  <td>{patient.name}</td>
+              {sampleSurveyData.map((data) => (
+                <tr className='hover cursor-pointer' key={data.id} onClick={() => handleNavigateSurvey(data.id)}>
+                  <td>{data.patient.fullName}</td>
                   <td>
                     <div
                       className={classNames('btn-active w-fit rounded-xl px-20 py-2', {
-                        'btn-primary  text-white ': patient.survey.status === 'Waiting'
+                        'btn-primary  text-white ': data.status === 'Waiting'
                       })}
                     >
-                      {patient.survey.status}
+                      {data.status}
                     </div>
                   </td>
-                  <td>{patient.survey.date}</td>
-                  <td>{patient.survey.diagnose}</td>
+                  <td>{data.updatedAt}</td>
                 </tr>
               ))}
             </tbody>

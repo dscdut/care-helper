@@ -20,5 +20,16 @@ export type Nameable = {
 
 export interface SelectOption {
   label: string
-  value: number
+  value: string | number
+}
+
+export type PagingFilter = {
+  page: number
+  size: number
+}
+
+export type PagingResponse<Data> = {
+  data: Data
+  totalPages: number
+  totalElements: string
 }
