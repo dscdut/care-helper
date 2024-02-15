@@ -3,6 +3,7 @@ import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('SurveyDto', {
+    id: SwaggerDocument.ApiProperty({ type: 'int' }),
     form: SwaggerDocument.ApiProperty({ type: 'string' }),
     status: SwaggerDocument.ApiProperty({ type: 'enum', model: FormStatus }),
     patientId: SwaggerDocument.ApiProperty({ type: 'int' }),
@@ -12,6 +13,7 @@ ApiDocument.addModel('SurveyDto', {
 });
 
 export const SurveyDto = survey => ({
+    id: survey.id,
     form: survey.form,
     status: survey.status,
     patientId: survey.patientId,
