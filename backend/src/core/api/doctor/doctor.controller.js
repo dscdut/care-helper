@@ -8,11 +8,14 @@ import {
 } from 'core/common/constants';
 import { DoctorService } from 'core/modules/doctor';
 import { PaginationPatientDto } from 'core/modules/patient';
+import { SurveyService } from 'core/modules/survey';
+import { PaginationSurveyDto } from 'core/modules/survey/dto/pagination-survey.dto';
 
 class Controller {
     constructor() {
         this.service = UserService;
         this.doctorService = DoctorService;
+        this.surveyService = SurveyService;
     }
 
     getDoctorById = async req => {
@@ -47,6 +50,18 @@ class Controller {
             size,
         );
         return ValidHttpResponse.toOkResponse(PaginationPatientDto(data));
+    };
+
+    getMySurveys = async req => {
+        const page = req.query.page || DEFAULT_PAGE;
+        const size = req.query.size || DEFAULT_PAGE_SIZE;
+
+        const data = await this.surveyService.getSurveyPaginationByDoctorId(
+            req.user.payload.id,
+            page,
+            size,
+        );
+        return ValidHttpResponse.toOkResponse(PaginationSurveyDto(data));
     };
 }
 
