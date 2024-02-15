@@ -86,6 +86,21 @@ class Service {
         }
         trx.commit();
     }
+
+    async getSurveyPaginationByDoctorId(doctorId, page = 1, pageSize = 10) {
+        const offset = (page - 1) * pageSize;
+        const total = await this.surveyRepository.countByDoctorId(doctorId);
+        const data = await this.surveyRepository.findByDoctorId(
+            doctorId,
+            offset,
+            pageSize,
+        );
+        return {
+            content: data.map(e => SurveyDto(e)),
+            pageSize,
+            total: parseInt(total.count, 10),
+        };
+    }
 }
 
 export const SurveyService = new Service();

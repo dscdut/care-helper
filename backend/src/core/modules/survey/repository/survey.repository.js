@@ -50,6 +50,27 @@ class Repository extends DataRepository {
         if (trx) queryBuilder.transacting(trx);
         return queryBuilder;
     }
+
+    countByDoctorId(doctorId) {
+        return this.query().count('surveys.doctor_id', '=', doctorId).first();
+    }
+
+    findByDoctorId(doctorId, offset, pageSize) {
+        return this.query()
+            .where('surveys.doctor_id', '=', doctorId)
+            .orderBy('surveys.created_at', 'desc')
+            .select(
+                'surveys.id',
+                { doctorId: 'surveys.doctor_id' },
+                { patientId: 'surveys.patient_id' },
+                'surveys.form',
+                'surveys.status',
+                { createdAt: 'surveys.created_at' },
+                { updatedAt: 'surveys.updated_at' },
+            )
+            .offset(offset)
+            .limit(pageSize);
+    }
 }
 
 export const SurveyRepository = new Repository('surveys');
