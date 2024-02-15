@@ -1,10 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/views/pin_authen_view.dart';
 import 'package:flutter_template/presentation/auth/widgets/custom_button_widget.dart';
 import 'package:flutter_template/presentation/auth/widgets/header_phone_input_widget.dart';
+import 'package:hive/hive.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -15,14 +18,44 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool _validate = false;
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final focusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
+  final dio = Dio();
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loginPatient() async {
+    try {
+      // final loginBox = await Hive.openBox('loginBox');
+      // final token = loginBox.get('token');
+      final response = await dio.post(
+        Endpoints.login,
+        data: {
+          'phone': phoneController.text,
+          'password': passwordController.text,
+        },
+      );
+      print(response.data);
+      print('Login success');
+      // print('Token: $token');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
 
   _onTapForgotPassword() {
-    if (_phoneController.text.isEmpty) {
+    if (phoneController.text.isEmpty) {
       setState(() {
         _validate = true;
       });
-    } else if (_phoneController.text.length == 10) {
+    } else if (phoneController.text.length == 10) {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const PinAuthenView(
@@ -56,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextFormField(
-                      controller: _phoneController,
+                      controller: phoneController,
                       decoration: InputDecoration(
                         label: Text(LocaleKeys.auth_phone_number.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
@@ -83,6 +116,7 @@ class _LoginViewState extends State<LoginView> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         label: Text(LocaleKeys.texts_password.tr()),
@@ -113,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
             margin: const EdgeInsets.only(left: 16, right: 16),
             child: CustomButtonWidget(
               label: LocaleKeys.auth_sign_in.tr(),
-              onPressed: () {},
+              onPressed: () => _loginPatient(),
             ),
           ),
         ],
