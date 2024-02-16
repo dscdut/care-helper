@@ -8,7 +8,9 @@ class Repository extends DataRepository {
             queryBuilder = queryBuilder.transacting(trx);
         }
 
-        const createdExamination = queryBuilder.insert(examination).returning('*')
+        const createdExamination = queryBuilder
+            .insert(examination)
+            .returning('*')
             .then(([result]) => ({
                 id: result.id,
                 diagnose: result.diagnose,
@@ -53,13 +55,16 @@ class Repository extends DataRepository {
                 { hospitalAddress: 'hospitals.address' },
                 { hospitalName: 'hospitals.name' },
                 { createdAt: 'examinations.created_at' },
-            ).leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id');
+            )
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id');
     }
 
     findJoinHospitalByDoctorIdAndKeyword(doctorId, offset, pageSize, keyword) {
         return this.query()
             .where('examinations.doctor_id', '=', doctorId)
-            .andWhereRaw(`(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`)
+            .andWhereRaw(
+                `(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`,
+            )
             .select(
                 'examinations.id',
                 'examinations.diagnose',
@@ -84,11 +89,18 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
-    findJoinHospitalByPatientIdAndKeyword(patientId, offset, pageSize, keyword) {
+    findJoinHospitalByPatientIdAndKeyword(
+        patientId,
+        offset,
+        pageSize,
+        keyword,
+    ) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
-            .andWhereRaw(`(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
-            or hospitals.name ilike '%${keyword}%')`)
+            .andWhereRaw(
+                `(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
+            or hospitals.name ilike '%${keyword}%')`,
+            )
             .select(
                 'examinations.id',
                 'examinations.diagnose',
@@ -113,14 +125,47 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
+    findJoinHospitalByPatientId(patientId, offset, pageSize) {
+        return this.query()
+            .where('examinations.patient_id', '=', patientId)
+            .select(
+                'examinations.id',
+                'examinations.diagnose',
+                'examinations.detail_diagnose',
+                'examinations.advice',
+                { doctorId: 'examinations.doctor_id' },
+                { patientId: 'examinations.patient_id' },
+                { hospitalId: 'examinations.hospital_id' },
+                { hospitalAddress: 'hospitals.address' },
+                { hospitalName: 'hospitals.name' },
+                { createdAt: 'examinations.created_at' },
+                { doctorName: 'doctors.full_name' },
+                { doctorPhone: 'doctors.phone' },
+            )
+            .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
+            .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
+            .orderBy('examinations.created_at', 'desc')
+            .offset(offset)
+            .limit(pageSize);
+    }
+
+    countByPatientId(patientId) {
+        return this.query()
+            .where('examinations.patient_id', '=', patientId)
+            .count('examinations.id')
+            .first();
+    }
+
     countByPatientIdAndKeyword(patientId, keyword) {
         return this.query()
             .where('examinations.patient_id', '=', patientId)
             .leftJoin('patients', 'patients.id', 'examinations.patient_id')
             .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
             .leftJoin('hospitals', 'hospitals.id', 'examinations.hospital_id')
-            .andWhereRaw(`(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
-            or hospitals.name ilike '%${keyword}%')`)
+            .andWhereRaw(
+                `(doctors.phone ilike '%${keyword}%' or doctors.full_name ilike '%${keyword}%' 
+            or hospitals.name ilike '%${keyword}%')`,
+            )
             .count('examinations.id')
             .first();
     }
@@ -130,7 +175,9 @@ class Repository extends DataRepository {
             .where('examinations.doctor_id', '=', doctorId)
             .leftJoin('patients', 'patients.id', 'examinations.patient_id')
             .leftJoin('doctors', 'doctors.id', 'examinations.doctor_id')
-            .andWhereRaw(`(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`)
+            .andWhereRaw(
+                `(patients.phone ilike '%${keyword}%' or patients.full_name ilike '%${keyword}%')`,
+            )
             .count('examinations.id')
             .first();
     }
@@ -154,6 +201,57 @@ class Repository extends DataRepository {
             .from('examinations')
             .where('examinations.id', '=', id)
             .andWhere('examinations.patient_id', '=', patientId)
+            .first();
+    }
+
+    findByDoctorHasExamination(doctorId, offset, pageSize) {
+        return this.query()
+            .distinct('examinations.patient_id')
+            .where('examinations.doctor_id', '=', doctorId)
+            .innerJoin(
+                'patients',
+                'patients.id',
+                '=',
+                'examinations.patient_id',
+            )
+            .whereNull('patients.deleted_at')
+            .select(
+                'patients.id',
+                { fullName: 'patients.full_name' },
+                'patients.gender',
+                'patients.email',
+                'patients.phone',
+                'patients.birthday',
+                'patients.avatar',
+                'patients.address',
+                { nationalIdCard: 'patients.national_id_card' },
+                'patients.insurance',
+                'patients.profesion',
+                'patients.active',
+                'patients.weight',
+                'patients.height',
+            )
+            .offset(offset)
+            .limit(pageSize);
+    }
+
+    countByDoctorHasExamination(doctorId) {
+        return this.query()
+            .count('*')
+            .from(function () {
+                this.from('examinations')
+                    .distinct('examinations.patient_id')
+                    .where('examinations.doctor_id', '=', doctorId)
+                    .innerJoin(
+                        'patients',
+                        'patients.id',
+                        '=',
+                        'examinations.patient_id',
+                    )
+                    .whereNull('patients.deleted_at')
+                    .select('examinations.patient_id')
+                    .as('t');
+            })
             .first();
     }
 }

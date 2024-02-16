@@ -13,6 +13,7 @@ import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { AUTH_FIELD_NAME } from 'src/constants/common'
 import { AUTH_MESSAGES } from 'src/constants/message'
 import { isAxiosError } from 'src/utils/utils'
+import Button from 'src/components/button/Button'
 
 export interface LoginProps {}
 
@@ -31,7 +32,7 @@ export default function Login(props: LoginProps) {
     },
     resolver: yupResolver(schemaLogin)
   })
-  const { setIsAuthenticated } = useContext<AppContextType>(AppContext)
+  const { setIsAuthenticated, setUser } = useContext<AppContextType>(AppContext)
   const loginMutation = useMutation({
     mutationFn: (body: LoginReqBody) => authApi.login(body),
     onSuccess: (data) => {
@@ -39,6 +40,7 @@ export default function Login(props: LoginProps) {
         progressClassName: 'bg-primary'
       })
       setIsAuthenticated(true)
+      setUser(data.data.user)
       navigate(path.home)
     },
     onError: (error) => {
@@ -62,21 +64,21 @@ export default function Login(props: LoginProps) {
             register={register}
             name='email'
             placeholder='Email'
-            errorMessage={errors.email?.message}
+            errorMessage={errors.email?.message || ' '}
           />
           <Input<Pick<AuthSchema, 'password'>>
             register={register}
             name='password'
             placeholder='Password'
             type='password'
-            errorMessage={errors.password?.message}
+            errorMessage={errors.password?.message || ' '}
           />
           <div className='text-right'>
             <Link to={path.home} className='font-semibold text-primary underline'>
               Forgot password?
             </Link>
           </div>
-          <button className='btn btn-primary mt-8 w-full text-white'>Sign In</button>
+          <Button title='Sign In' className='btn-primary mt-8 w-full text-white' loading={loginMutation.isLoading} />
         </form>
       </div>
       <div className='divider mt-4'>or</div>

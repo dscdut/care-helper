@@ -1,16 +1,25 @@
 import classNames from 'classnames'
 import { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { path } from 'src/constants/path'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { sidebarOption } from 'src/data/layout'
 import { HiBars3, HiArrowRightOnRectangle } from 'react-icons/hi2'
+import { clearLS } from 'src/utils/auth'
 
 export interface SidebarProps {}
 
 export default function Sidebar(props: SidebarProps) {
-  const { showSidebar } = useContext<AppContextType>(AppContext)
+  const { showSidebar, setIsAuthenticated, setUser } = useContext<AppContextType>(AppContext)
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    clearLS()
+    setIsAuthenticated(false)
+    setUser(null)
+    navigate(path.login)
+  }
   return (
     <div className='drawer fixed z-10 w-max bg-white lg:drawer-open'>
       <input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
@@ -68,16 +77,16 @@ export default function Sidebar(props: SidebarProps) {
           </div>
 
           <li>
-            <Link
-              to={path.login}
+            <button
               className={`hover:bg-primary hover:text-white focus:!bg-primary focus:!text-white active:!bg-primary ${
                 !showSidebar && 'tooltip tooltip-right'
               }`}
               data-tip={'Sign out'}
+              onClick={handleSignOut}
             >
               <HiArrowRightOnRectangle className='h-6 w-6' />
               {showSidebar && 'Sign out'}
-            </Link>
+            </button>
           </li>
         </ul>
       </div>

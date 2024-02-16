@@ -1,34 +1,53 @@
+import dayjs from 'dayjs'
 import { HiMiniPlus } from 'react-icons/hi2'
+import { useQuery } from 'react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+import patientApi from 'src/apis/patient.api'
+import Button from 'src/components/button/Button'
 import Pagination from 'src/components/pagination/Pagination'
-import { patientRecords } from 'src/data/patient'
+import { PAGE_SIZE_DEFAULT } from 'src/constants/common'
+import { PagingFilter } from 'src/types/utils.type'
 
 export default function PatientListRecords() {
+  const { patientId } = useParams() as { patientId: string }
+  const navigate = useNavigate()
+  const examinationFilter: PagingFilter = {
+    page: 1, // TODO
+    size: PAGE_SIZE_DEFAULT
+  }
+  const { data: examinationsData } = useQuery({
+    queryKey: ['examinationsOfPatient', Number(patientId)],
+    queryFn: () => patientApi.getExaminationsOfPatient(examinationFilter, Number(patientId))
+  })
+
+  const handleNavigate = (idMedicalRecord: string) => {
+    navigate(`medical-records/${idMedicalRecord}`)
+  }
+
   return (
     <section className='rounded-lg bg-white p-4 shadow-lg'>
-      <div className='mt-2 flex flex-wrap justify-between gap-2 px-4'>
-        <div className='text-base'>
-          <p className='font-bold'>Danh sách các lần khám</p>
-          <p>Từ các hồ sơ bệnh án của tất cả bệnh viện</p>
-        </div>
-        <div className='btn btn-primary text-white'>
-          <HiMiniPlus className='h-6 w-6' />
-          <p> Thêm lần khám mới</p>
-        </div>
+      <div className='mt-2 flex flex-wrap items-center justify-between gap-2 px-4'>
+        <p className='text-lg font-bold'>List Of Examinations</p>
+        <Button title='Add New Examination' Icon={HiMiniPlus} className='btn-primary font-bold text-white' />
       </div>
       <div className='mt-4 overflow-x-auto'>
         <table className='table'>
           {/* head */}
           <thead>
             <tr className='border-primary text-sm'>
-              <th>Ngày khám</th>
-              <th>Bác sỹ phụ trách</th>
+              <th>Examination day</th>
+              <th>Diagnose</th>
             </tr>
           </thead>
           <tbody>
-            {patientRecords.map((patient) => (
-              <tr className='hover cursor-pointer' key={patient.id}>
-                <td>{patient.date}</td>
-                <td>{patient.doctor}</td>
+            {examinationsData?.data.data.map((examination) => (
+              <tr
+                onClick={() => handleNavigate(examination.id.toString())}
+                className='hover cursor-pointer'
+                key={examination.id}
+              >
+                <td>{dayjs(examination.createdAt).format('DD/MM/YYYY')}</td>
+                <td>{examination.diagnose}</td>
               </tr>
             ))}
           </tbody>

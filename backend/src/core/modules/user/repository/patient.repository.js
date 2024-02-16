@@ -29,7 +29,7 @@ class Repository extends DataRepository {
                 'patients.profesion',
                 'patients.active',
                 'patients.height',
-                'patients.weight'
+                'patients.weight',
             );
     }
 
@@ -52,30 +52,7 @@ class Repository extends DataRepository {
                 'patients.profesion',
                 'patients.active',
                 'patients.height',
-                'patients.weight'
-            );
-    }
-
-    findByDoctorHasExamination(doctorId) {
-        return this.query()
-            .whereNull('patients.deleted_at')
-            .innerJoin('examinations', 'examinations.doctor_id', '=', doctorId)
-            .distinct()
-            .select(
-                'patients.id',
-                { fullName: 'patients.full_name' },
-                'patients.gender',
-                'patients.email',
-                'patients.phone',
-                'patients.birthday',
-                'patients.avatar',
-                'patients.address',
-                { nationalIdCard: 'patients.national_id_card' },
-                'patients.insurance',
-                'patients.profesion',
-                'patients.active',
                 'patients.weight',
-                'patients.height',
             );
     }
 }

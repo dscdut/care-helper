@@ -1,5 +1,5 @@
-import { User } from './users.type'
-import { SuccessResponse } from './utils.type'
+import { User } from 'src/types/users.type'
+import { SuccessResponse } from 'src/types/utils.type'
 export interface SelectOption {
   label: string
   value: number
@@ -12,7 +12,7 @@ export type AuthResponse = SuccessResponse<{
   expires: number
 }>
 
-export type RefreshTokenResponse = SuccessResponse<{ access_token: string }>
+export type RefreshTokenResponse = SuccessResponse<{ accessToken: string }>
 
 export type LoginResponse = {
   user: User
