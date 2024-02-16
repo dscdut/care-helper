@@ -2,10 +2,10 @@ part of 'register_bloc.dart';
 
 abstract class RegisterEvent {}
 
-class GetTokenEvent extends RegisterEvent {
+class SubmitPhoneNumberEvent extends RegisterEvent {
   final GetTokenByPhoneRequestDTO param;
 
-  GetTokenEvent(this.param);
+  SubmitPhoneNumberEvent(this.param);
 }
 
 class VerifyOtpEvent extends RegisterEvent {
