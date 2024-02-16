@@ -12,11 +12,13 @@ class PatientModel {
     this.insurance,
     this.profesion,
     required this.active,
+    this.weight,
+    this.height,
   });
 
   factory PatientModel.fromJson(Map<String, dynamic> json) {
     return PatientModel(
-      id: json['id'] as String,
+      id: json['id'] as int,
       email: json['email'] as String?,
       fullName: json['fullName'] as String?,
       gender: json['gender'] as String?,
@@ -30,10 +32,12 @@ class PatientModel {
       insurance: json['insurance'] as String?,
       profesion: json['profesion'] as String?,
       active: json['active'] as bool,
+      weight: json['weight'] as int?,
+      height: json['height'] as int?,
     );
   }
 
-  final String id;
+  final int id;
   final String? email;
   final String? fullName;
   final String? gender;
@@ -45,4 +49,6 @@ class PatientModel {
   final String? insurance;
   final String? profesion;
   final bool active;
+  final int? weight;
+  final int? height;
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
@@ -79,9 +80,9 @@ class _MyViewState extends State<MyView> {
         },
         child: Column(
           children: [
-            const Header(
-              heading1: LocaleKeys.auth_enter_phone,
-              heading2: LocaleKeys.auth_enter_phone_detail,
+            Header(
+              heading1: LocaleKeys.auth_enter_phone.tr(),
+              heading2: LocaleKeys.auth_enter_phone_detail.tr(),
             ),
             Form(
               child: Container(
@@ -95,11 +96,12 @@ class _MyViewState extends State<MyView> {
                 child: TextFormField(
                   controller: _phoneController,
                   decoration: InputDecoration(
-                    label: const Text(LocaleKeys.auth_phone_number),
+                    label: Text(LocaleKeys.auth_phone_number.tr()),
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     contentPadding: const EdgeInsets.all(12),
                     border: InputBorder.none,
-                    errorText: _validate ? LocaleKeys.auth_phone_check : null,
+                    errorText:
+                        _validate ? LocaleKeys.auth_phone_check.tr() : null,
                   ),
                   keyboardType: TextInputType.phone,
                   onChanged: (value) {
@@ -114,7 +116,7 @@ class _MyViewState extends State<MyView> {
             Container(
               margin: const EdgeInsets.only(left: 16, right: 16),
               child: CustomButton(
-                label: LocaleKeys.action_continue,
+                label: LocaleKeys.action_continue.tr(),
                 onPressed: () => _onSubmitPhone(context),
               ),
             ),
