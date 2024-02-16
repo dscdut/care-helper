@@ -6,6 +6,7 @@ import {
     NotFoundException,
 } from 'packages/httpException';
 import { LessPatientDto } from 'core/modules/patient';
+import { ExaminationRepository } from 'core/modules/examination/examination.repository';
 import { DoctorRepository, PatientRepository } from '../repository';
 import { DoctorDto } from '../dto/doctor.dto';
 import { PatientDto } from '../dto/patient.dto';
@@ -14,6 +15,7 @@ class Service {
     constructor() {
         this.patientRepository = PatientRepository;
         this.doctorRepository = DoctorRepository;
+        this.examinationRepository = ExaminationRepository;
     }
 
     async findDoctorByEmail(email) {
@@ -133,10 +135,8 @@ class Service {
 
     async findPatientsByDoctorId(id, page, pageSize) {
         const offset = (page - 1) * pageSize;
-        const total = await this.patientRepository.countByDoctorHasExamination(
-            id,
-        );
-        const data = await this.patientRepository.findByDoctorHasExamination(
+        const total = await this.examinationRepository.countByDoctorHasExamination(id);
+        const data = await this.examinationRepository.findByDoctorHasExamination(
             id,
             offset,
             pageSize,

@@ -33,7 +33,8 @@ class Repository extends DataRepository {
                 {
                     prescriptionFilename: 'prescriptions.prescription_filename',
                 },
-            );
+            )
+            .orderBy('prescriptions.start_date', 'desc');
     }
 }
 
