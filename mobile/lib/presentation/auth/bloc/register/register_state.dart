@@ -3,25 +3,25 @@ part of 'register_bloc.dart';
 class RegisterState {
   RegisterState({
     this.error = '',
-    this.isTokenGet = false,
+    this.token = '',
     this.isOtpVerified = false,
     this.isRegistered = false,
   });
 
   final String error;
-  final bool isTokenGet;
+  final String token;
   final bool isOtpVerified;
   final bool isRegistered;
 
   RegisterState copyWith({
     String? error,
-    bool? isTokenGet,
+    String? token,
     bool? isOtpVerified,
     bool? isRegistered,
   }) {
     return RegisterState(
       error: error ?? this.error,
-      isTokenGet: isTokenGet ?? this.isTokenGet,
+      token: token ?? this.token,
       isOtpVerified: isOtpVerified ?? this.isOtpVerified,
       isRegistered: isRegistered ?? this.isRegistered,
     );
