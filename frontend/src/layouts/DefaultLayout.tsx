@@ -12,9 +12,9 @@ export default function DefaultLayout({ children }: ReactWithChild) {
       <Navbar />
       <Sidebar />
       <div
-        className={classNames('flex min-h-screen w-full flex-col items-center justify-center pt-16', {
-          'lg:pl-[19rem]': showSidebar,
-          'lg:pl-24': !showSidebar
+        className={classNames('flex min-h-screen w-full flex-col items-center pt-16', {
+          'lg:pl-72': showSidebar,
+          'lg:pl-[88px]': !showSidebar
         })}
       >
         {children}

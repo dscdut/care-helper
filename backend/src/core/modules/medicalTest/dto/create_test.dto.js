@@ -7,6 +7,6 @@ ApiDocument.addModel('CreateTestDto', {
 });
 
 export const CreateTestDto = body => ({
-    test_rows: JSON.stringify(body.testRows),
+    test_rows: typeof body.testRows === 'string' ? body.testRows : JSON.stringify(body.testRows),
     examination_id: body.examinationId,
 });

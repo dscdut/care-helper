@@ -10,7 +10,7 @@ ApiDocument.addModel('MedicalTestDto', {
 
 export const MedicalTestDto = medicalTest => ({
     id: medicalTest.id,
-    testRows: medicalTest.testRows,
+    testRows: JSON.parse(medicalTest.testRows),
     examinationId: medicalTest.examinationId,
     createdAt: medicalTest.createdAt
 });

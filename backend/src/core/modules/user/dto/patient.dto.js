@@ -2,7 +2,7 @@ import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('PatientDto', {
-    id: SwaggerDocument.ApiProperty({ type: 'number' }),
+    id: SwaggerDocument.ApiProperty({ type: 'int' }),
     email: SwaggerDocument.ApiProperty({ type: 'string' }),
     fullName: SwaggerDocument.ApiProperty({ type: 'string' }),
     gender: SwaggerDocument.ApiProperty({ type: 'string' }),
@@ -14,6 +14,8 @@ ApiDocument.addModel('PatientDto', {
     insurance: SwaggerDocument.ApiProperty({ type: 'string' }),
     profesion: SwaggerDocument.ApiProperty({ type: 'string' }),
     active: SwaggerDocument.ApiProperty({ type: 'bool' }),
+    weight: SwaggerDocument.ApiProperty({ type: 'int' }),
+    height: SwaggerDocument.ApiProperty({ type: 'int' }),
 });
 
 export const PatientDto = patient => ({
@@ -29,4 +31,6 @@ export const PatientDto = patient => ({
     insurance: patient.insurance,
     profesion: patient.profesion,
     active: patient.active,
+    weight: patient.weight,
+    height: patient.height,
 });

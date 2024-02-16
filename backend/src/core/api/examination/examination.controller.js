@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from 'core/common/constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_KEYWORD } from 'core/common/constants';
 import { MessageDto } from 'core/common/dto';
 import { Role } from 'core/common/enum';
 import { CreateExaminationDto, UpdateExaminationDto, ExaminationService } from 'core/modules/examination';
@@ -42,15 +42,16 @@ class Controller {
         const userRole = req.user.payload.role;
         const page = req.query.page || DEFAULT_PAGE;
         const size = req.query.size || DEFAULT_PAGE_SIZE;
+        const keyword = req.query.keyword || DEFAULT_KEYWORD;
 
         if (userRole === Role.PATIENT) {
             data = await this.service.getPaginationByPatientId(
-                userId, page, size
+                userId, page, size, keyword
             );
         }
         if (userRole === Role.DOCTOR) {
             data = await this.service.getPaginationByDoctorId(
-                userId, page, size
+                userId, page, size, keyword
             );
         }
         return ValidHttpResponse.toOkResponse(data);

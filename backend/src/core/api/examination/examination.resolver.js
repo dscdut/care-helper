@@ -1,5 +1,7 @@
 import { Module } from 'packages/handler/Module';
-import { RecordId, page, size } from 'core/common/swagger';
+import {
+    RecordId, keyword, page, size
+} from 'core/common/swagger';
 import {
     CreateExaminationInterceptor,
     UpdateExaminationInterceptor,
@@ -17,12 +19,13 @@ export const ExaminationResolver = Module.builder()
         {
             route: '/my-examinations',
             method: 'get',
-            params: [page, size],
+            params: [page, size, keyword],
             guards: [hasDoctorOrPatientRole],
             controller: ExaminationController.listMyExaminations,
             model: { $ref: 'PaginationExaminationDto' },
             description:
-                'Get data about medical visits that the patient or doctor are related to',
+                // eslint-disable-next-line quotes
+                "Get data about medical visits that the patient or doctor are related to. Doctors can search for medical visits by phone number or patient name. Patients can search for medical visits by hospital name or doctor's name, phone number doctor",
             preAuthorization: true,
         },
         {

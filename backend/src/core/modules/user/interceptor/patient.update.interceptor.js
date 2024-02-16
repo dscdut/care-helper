@@ -4,11 +4,11 @@ import { JoiUtils } from '../../../utils';
 
 export const UpdatePatientInterceptor = new DefaultValidatorInterceptor(
     Joi.object({
-        full_name: JoiUtils.requiredString(),
+        fullName: JoiUtils.requiredString(),
         gender: JoiUtils.requiredString(),
         birthday: JoiUtils.date().required(),
         address: JoiUtils.requiredString(),
-        national_id_card: JoiUtils.numberString(),
+        nationalIdCard: JoiUtils.numberString(),
         insurance: JoiUtils.requiredString(),
         profesion: JoiUtils.requiredString(),
         height: JoiUtils.requiredString(),

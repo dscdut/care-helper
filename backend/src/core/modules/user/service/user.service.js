@@ -5,6 +5,8 @@ import {
     InternalServerException,
     NotFoundException,
 } from 'packages/httpException';
+import { LessPatientDto } from 'core/modules/patient';
+import { ExaminationRepository } from 'core/modules/examination/examination.repository';
 import { DoctorRepository, PatientRepository } from '../repository';
 import { DoctorDto } from '../dto/doctor.dto';
 import { PatientDto } from '../dto/patient.dto';
@@ -13,6 +15,7 @@ class Service {
     constructor() {
         this.patientRepository = PatientRepository;
         this.doctorRepository = DoctorRepository;
+        this.examinationRepository = ExaminationRepository;
     }
 
     async findDoctorByEmail(email) {
@@ -39,7 +42,7 @@ class Service {
     async findPatientById(id) {
         try {
             const data = await this.patientRepository.findById(id);
-            if (data.length > 0) return data[0];
+            if (data.length > 0) return PatientDto(data[0]);
         } catch (error) {
             logger.error(error.message);
             throw new InternalServerException();
@@ -128,6 +131,21 @@ class Service {
         await trx.commit();
         patient = await this.patientRepository.findById(patientUpdate.id);
         return PatientDto(patient[0]);
+    }
+
+    async findPatientsByDoctorId(id, page, pageSize) {
+        const offset = (page - 1) * pageSize;
+        const total = await this.examinationRepository.countByDoctorHasExamination(id);
+        const data = await this.examinationRepository.findByDoctorHasExamination(
+            id,
+            offset,
+            pageSize,
+        );
+        return {
+            content: data.map(e => LessPatientDto(e)),
+            pageSize,
+            total: parseInt(total.count, 10),
+        };
     }
 }
 

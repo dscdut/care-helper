@@ -9,3 +9,7 @@ export const AUTH_FIELD_NAME = {
   password: 'password',
   confirmPassword: 'confirmPassword'
 } as const
+
+export const INSURANCE_AREA_NUMBER = 4
+export const PAGE_SIZE_DEFAULT = 10
+export const PRESCRIPTION_ROW_NAME = 'prescriptions'

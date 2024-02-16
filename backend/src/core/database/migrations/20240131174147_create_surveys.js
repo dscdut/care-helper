@@ -3,11 +3,13 @@ const { FormStatus } = require('../../common/enum');
 /**
  * @param { import("knex").Knex } knex
  */
-const tableName = 'health_survey';
+const tableName = 'surveys';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
-        table.enu('status', Object.values(FormStatus)).defaultTo(FormStatus.WAITING);
+        table
+            .enu('status', Object.values(FormStatus))
+            .defaultTo(FormStatus.WAITING);
         table.text('form');
         table
             .integer('doctor_id')
@@ -26,7 +28,7 @@ exports.up = async knex => {
             .inTable('patients')
             .onDelete('CASCADE');
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.timestamp('updated_at');
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
     });
 
     await knex.raw(`

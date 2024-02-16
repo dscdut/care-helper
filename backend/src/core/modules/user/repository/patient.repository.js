@@ -27,7 +27,9 @@ class Repository extends DataRepository {
                 { nationalIdCard: 'patients.national_id_card' },
                 'patients.insurance',
                 'patients.profesion',
-                'patients.active'
+                'patients.active',
+                'patients.height',
+                'patients.weight',
             );
     }
 
@@ -49,6 +51,8 @@ class Repository extends DataRepository {
                 'patients.insurance',
                 'patients.profesion',
                 'patients.active',
+                'patients.height',
+                'patients.weight',
             );
     }
 }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { quickOptionsNavbar } from 'src/data/layout'
 import { HiChevronDoubleLeft, HiMagnifyingGlass, HiOutlineBell } from 'react-icons/hi2'
+import Button from 'src/components/button/Button'
 export interface NavbarProps {}
 
 export default function Navbar(props: NavbarProps) {
@@ -19,14 +20,13 @@ export default function Navbar(props: NavbarProps) {
       })}
     >
       <div className='navbar-start flex-[30%]'>
-        <button
+        <Button
           className={classNames('btn btn-circle btn-ghost hidden transition-all lg:flex', {
             'rotate-180': !showSidebar
           })}
           onClick={handleShowSidebar}
-        >
-          <HiChevronDoubleLeft className='h-6 w-6' />
-        </button>
+          Icon={HiChevronDoubleLeft}
+        />
       </div>
       <div className='navbar-center flex-[30%]'>
         <form className='w-full'>

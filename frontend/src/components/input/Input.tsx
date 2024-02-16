@@ -25,13 +25,15 @@ export default function Input<T extends FieldValues>({
         type='text'
         placeholder='Type here'
         className={twMerge(
-          'input input-bordered w-full hover:border-primary focus:border-primary focus:outline-none',
+          'input input-bordered w-full disabled:!input-bordered hover:border-primary focus:border-primary focus:outline-none',
           inputClass
         )}
         {...register(name)}
         {...rest}
       />
-      <div className={twMerge('mt-1 min-h-[1.25rem] text-sm text-red-600', errorMessageClass)}>{errorMessage}</div>
+      {errorMessage && (
+        <div className={twMerge('mt-1 min-h-[1.25rem] text-sm text-red-600', errorMessageClass)}>{errorMessage}</div>
+      )}
     </div>
   )
 }

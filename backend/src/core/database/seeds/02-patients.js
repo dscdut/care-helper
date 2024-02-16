@@ -2,7 +2,7 @@
 /**
  * @param {import("knex")} knex
  */
-import { fakerVI } from '@faker-js/faker';
+import { fakerEN } from '@faker-js/faker';
 
 const { Gender } = require('../../common/enum');
 
@@ -14,23 +14,25 @@ exports.seed = async knex => {
 
     // eslint-disable-next-line no-unused-vars
     const patients = Array.from({ length: numPatients }, (_, index) => ({
-        full_name: fakerVI.person.fullName(),
-        email: fakerVI.internet.email(),
-        phone: fakerVI.phone.number(),
+        full_name: fakerEN.person.fullName(),
+        email: fakerEN.internet.email(),
+        phone: fakerEN.string.numeric({ length: 10 }),
         password:
             '$2b$10$4WxWKojNnKfDAicVsveh7.ogkWOBMV1cvRUSPCXwxA05NRX18F0QW',
         active: true,
         locked: false,
-        gender: fakerVI.helpers.objectValue(Gender),
-        birthday: fakerVI.date.birthdate(),
-        avatar: fakerVI.image.avatarLegacy(),
-        address: fakerVI.location.streetAddress(true),
-        national_id_card: fakerVI.string.numeric(12),
-        insurance: fakerVI.string.numeric(10),
-        profesion: fakerVI.person.jobTitle(),
+        gender: fakerEN.helpers.objectValue(Gender),
+        birthday: fakerEN.date.birthdate(),
+        avatar: fakerEN.image.avatarLegacy(),
+        address: fakerEN.location.streetAddress(true),
+        national_id_card: fakerEN.string.numeric(12),
+        insurance: fakerEN.string.numeric(10),
+        profesion: fakerEN.person.jobTitle(),
+        weight: `${fakerEN.number.float({ min: 5, max: 120, fractionDigits: 1 })} kg`,
+        height: `${fakerEN.number.int({ min: 80, max: 200 })} m`,
         deleted_at: null,
-        created_at: fakerVI.date.past(),
-        updated_at: fakerVI.date.past(),
+        created_at: fakerEN.date.past(),
+        updated_at: fakerEN.date.past(),
     }));
 
     await knex(tableName).insert(patients);

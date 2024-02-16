@@ -182,7 +182,8 @@ export class Module {
             preAuthorization?: boolean,
             description?: string,
             model?: any,
-            params?: any
+            params?: any,
+            body?: any,
         }]
      } apis
      */
