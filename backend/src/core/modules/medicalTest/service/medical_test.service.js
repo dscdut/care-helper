@@ -60,6 +60,7 @@ class Service {
                 doctorId,
                 trx,
             );
+            trx.commit();
         } catch (error) {
             trx.rollback();
             logger.error(error.message);

@@ -187,6 +187,15 @@ class Repository extends DataRepository {
             .andWhere('examinations.patient_id', '=', patientId)
             .first();
     }
+
+    existByDoctorIdAndPatientId(doctorId, patientId) {
+        return this.query()
+            .from('examinations')
+            .where('examinations.doctor_id', '=', doctorId)
+            .andWhere('examinations.patient_id', '=', patientId)
+            .count('examinations.id')
+            .first();
+    }
 }
 
 export const ExaminationRepository = new Repository('examinations');

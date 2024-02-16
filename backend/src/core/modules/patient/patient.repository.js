@@ -4,7 +4,7 @@ class Repository extends DataRepository {
     findById(id) {
         return this.query()
             .whereNull('patients.deleted_at')
-            .where('patients.phone', '=', id)
+            .where('patients.id', '=', id)
             .select(
                 'patients.id',
                 { fullName: 'patients.full_name' },
