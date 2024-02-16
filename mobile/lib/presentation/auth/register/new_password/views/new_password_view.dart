@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
-import 'package:flutter_template/common/utils/toast_util.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
@@ -13,6 +13,7 @@ import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
+import 'package:flutter_template/router/app_router.dart';
 
 class NewPasswordView extends StatefulWidget {
   const NewPasswordView({super.key});
@@ -85,21 +86,18 @@ class _MyViewState extends State<MyView> {
     return Scaffold(
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
+          log('isRegistered: ${state.isRegistered}');
           if (state.isRegistered) {
-            const ToastCard(
-              duration: Duration(seconds: 3),
-              position: ToastPosition.TOP,
-              child: Text('register successfully'),
-            );
+            Navigator.of(context).pushNamed(AppRouter.profile);
           } else if (state.error.isNotEmpty) {
             log('error: ${state.error}');
           }
         },
         child: Column(
           children: [
-            const Header(
-              heading1: LocaleKeys.auth_new_password,
-              heading2: LocaleKeys.auth_easy_remember_password,
+            Header(
+              heading1: LocaleKeys.auth_new_password.tr(),
+              heading2: LocaleKeys.auth_easy_remember_password.tr(),
             ),
             Form(
               child: Column(
@@ -116,12 +114,12 @@ class _MyViewState extends State<MyView> {
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
-                        label: const Text(LocaleKeys.auth_password),
+                        label: Text(LocaleKeys.auth_password.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
                         errorText: _validate
-                            ? LocaleKeys.auth_password_recommnend
+                            ? LocaleKeys.auth_password_recommnend.tr()
                             : null,
                       ),
                       keyboardType: TextInputType.visiblePassword,
@@ -145,12 +143,13 @@ class _MyViewState extends State<MyView> {
                       obscureText: true,
                       onChanged: (_) => _checkPasswordMatch(),
                       decoration: InputDecoration(
-                        label: const Text(LocaleKeys.auth_confirm_password),
+                        label: Text(LocaleKeys.auth_confirm_password.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
-                        errorText:
-                            isMatch ? null : LocaleKeys.auth_password_not_match,
+                        errorText: isMatch
+                            ? null
+                            : LocaleKeys.auth_password_not_match.tr(),
                       ),
                       keyboardType: TextInputType.visiblePassword,
                     ),
@@ -162,7 +161,7 @@ class _MyViewState extends State<MyView> {
             Container(
               margin: const EdgeInsets.only(left: 16, right: 16),
               child: CustomButton(
-                label: LocaleKeys.action_continue,
+                label: LocaleKeys.action_continue.tr(),
                 onPressed: () => _onPatientRegister(
                   context,
                   context.read<RegisterBloc>().state.token,

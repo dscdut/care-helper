@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
@@ -114,8 +115,8 @@ class _MyViewState extends State<MyView> {
         child: Column(
           children: [
             Header(
-              heading1: LocaleKeys.auth_auth,
-              heading2: LocaleKeys.auth_auth_detail + widget.phoneNumber,
+              heading1: LocaleKeys.auth_auth.tr(),
+              heading2: LocaleKeys.auth_auth_detail.tr() + widget.phoneNumber,
             ),
             const SizedBox(height: 24),
             Form(
@@ -123,55 +124,51 @@ class _MyViewState extends State<MyView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Directionality(
-                    // Specify direction if desired
-                    textDirection: TextDirection.ltr,
-                    child: Pinput(
-                      length: 6,
-                      controller: pinController,
-                      focusNode: focusNode,
-                      defaultPinTheme: defaultPinTheme,
-                      separatorBuilder: (index) => const SizedBox(width: 8),
-                      validator: (value) {
-                        return value == '000000'
-                            ? null
-                            : LocaleKeys.auth_wrong_pin;
-                      },
-                      hapticFeedbackType: HapticFeedbackType.lightImpact,
-                      onCompleted: (pin) {
-                        debugPrint('onCompleted: $pin');
-                      },
-                      onChanged: (value) {
-                        debugPrint('onChanged: $value');
-                      },
-                      cursor: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 9),
-                            width: 22,
-                            height: 1,
-                            color: focusedBorderColor,
-                          ),
-                        ],
-                      ),
-                      focusedPinTheme: defaultPinTheme.copyWith(
-                        height: 52,
-                        width: 52,
-                        decoration: defaultPinTheme.decoration!.copyWith(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: focusedBorderColor),
+                  Pinput(
+                    length: 6,
+                    controller: pinController,
+                    focusNode: focusNode,
+                    defaultPinTheme: defaultPinTheme,
+                    separatorBuilder: (index) => const SizedBox(width: 8),
+                    validator: (value) {
+                      return value == '000000'
+                          ? null
+                          : LocaleKeys.auth_wrong_pin.tr();
+                    },
+                    hapticFeedbackType: HapticFeedbackType.lightImpact,
+                    onCompleted: (pin) {
+                      debugPrint('onCompleted: $pin');
+                    },
+                    onChanged: (value) {
+                      debugPrint('onChanged: $value');
+                    },
+                    cursor: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 9),
+                          width: 22,
+                          height: 1,
+                          color: focusedBorderColor,
                         ),
+                      ],
+                    ),
+                    focusedPinTheme: defaultPinTheme.copyWith(
+                      height: 52,
+                      width: 52,
+                      decoration: defaultPinTheme.decoration!.copyWith(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: focusedBorderColor),
                       ),
-                      submittedPinTheme: defaultPinTheme.copyWith(
-                        decoration: defaultPinTheme.decoration!.copyWith(
-                          color: fillColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                    ),
+                    submittedPinTheme: defaultPinTheme.copyWith(
+                      decoration: defaultPinTheme.decoration!.copyWith(
+                        color: fillColor,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      errorPinTheme: defaultPinTheme.copyBorderWith(
-                        border: Border.all(color: Colors.redAccent),
-                      ),
+                    ),
+                    errorPinTheme: defaultPinTheme.copyBorderWith(
+                      border: Border.all(color: Colors.redAccent),
                     ),
                   ),
                   const SizedBox(height: 120),
@@ -180,17 +177,17 @@ class _MyViewState extends State<MyView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              LocaleKeys.auth_not_receive_code,
-                              style: TextStyle(
+                              LocaleKeys.auth_not_receive_code.tr(),
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
-                            Text(LocaleKeys.auth_send_pin_again),
+                            Text(LocaleKeys.auth_send_pin_again.tr()),
                           ],
                         ),
                         ElevatedButton(
@@ -202,9 +199,9 @@ class _MyViewState extends State<MyView> {
                             minimumSize: const Size(0, 40),
                           ),
                           onPressed: () {},
-                          child: const Text(
-                            LocaleKeys.auth_resend,
-                            style: TextStyle(
+                          child: Text(
+                            LocaleKeys.auth_resend.tr(),
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -217,7 +214,7 @@ class _MyViewState extends State<MyView> {
                   Container(
                     margin: const EdgeInsets.only(left: 16, right: 16),
                     child: CustomButton(
-                      label: LocaleKeys.action_continue,
+                      label: LocaleKeys.action_continue.tr(),
                       onPressed: () {
                         log('token pin view: ${context.read<RegisterBloc>().state.token}');
                         focusNode.unfocus();

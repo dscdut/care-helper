@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/router/app_router.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -75,9 +77,9 @@ class WelcomePage extends StatelessWidget {
                     margin: const EdgeInsets.all(24),
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: const Text(
-                      'Đăng ký',
-                      style: TextStyle(
+                    child: Text(
+                      LocaleKeys.auth_sign_up.tr(),
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: ColorStyles.mineShaft,
@@ -100,9 +102,9 @@ class WelcomePage extends StatelessWidget {
                     margin: const EdgeInsets.all(24),
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: const Text(
-                      'Đăng nhập',
-                      style: TextStyle(
+                    child: Text(
+                      LocaleKeys.auth_log_in.tr(),
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

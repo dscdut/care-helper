@@ -27,7 +27,7 @@
     "phone_number": "Phone number",
     "phone_check": "Enter 10 digit phone number",
     "auth": "Authentication",
-    "auth_detail": "6 digit code has been sent to",
+    "auth_detail": "6 digit code has been sent to ",
     "wrong_pin": "Wrong PIN",
     "not_receive_code": "Haven't receive the code?",
     "send_pin_again": "Send PIN again in 00:00",

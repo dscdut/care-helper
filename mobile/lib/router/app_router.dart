@@ -70,12 +70,6 @@ abstract final class AppRouter {
             return const WelcomePage();
           },
         );
-      // case register:
-      //   return MaterialPageRoute(
-      //     builder: (_) {
-      //       return const RegisterView();
-      //     },
-      //   );
       case login:
         return MaterialPageRoute(
           builder: (_) {
