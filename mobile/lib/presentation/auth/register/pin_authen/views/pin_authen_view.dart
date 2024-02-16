@@ -1,7 +1,16 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/common/constants/endpoints.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/helpers/dio_helper.dart';
+import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
+import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
+import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/repositories/patient_repository.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
+import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
+
 import 'package:pinput/pinput.dart';
 
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
@@ -18,6 +27,30 @@ class PinAuthenView extends StatefulWidget {
 }
 
 class _PinAuthenViewState extends State<PinAuthenView> {
+  PatientRepository patientRepository = PatientRepository(
+    dataSource: PatientDataSource(
+      remoteDataSource: PatientRemoteDataSource(
+        dioHelper: DioHelper(dio: Dio()),
+      ),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MyView(phoneNumber: widget.phoneNumber);
+  }
+}
+
+class MyView extends StatefulWidget {
+  const MyView({Key? key, required this.phoneNumber}) : super(key: key);
+
+  final String phoneNumber;
+
+  @override
+  State<MyView> createState() => _MyViewState();
+}
+
+class _MyViewState extends State<MyView> {
   static const Color _accent = Color(0xff112950);
   final pinController = TextEditingController();
   final focusNode = FocusNode();
@@ -31,27 +64,16 @@ class _PinAuthenViewState extends State<PinAuthenView> {
     super.dispose();
   }
 
-  Future<void> _verifyOtp() async {
-    try {
-      final registerBox = await Hive.openBox('registerBox');
-      final token = registerBox.get('token');
-      final response = await dio.post(Endpoints.authVerifyOtp,
-          data: {'token': token, 'otp': '000000'});
-      print('verify otp response status code: ${response.statusCode}');
-    } catch (e) {
-      print('error: $e');
-    }
-  }
-
-  _handleCorrectPin(BuildContext context) {
-    _verifyOtp();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return const NewPasswordView();
-        },
-      ),
-    );
+  _handleCorrectPin(BuildContext context, String token) {
+    log('token pin view: $token');
+    context.read<RegisterBloc>().add(
+          VerifyOtpEvent(
+            VerifyOtpRequestDTO(
+              token: token,
+              otp: pinController.text,
+            ),
+          ),
+        );
   }
 
   @override
@@ -74,120 +96,145 @@ class _PinAuthenViewState extends State<PinAuthenView> {
     );
 
     return Scaffold(
-      body: Column(
-        children: [
-          Header(
-            heading1: 'Xác thực',
-            heading2: '6 chu so da duoc gui den ${widget.phoneNumber}',
-          ),
-          const SizedBox(height: 24),
-          Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Directionality(
-                  // Specify direction if desired
-                  textDirection: TextDirection.ltr,
-                  child: Pinput(
-                    length: 6,
-                    controller: pinController,
-                    focusNode: focusNode,
-                    defaultPinTheme: defaultPinTheme,
-                    separatorBuilder: (index) => const SizedBox(width: 8),
-                    validator: (value) {
-                      return value == '000000' ? null : 'Ma pin sai';
-                    },
-                    hapticFeedbackType: HapticFeedbackType.lightImpact,
-                    onCompleted: (pin) {
-                      debugPrint('onCompleted: $pin');
-                    },
-                    onChanged: (value) {
-                      debugPrint('onChanged: $value');
-                    },
-                    cursor: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+      body: BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          //log('error pin view: ${state.error}');
+
+          if (state.token.isNotEmpty && state.error.isEmpty) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                  value: BlocProvider.of<RegisterBloc>(context),
+                  child: const NewPasswordView(),
+                ),
+              ),
+            );
+          }
+        },
+        child: Column(
+          children: [
+            Header(
+              heading1: LocaleKeys.auth_auth,
+              heading2: LocaleKeys.auth_auth_detail + widget.phoneNumber,
+            ),
+            const SizedBox(height: 24),
+            Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Directionality(
+                    // Specify direction if desired
+                    textDirection: TextDirection.ltr,
+                    child: Pinput(
+                      length: 6,
+                      controller: pinController,
+                      focusNode: focusNode,
+                      defaultPinTheme: defaultPinTheme,
+                      separatorBuilder: (index) => const SizedBox(width: 8),
+                      validator: (value) {
+                        return value == '000000'
+                            ? null
+                            : LocaleKeys.auth_wrong_pin;
+                      },
+                      hapticFeedbackType: HapticFeedbackType.lightImpact,
+                      onCompleted: (pin) {
+                        debugPrint('onCompleted: $pin');
+                      },
+                      onChanged: (value) {
+                        debugPrint('onChanged: $value');
+                      },
+                      cursor: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 9),
+                            width: 22,
+                            height: 1,
+                            color: focusedBorderColor,
+                          ),
+                        ],
+                      ),
+                      focusedPinTheme: defaultPinTheme.copyWith(
+                        height: 52,
+                        width: 52,
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: focusedBorderColor),
+                        ),
+                      ),
+                      submittedPinTheme: defaultPinTheme.copyWith(
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          color: fillColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      errorPinTheme: defaultPinTheme.copyBorderWith(
+                        border: Border.all(color: Colors.redAccent),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 120),
+                  Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 9),
-                          width: 22,
-                          height: 1,
-                          color: focusedBorderColor,
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              LocaleKeys.auth_not_receive_code,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(LocaleKeys.auth_send_pin_again),
+                          ],
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            minimumSize: const Size(0, 40),
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            LocaleKeys.auth_resend,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    focusedPinTheme: defaultPinTheme.copyWith(
-                      height: 52,
-                      width: 52,
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: focusedBorderColor),
-                      ),
-                    ),
-                    submittedPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        color: fillColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    errorPinTheme: defaultPinTheme.copyBorderWith(
-                      border: Border.all(color: Colors.redAccent),
-                    ),
                   ),
-                ),
-                const SizedBox(height: 120),
-                Container(
-                  margin: const EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Chua nhan duoc ma?',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          Text('Gui lai ma trong 00:00'),
-                        ],
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[800],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          minimumSize: const Size(0, 40),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Gui lai ma',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 28),
-                Container(
-                  margin: const EdgeInsets.only(left: 16, right: 16),
-                  child: CustomButton(
-                      label: 'Tiep tuc',
+                  const SizedBox(height: 28),
+                  Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    child: CustomButton(
+                      label: LocaleKeys.action_continue,
                       onPressed: () {
+                        log('token pin view: ${context.read<RegisterBloc>().state.token}');
                         focusNode.unfocus();
                         formKey.currentState!.validate()
-                            ? _handleCorrectPin(context)
+                            ? _handleCorrectPin(
+                                context,
+                                context.read<RegisterBloc>().state.token,
+                              )
                             : null;
-                      }),
-                ),
-              ],
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,9 +1,18 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/common/constants/endpoints.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/helpers/dio_helper.dart';
+import 'package:flutter_template/common/utils/toast_util.dart';
+import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
+import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
+import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
+import 'package:flutter_template/data/repositories/patient_repository.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
+import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
-import 'package:hive/hive.dart';
 
 class NewPasswordView extends StatefulWidget {
   const NewPasswordView({super.key});
@@ -13,12 +22,33 @@ class NewPasswordView extends StatefulWidget {
 }
 
 class _NewPasswordViewState extends State<NewPasswordView> {
+  PatientRepository patientRepository = PatientRepository(
+    dataSource: PatientDataSource(
+      remoteDataSource: PatientRemoteDataSource(
+        dioHelper: DioHelper(dio: Dio()),
+      ),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return const MyView();
+  }
+}
+
+class MyView extends StatefulWidget {
+  const MyView({super.key});
+
+  @override
+  State<MyView> createState() => _MyViewState();
+}
+
+class _MyViewState extends State<MyView> {
   bool _validate = false;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool isMatch = true;
-  final dio = Dio();
 
   @override
   void initState() {
@@ -32,18 +62,15 @@ class _NewPasswordViewState extends State<NewPasswordView> {
     });
   }
 
-  Future<void> _onPatientRegister() async {
-    try {
-      final registerBox = await Hive.openBox('registerBox');
-      final token = registerBox.get('token');
-      final response = await dio.post(Endpoints.patientRegister, data: {
-        'token': token,
-        'password': _passwordController.text,
-      });
-      print('register response status code: ${response.statusCode}');
-    } catch (e) {
-      print('error: $e');
-    }
+  _onPatientRegister(BuildContext context, String token) {
+    context.read<RegisterBloc>().add(
+          RegisterPatientEvent(
+            RegisterPatientRequestDTO(
+              token: token,
+              password: _passwordController.text,
+            ),
+          ),
+        );
   }
 
   @override
@@ -56,77 +83,94 @@ class _NewPasswordViewState extends State<NewPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Header(
-            heading1: 'Tao mat khau moi',
-            heading2: 'Nhap mot mat khau de nho',
-          ),
-          Form(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey[300]!,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      label: const Text('Mat khau'),
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      contentPadding: const EdgeInsets.all(8),
-                      border: InputBorder.none,
-                      errorText: _validate
-                          ? 'Mat khau nen dai tu 8 ky tu tro len'
-                          : null,
-                    ),
-                    keyboardType: TextInputType.visiblePassword,
-                    onChanged: (value) {
-                      setState(() {
-                        _validate = value.length < 8;
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey[300]!,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: TextFormField(
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                    onChanged: (_) => _checkPasswordMatch(),
-                    decoration: InputDecoration(
-                      label: const Text('Xac nhan mat khau'),
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      contentPadding: const EdgeInsets.all(8),
-                      border: InputBorder.none,
-                      errorText: isMatch ? null : 'Mat khau khong trung khop',
-                    ),
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                ),
-              ],
+      body: BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state.isRegistered) {
+            const ToastCard(
+              duration: Duration(seconds: 3),
+              position: ToastPosition.TOP,
+              child: Text('register successfully'),
+            );
+          } else if (state.error.isNotEmpty) {
+            log('error: ${state.error}');
+          }
+        },
+        child: Column(
+          children: [
+            const Header(
+              heading1: LocaleKeys.auth_new_password,
+              heading2: LocaleKeys.auth_easy_remember_password,
             ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            margin: const EdgeInsets.only(left: 16, right: 16),
-            child: CustomButton(
-              label: 'Tiep tuc',
-              onPressed: () => _onPatientRegister(),
+            Form(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        label: const Text(LocaleKeys.auth_password),
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        contentPadding: const EdgeInsets.all(8),
+                        border: InputBorder.none,
+                        errorText: _validate
+                            ? LocaleKeys.auth_password_recommnend
+                            : null,
+                      ),
+                      keyboardType: TextInputType.visiblePassword,
+                      onChanged: (value) {
+                        setState(() {
+                          _validate = value.length < 8;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      onChanged: (_) => _checkPasswordMatch(),
+                      decoration: InputDecoration(
+                        label: const Text(LocaleKeys.auth_confirm_password),
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        contentPadding: const EdgeInsets.all(8),
+                        border: InputBorder.none,
+                        errorText:
+                            isMatch ? null : LocaleKeys.auth_password_not_match,
+                      ),
+                      keyboardType: TextInputType.visiblePassword,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            Container(
+              margin: const EdgeInsets.only(left: 16, right: 16),
+              child: CustomButton(
+                label: LocaleKeys.action_continue,
+                onPressed: () => _onPatientRegister(
+                  context,
+                  context.read<RegisterBloc>().state.token,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
