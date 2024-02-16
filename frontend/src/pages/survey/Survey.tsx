@@ -3,16 +3,27 @@ import { useNavigate } from 'react-router-dom'
 import { HiMagnifyingGlass, HiMiniPlus, HiXMark } from 'react-icons/hi2'
 import classNames from 'classnames'
 import { path } from 'src/constants/path'
-// import { patients } from 'src/data/patient'
 import { ChoosePatient, AddQuestions } from 'src/pages/survey/components'
 import Pagination from 'src/components/pagination/Pagination'
-import { patientsName, sampleSurveyData } from 'src/data/survey'
+import { useQuery } from 'react-query'
+import surveyApi from 'src/apis/survey.api'
+import Loading from 'src/components/loading/Loading'
+import { formatDate } from 'src/utils/utils'
+import { AnswersSurvey, QuestionsSurvey, SurveyPost } from 'src/types/survey.type'
+import { toast } from 'react-toastify'
+import { CRUD_MESSAGES } from 'src/constants/message'
 
 export default function Survey() {
   const [showChoosePatient, setShowChoosePatient] = useState(true)
   const [showAddQuestions, setShowAddQuestions] = useState(false)
+  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null)
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
+
+  const { data: doctorSurveysData, isLoading } = useQuery({
+    queryKey: ['doctorSurveys'],
+    queryFn: () => surveyApi.getDoctorSurveys()
+  })
 
   const handleNavigateSurvey = (id: number) => {
     navigate(`${path.surveys}/${id}`)
@@ -38,6 +49,38 @@ export default function Survey() {
     setShow(true)
     setShowChoosePatient(true)
     setShowAddQuestions(false)
+  }
+
+  const handleSelectPatient = (patientId: number) => {
+    setSelectedPatientId(patientId)
+  }
+
+  const handleConfirmQuestions = (questions: QuestionsSurvey[]) => {
+    const data: AnswersSurvey[] = questions.map((question) => ({
+      id: question.id,
+      question: question.question,
+      answer: ''
+    }))
+
+    if (selectedPatientId && questions.length > 0) {
+      const postSurveyData: SurveyPost = {
+        form: JSON.stringify(data),
+        patientId: selectedPatientId
+      }
+      surveyApi
+        .postSurvey(postSurveyData)
+        .then((response) => {
+          handleCloseAllModals()
+          toast.success(CRUD_MESSAGES.ADD_SUCCESS)
+        })
+        .catch((error) => {
+          toast.error(error.message)
+        })
+    }
+  }
+
+  if (isLoading) {
+    return <Loading />
   }
 
   return (
@@ -75,8 +118,14 @@ export default function Survey() {
                       <HiXMark className='text-lg' />
                     </button>
                   </div>
-                  {showChoosePatient && <ChoosePatient onNext={handleNext} />}
-                  {showAddQuestions && <AddQuestions onClose={handleCloseAllModals} onBack={handleBack} />}
+                  {showChoosePatient && <ChoosePatient onNext={handleNext} onSelectPatient={handleSelectPatient} />}
+                  {showAddQuestions && (
+                    <AddQuestions
+                      onClose={handleCloseAllModals}
+                      onBack={handleBack}
+                      onConfirm={handleConfirmQuestions}
+                    />
+                  )}
                 </div>
               </dialog>
             )}
@@ -92,19 +141,19 @@ export default function Survey() {
               </tr>
             </thead>
             <tbody>
-              {sampleSurveyData.map((data) => (
-                <tr className='hover cursor-pointer' key={data.id} onClick={() => handleNavigateSurvey(data.id)}>
-                  <td>{data.patient.fullName}</td>
+              {doctorSurveysData?.data.data.map((survey) => (
+                <tr className='hover cursor-pointer' key={survey.id} onClick={() => handleNavigateSurvey(survey.id)}>
+                  <td>{survey.patient.fullName}</td>
                   <td>
                     <div
                       className={classNames('btn-active w-fit rounded-xl px-20 py-2', {
-                        'btn-primary  text-white ': data.status === 'Waiting'
+                        'btn-primary  text-white ': survey.status === 'Waiting'
                       })}
                     >
-                      {data.status}
+                      {survey.status}
                     </div>
                   </td>
-                  <td>{data.updatedAt}</td>
+                  <td>{formatDate(survey.createdAt as string, 'DD/MM/YYYY')}</td>
                 </tr>
               ))}
             </tbody>

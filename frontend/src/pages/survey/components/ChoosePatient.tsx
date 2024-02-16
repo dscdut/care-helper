@@ -1,20 +1,35 @@
 import { useState } from 'react'
+import { useQuery } from 'react-query'
+import patientApi from 'src/apis/patient.api'
+import Loading from 'src/components/loading/Loading'
 import { patientsName } from 'src/data/survey'
-// import { patients } from 'src/data/patient'
 
 interface ChoosePatientProps {
   onNext: () => void
+  onSelectPatient: (patientId: number) => void
 }
 
-export default function ChoosePatient({ onNext }: ChoosePatientProps) {
+export default function ChoosePatient({ onNext, onSelectPatient }: ChoosePatientProps) {
   const [search, setSearch] = useState('')
+  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null)
 
-  const handlePatientClick = (patientName: string) => {
+  const { data: myPatientsData, isLoading } = useQuery({
+    queryKey: ['myPatientsName'],
+    queryFn: () => patientApi.getMyPatients()
+  })
+
+  const handlePatientClick = (patientId: number, patientName: string) => {
+    setSelectedPatientId(patientId)
+    onSelectPatient(patientId)
     setSearch(patientName)
   }
 
   const handleNext = () => {
     onNext()
+  }
+
+  if (isLoading) {
+    return <Loading />
   }
 
   return (
@@ -26,13 +41,14 @@ export default function ChoosePatient({ onNext }: ChoosePatientProps) {
           className='input input-bordered !h-11 w-full !rounded-xl border-2 ps-10 hover:border-primary focus:border-primary focus:outline-none'
           placeholder='Enter patient name...'
           value={search}
+          readOnly
         />
       </div>
       <div className='mt-4 max-h-80 overflow-y-scroll'>
         <ul className='menu mt-4 w-[inherit] rounded-box bg-base-200'>
-          {patientsName.map((patient) => (
+          {myPatientsData?.data.map((patient) => (
             <li key={patient.id}>
-              <button onClick={() => handlePatientClick(patient.name)}>{patient.name}</button>
+              <button onClick={() => handlePatientClick(patient.id, patient.fullName)}>{patient.fullName}</button>
             </li>
           ))}
         </ul>

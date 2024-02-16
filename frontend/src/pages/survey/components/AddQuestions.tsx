@@ -1,24 +1,21 @@
 import { useState } from 'react'
 import { HiTrash } from 'react-icons/hi2'
-import { questions } from 'src/data/survey'
-
-interface Question {
-  id: number
-  content: string
-}
+import { questionsSurvey } from 'src/data/survey'
+import { QuestionsSurvey } from 'src/types/survey.type'
 
 interface AddQuestionsProps {
   onClose: () => void
   onBack: () => void
+  onConfirm: (listQuestions: QuestionsSurvey[]) => void
 }
 
-export default function AddQuestions({ onClose, onBack }: AddQuestionsProps) {
+export default function AddQuestions({ onClose, onBack, onConfirm }: AddQuestionsProps) {
   const [question, setQuestion] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [listQuestions, setListQuestions] = useState<Question[]>(questions)
+  const [listQuestions, setListQuestions] = useState<QuestionsSurvey[]>(questionsSurvey)
 
   const handleSubmit = () => {
-    const newQuestion: Question = { id: listQuestions.length + 1, content: question }
+    const newQuestion: QuestionsSurvey = { id: listQuestions.length + 1, question: question }
     setListQuestions((prevQuestions) => [...prevQuestions, newQuestion])
     setIsOpen(false)
     setQuestion('')
@@ -29,6 +26,7 @@ export default function AddQuestions({ onClose, onBack }: AddQuestionsProps) {
   }
 
   const handleConfirm = () => {
+    onConfirm(listQuestions)
     onClose()
   }
 
@@ -89,7 +87,7 @@ export default function AddQuestions({ onClose, onBack }: AddQuestionsProps) {
                   <p>Câu {index + 1}</p>
                 </div>
                 <div className='w-9/10 ml-2 flex-1 '>
-                  <p>{q.content}</p>
+                  <p>{q.question}</p>
                 </div>
                 <div>
                   <HiTrash onClick={() => handleTrash(q.id)} />
