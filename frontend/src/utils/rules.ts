@@ -30,7 +30,13 @@ export const prescriptionSchema = yup.object().shape({
         quantity: yup
           .number()
           .typeError(PRESCRIPTION_MESSAGE.QUANTITY.isNumber)
-          .required(PRESCRIPTION_MESSAGE.QUANTITY.required),
+          .required(PRESCRIPTION_MESSAGE.QUANTITY.required)
+          .test({
+            message: PRESCRIPTION_MESSAGE.QUANTITY.min,
+            test: (value: number, context: yup.TestContext<yup.AnyObject>) => {
+              return value > 0
+            }
+          }),
         amount: yup.string().required(PRESCRIPTION_MESSAGE.AMOUNT.required),
         usage: yup.string().required(PRESCRIPTION_MESSAGE.USAGE.required)
       })

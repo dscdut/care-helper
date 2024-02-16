@@ -35,9 +35,9 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
               <table className='table'>
                 <thead>
                   <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
+                    <th className='w-1/2'>Medical test</th>
+                    <th className='w-1/4'>Value</th>
+                    <th className='w-1/4 text-right'>Unit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -62,9 +62,9 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
               <table className='table'>
                 <thead>
                   <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
+                    <th className='w-1/2'>Medical test</th>
+                    <th className='w-1/4'>Value</th>
+                    <th className='w-1/4 text-right'>Unit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -89,9 +89,9 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
               <table className='table'>
                 <thead>
                   <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
+                    <th className='w-1/2'>Medical test</th>
+                    <th className='w-1/4'>Value</th>
+                    <th className='w-1/4 text-right'>Unit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -119,8 +119,8 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
             <article className='flex flex-col gap-2'>
               <h3 className='text-base font-bold'>Details</h3>
               <div className='card gap-2 shadow'>
-                <div className='card-body rounded-2xl bg-white'>
-                  <p>{data.diagnose.conclude}</p>
+                <div className='card-body rounded-2xl bg-white px-4'>
+                  <p>{data.diagnose.details}</p>
                 </div>
               </div>
             </article>

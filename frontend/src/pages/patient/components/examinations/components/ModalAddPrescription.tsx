@@ -27,7 +27,7 @@ export const prescriptionDefaultValues: PrescriptionSchema = {
     {
       medicineName: '',
       medicineType: listMedicalType[0].value as string,
-      quantity: 0,
+      quantity: 1,
       amount: '',
       usage: ''
     }
@@ -73,7 +73,7 @@ export default function ModalAddPrescription({
         startDate: null,
         endDate: null
       })
-      modalRef.current?.close()
+      handleCloseModal()
       queryClient.invalidateQueries({
         queryKey: ['prescriptionExaminationId', Number(examinationId)]
       })

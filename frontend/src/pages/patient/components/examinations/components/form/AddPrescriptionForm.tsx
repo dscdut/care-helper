@@ -72,6 +72,7 @@ export default function AddPrescriptionForm({ control, register, errors, name, n
                           name={`${name}.${index}.medicineType`}
                           options={listMedicalType}
                           errorMessage={errorsObject?.[index]?.medicineType?.message}
+                          selectClass='lg:w-max'
                         />
                       </td>
                       <td>

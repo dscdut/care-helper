@@ -36,7 +36,8 @@ export const PRESCRIPTION_MESSAGE = {
   },
   QUANTITY: {
     required: 'Quantity is required.',
-    isNumber: 'Quantity must be a number'
+    isNumber: 'Quantity must be a number',
+    min: 'Quantity must be greater than 0'
   },
   AMOUNT: {
     required: 'Amount is required.'
@@ -76,3 +77,7 @@ export const SEARCH_MESSAGE = {
     required: 'Keyword is required.'
   }
 } as const
+
+export const COMMON_MESSAGE = {
+  NOT_UPDATE_YET: 'Not Update Yet'
+}

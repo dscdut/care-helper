@@ -1,14 +1,20 @@
+import { twMerge } from 'tailwind-merge'
 export interface ModalProps {
   children: React.ReactNode
   modalRef: React.MutableRefObject<HTMLDialogElement | null>
+  containerClass?: string
+  closeClass?: string
 }
 
-export default function Modal({ children, modalRef }: ModalProps) {
+export default function Modal({ children, modalRef, containerClass, closeClass }: ModalProps) {
   return (
-    <dialog ref={modalRef} className='modal' id='dialog1'>
-      <div className='modal-box flex min-h-[90vh] max-w-[80%] flex-col gap-4 overflow-y-auto overflow-x-hidden p-8'>
+    <dialog ref={modalRef} className={twMerge('modal', containerClass)}>
+      <div
+        className='modal-box flex min-h-[90vh] max-w-[80%] flex-col gap-4 overflow-y-auto overflow-x-hidden p-8'
+        id='modal-box'
+      >
         <form method='dialog'>
-          <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</button>
+          <button className={twMerge('btn btn-circle btn-ghost btn-sm absolute right-2 top-2', closeClass)}>✕</button>
         </form>
         {children}
       </div>

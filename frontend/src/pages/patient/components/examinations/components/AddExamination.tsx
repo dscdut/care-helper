@@ -31,7 +31,8 @@ import { prescriptionDefaultValues } from 'src/pages/patient/components/examinat
 export interface AddExaminationProps {
   patientName: string
   handleReset: () => void
-  modalRef: React.MutableRefObject<HTMLDialogElement | null>
+  handleCloseModal: () => void
+  handleScrollTopModal: () => void
   steps: {
     previousStep: number
     handleSetPreviousStep: (step: number) => void
@@ -141,8 +142,9 @@ const defaultValues: ExaminationSchema = {
 export default function AddExamination({
   patientName,
   steps: { previousStep, handleSetPreviousStep, currentStep, handleSetCurrentStep },
-  modalRef,
+  handleCloseModal,
   handleReset,
+  handleScrollTopModal,
   patientId
 }: AddExaminationProps) {
   const {
@@ -243,7 +245,7 @@ export default function AddExamination({
         createMedicalTestMutate(medicalTestBody),
         createPrescriptionMutate(prescription)
       ])
-      modalRef.current?.close()
+      handleCloseModal()
       toast.success('Create new examination successfully.', {
         progressClassName: 'bg-primary'
       })
@@ -275,7 +277,7 @@ export default function AddExamination({
         hospitalId: Number(getValues('hospital')),
         patientId: Number(patientIdParams) || Number(patientId)
       }
-      await postExaminationMutation.mutateAsync(examinationBody)
+      postExaminationMutation.mutateAsync(examinationBody)
     }
 
     if (currentStep < stepsForm.length) {
@@ -286,11 +288,13 @@ export default function AddExamination({
         handleSetCurrentStep(currentStep + 1)
       }
     }
+    handleScrollTopModal()
   }
 
   const handleOnBack = () => {
     handleSetPreviousStep(currentStep)
     handleSetCurrentStep(currentStep - 1)
+    handleScrollTopModal()
   }
 
   return (
@@ -322,7 +326,7 @@ export default function AddExamination({
               {currentStep === stepsForm.length - 1 && (
                 <section className='flex flex-col gap-2'>
                   <div className='card bg-bg_primary shadow'>
-                    <div className='card-body flex-row gap-8'>
+                    <div className='card-body flex-row flex-wrap gap-4'>
                       <p>
                         Note: Doctors must take full responsibility for the information they enter. Please check
                         carefully before confirming.

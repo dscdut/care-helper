@@ -6,22 +6,24 @@ import Button from 'src/components/button/Button'
 import Input from 'src/components/input/Input'
 import { SearchSchema, searchSchema } from 'src/utils/rules'
 import { motion } from 'framer-motion'
-import AddExamination from './examinations/components/AddExamination'
+import { AddExamination } from 'src/pages/patient/components/examinations/components'
 import { useQuery, useQueryClient } from 'react-query'
 import patientApi from 'src/apis/patient.api'
 import Loading from 'src/components/loading/Loading'
 import { useNavigate } from 'react-router-dom'
 import { path } from 'src/constants/path'
+import { searchNoData } from 'src/assets/images'
 
 export interface AddPatientFormProps {
-  modalRef: React.MutableRefObject<HTMLDialogElement | null>
+  handleCloseModal: () => void
+  handleScrollTopModal: () => void
 }
 
 const defaultValues: SearchSchema = {
   keyword: ''
 }
 
-export default function AddPatientForm({ modalRef }: AddPatientFormProps) {
+export default function AddPatientForm({ handleCloseModal, handleScrollTopModal }: AddPatientFormProps) {
   const {
     register,
     handleSubmit,
@@ -77,6 +79,46 @@ export default function AddPatientForm({ modalRef }: AddPatientFormProps) {
     queryClient.invalidateQueries(['myPatients'])
   }
 
+  const renderBodySearch = () => {
+    if (searchData?.data) {
+      if (searchData.data.data.length > 0) {
+        return searchData?.data.data.map((patient) => (
+          <div
+            key={patient.id}
+            className='card card-side max-w-[30%] cursor-pointer bg-bg_primary shadow-xl'
+            onClick={() => handleSeenDetailsPatient(patient.id)}
+            aria-hidden={true}
+          >
+            <div className='card-body gap-4 p-6'>
+              <h2 className='card-title font-bold'>Patient</h2>
+              <article className='flex flex-col items-start gap-2'>
+                <p>
+                  Name: <span className='font-bold'>{patient.fullName}</span>
+                </p>
+                <p>
+                  Phone Number: <span className='font-bold'>{patient.phone}</span>
+                </p>
+              </article>
+              <div className='card-actions justify-end'>
+                <Button
+                  title='Add patient'
+                  onClick={handleChoosePatient}
+                  className='btn-primary font-bold text-white'
+                />
+              </div>
+            </div>
+          </div>
+        ))
+      } else {
+        return (
+          <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
+        )
+      }
+    } else {
+      return null
+    }
+  }
+
   return (
     <div className='flex flex-1 flex-col'>
       {currentStep === -1 && (
@@ -106,40 +148,14 @@ export default function AddPatientForm({ modalRef }: AddPatientFormProps) {
               </div>
             </section>
             {isLoading && <Loading containerClass='h-[unset] flex-1' />}
-            <section className='flex flex-wrap gap-6'>
-              {searchData?.data.data.map((patient) => (
-                <button
-                  key={patient.id}
-                  className='card card-side max-w-[30%] cursor-pointer bg-bg_primary shadow-xl'
-                  onClick={() => handleSeenDetailsPatient(patient.id)}
-                >
-                  <div className='card-body gap-4 p-6'>
-                    <h2 className='card-title font-bold'>Patient</h2>
-                    <article className='flex flex-col items-start gap-2'>
-                      <p>
-                        Name: <span className='font-bold'>{patient.fullName}</span>
-                      </p>
-                      <p>
-                        Phone Number: <span className='font-bold'>{patient.phone}</span>
-                      </p>
-                    </article>
-                    <div className='card-actions justify-end'>
-                      <Button
-                        title='Add patient'
-                        onClick={handleChoosePatient}
-                        className='btn-primary font-bold text-white'
-                      />
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </section>
+            <section className='flex flex-wrap gap-6'>{renderBodySearch()}</section>
           </div>
         </motion.div>
       )}
       <AddExamination
         patientId={searchData?.data.data[0]?.id}
-        modalRef={modalRef}
+        handleCloseModal={handleCloseModal}
+        handleScrollTopModal={handleScrollTopModal}
         handleReset={handleReset}
         patientName={searchData?.data.data[0]?.fullName || ''}
         steps={{ previousStep, handleSetPreviousStep, currentStep, handleSetCurrentStep }}

@@ -48,12 +48,11 @@ export default function MedicalTest({ medicalTestData }: MedicalTestProps) {
             <h2 className='card-title font-bold'>Blood Test</h2>
             <div className='overflow-x-auto'>
               <table className='table'>
-                {/* head */}
                 <thead>
                   <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
+                    <th className='w-1/2'>Medical test</th>
+                    <th className='w-1/4'>Value</th>
+                    <th className='w-1/4 text-right'>Unit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,12 +73,11 @@ export default function MedicalTest({ medicalTestData }: MedicalTestProps) {
             <h2 className='card-title font-bold'>Blood Fat Test</h2>
             <div className='overflow-x-auto'>
               <table className='table'>
-                {/* head */}
                 <thead>
                   <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
+                    <th className='w-1/2'>Medical test</th>
+                    <th className='w-1/4'>Value</th>
+                    <th className='w-1/4 text-right'>Unit</th>
                   </tr>
                 </thead>
                 <tbody>
