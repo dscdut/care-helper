@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_template/presentation/profile/widgets/custom_button.dart';
 import 'package:flutter_template/router/app_router.dart';
@@ -76,7 +78,7 @@ class _ProfileView extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.all(16),
                         child: CustomButton(
-                          text: 'Ho so benh an',
+                          text: LocaleKeys.profile_medical_profile.tr(),
                           width: double.infinity,
                           height: 50,
                           textSize: 16,

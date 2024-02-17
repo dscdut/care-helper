@@ -54,6 +54,27 @@
   "action": {
     "continue": "Continue",
     "submit": "Submit",
-    "save": "Save"
+    "save": "Save",
+    "back_to_home": "Back to Home"
+  },
+  "profile": {
+    "medical_profile": "Medical Profile",
+    "medical_record": "Medical records",
+    "administrative_medical": "Administrative information and Medical history",
+    "adminis_medical_action1": "View",
+    "adminis_medical_action2": "Edit",
+    "adminis": "Administrative information",
+    "medical": "Medical history",
+    "name": "Name",
+    "dob": "Date of birth",
+    "sex": "Sex",
+    "citizen_id": "Citizen ID",
+    "insurance_id": "Medical Insurance ID",
+    "address": "Address",
+    "occupation": "Occupation",
+    "height": "Height",
+    "weight": "Weight",
+    "check_up": "Recent check-up",
+    "reminder_popup": "Changes have not been saved. Are you sure you want to leave?"
   }
 }

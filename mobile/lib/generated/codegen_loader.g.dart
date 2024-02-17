@@ -70,7 +70,28 @@ class CodegenLoader extends AssetLoader{
   "action": {
     "continue": "Continue",
     "submit": "Submit",
-    "save": "Save"
+    "save": "Save",
+    "back_to_home": "Back to Home"
+  },
+  "profile": {
+    "medical_profile": "Medical Profile",
+    "medical_record": "Medical records",
+    "administrative_medical": "Administrative information and Medical history",
+    "adminis_medical_action1": "View",
+    "adminis_medical_action2": "Edit",
+    "adminis": "Administrative information",
+    "medical": "Medical history",
+    "name": "Name",
+    "dob": "Date of birth",
+    "sex": "Sex",
+    "citizen_id": "Citizen ID",
+    "insurance_id": "Medical Insurance ID",
+    "address": "Address",
+    "occupation": "Occupation",
+    "height": "Height",
+    "weight": "Weight",
+    "check_up": "Recent check-up",
+    "reminder_popup": "Changes have not been saved. Are you sure you want to leave?"
   }
 };
 static const Map<String,dynamic> vi = {
@@ -129,7 +150,28 @@ static const Map<String,dynamic> vi = {
   "action": {
     "continue": "Tiếp tục",
     "submit": "Gửi đi",
-    "save": "Lưu"
+    "save": "Lưu",
+    "back_to_home": "Về trang chủ"
+  },
+  "profile": {
+    "medical_profile": "Hồ sơ bệnh án",
+    "medical_record": "Lịch sử lần khám",
+    "administrative_medical": "Hành chính và bệnh sử",
+    "adminis_medical_action1": "Xem",
+    "adminis_medical_action2": "Chỉnh sửa",
+    "adminis": "Hành chính",
+    "medical": "Bệnh sử",
+    "name": "Họ và tên",
+    "dob": "Ngày sinh",
+    "sex": "Giới tính",
+    "citizen_id": "CCCD/CMND",
+    "insurance_id": "Số thẻ BHYT",
+    "address": "Địa chỉ",
+    "occupation": "Nghề nghiệp",
+    "height": "Chiều cao",
+    "weight": "Cân nặng",
+    "check_up": "Lần khám gần nhất",
+    "reminder_popup": "Thay đổi chưa được lưu, bạn có muốn thoát không?"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};

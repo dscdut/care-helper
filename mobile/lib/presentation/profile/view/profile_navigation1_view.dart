@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
+import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/profile/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/profile/widgets/custom_button2.dart';
 import 'package:flutter_template/router/app_router.dart';
@@ -12,9 +14,9 @@ class ProfileNav1View extends StatefulWidget {
 }
 
 class _ProfileNav1ViewState extends State<ProfileNav1View> {
-  Widget customedWidget = const Text(
-    'Hanh chinh va benh su',
-    style: TextStyle(
+  Widget customedWidget = Text(
+    LocaleKeys.profile_administrative_medical.tr(),
+    style: const TextStyle(
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
@@ -44,7 +46,7 @@ class _ProfileNav1ViewState extends State<ProfileNav1View> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomButton(
-                      text: 'Lich su lan kham',
+                      text: LocaleKeys.profile_medical_record.tr(),
                       width: double.infinity,
                       height: 150,
                       textSize: 20,
@@ -63,7 +65,8 @@ class _ProfileNav1ViewState extends State<ProfileNav1View> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomButton(
-                                text: 'Xem hanh chinh va benh su',
+                                text: LocaleKeys.profile_adminis_medical_action1
+                                    .tr(),
                                 width: double.infinity,
                                 height: 50,
                                 textSize: 16,
@@ -72,7 +75,8 @@ class _ProfileNav1ViewState extends State<ProfileNav1View> {
                               ),
                               const SizedBox(height: 16),
                               CustomButton(
-                                text: 'Cap nhat hanh chinh va benh su',
+                                text: LocaleKeys.profile_adminis_medical_action2
+                                    .tr(),
                                 width: double.infinity,
                                 height: 50,
                                 textSize: 16,
@@ -98,7 +102,7 @@ class _ProfileNav1ViewState extends State<ProfileNav1View> {
                   Container(
                     margin: const EdgeInsets.all(16),
                     child: CustomButton(
-                      text: 'Tro ve trang chu',
+                      text: LocaleKeys.action_back_to_home.tr(),
                       width: double.infinity,
                       height: 50,
                       textSize: 16,

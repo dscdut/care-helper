@@ -54,6 +54,27 @@
   "action": {
     "continue": "Tiếp tục",
     "submit": "Gửi đi",
-    "save": "Lưu"
+    "save": "Lưu",
+    "back_to_home": "Về trang chủ"
+  },
+  "profile": {
+    "medical_profile": "Hồ sơ bệnh án",
+    "medical_record": "Lịch sử lần khám",
+    "administrative_medical": "Hành chính và bệnh sử",
+    "adminis_medical_action1": "Xem",
+    "adminis_medical_action2": "Chỉnh sửa",
+    "adminis": "Hành chính",
+    "medical": "Bệnh sử",
+    "name": "Họ và tên",
+    "dob": "Ngày sinh",
+    "sex": "Giới tính",
+    "citizen_id": "CCCD/CMND",
+    "insurance_id": "Số thẻ BHYT",
+    "address": "Địa chỉ",
+    "occupation": "Nghề nghiệp",
+    "height": "Chiều cao",
+    "weight": "Cân nặng",
+    "check_up": "Lần khám gần nhất",
+    "reminder_popup": "Thay đổi chưa được lưu, bạn có muốn thoát không?"
   }
 }

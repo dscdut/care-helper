@@ -8,4 +8,5 @@ abstract class Endpoints {
   static String authOtp = '$apiUrl/auth/otp';
   static String authVerifyOtp = '$apiUrl/auth/verify-otp';
   static String patientRegister = '$apiUrl/auth/register/patient';
+  static String updateAdministrative = '$apiUrl/api/patients/';
 }
