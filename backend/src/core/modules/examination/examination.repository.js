@@ -204,6 +204,15 @@ class Repository extends DataRepository {
             .first();
     }
 
+    existByDoctorIdAndPatientId(doctorId, patientId) {
+        return this.query()
+            .from('examinations')
+            .where('examinations.doctor_id', '=', doctorId)
+            .andWhere('examinations.patient_id', '=', patientId)
+            .count('examinations.id')
+            .first();
+    }
+
     findByDoctorHasExamination(doctorId, offset, pageSize) {
         return this.query()
             .distinct('examinations.patient_id')
