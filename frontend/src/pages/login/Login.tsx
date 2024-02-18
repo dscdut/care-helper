@@ -41,7 +41,7 @@ export default function Login(props: LoginProps) {
       })
       setIsAuthenticated(true)
       setUser(data.data.user)
-      navigate(path.home)
+      navigate(path.patients)
     },
     onError: (error) => {
       if (isAxiosError<AuthErrorResponse>(error)) {

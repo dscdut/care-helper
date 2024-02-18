@@ -1,4 +1,5 @@
-import { MedialTestType, TestType, testRowType } from 'src/types/medicalTests.type'
+import MedicalTestTable from 'src/components/table/MedicalTestTable'
+import { MedialTestType, TestType, TestRowType } from 'src/types/medicalTests.type'
 
 export interface MedicalTestProps {
   medicalTestData: MedialTestType
@@ -6,7 +7,7 @@ export interface MedicalTestProps {
 type classifyDataName = 'urogenitals' | 'bloods' | 'bloodFats'
 
 export default function MedicalTest({ medicalTestData }: MedicalTestProps) {
-  const classifyData: { [p in classifyDataName]: testRowType[] } = {
+  const classifyData: { [p in classifyDataName]: TestRowType[] } = {
     urogenitals: [],
     bloods: [],
     bloodFats: []
@@ -46,53 +47,25 @@ export default function MedicalTest({ medicalTestData }: MedicalTestProps) {
         <div className='card bg-bg_primary shadow'>
           <div className='card-body'>
             <h2 className='card-title font-bold'>Blood Test</h2>
-            <div className='overflow-x-auto'>
-              <table className='table'>
-                {/* head */}
-                <thead>
-                  <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {classifyData.bloods.map((blood, index) => (
-                    <tr key={index} className='hover border-black/20'>
-                      <td>{blood.name}</td>
-                      <td>{blood.value}</td>
-                      <td className='text-right'>{blood.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MedicalTestTable
+              medicalTestData={classifyData.bloods.map((blood) => ({
+                parameter: blood.name,
+                index: blood.value,
+                unit: blood.unit
+              }))}
+            />
           </div>
         </div>
         <div className='card bg-bg_primary shadow'>
           <div className='card-body'>
             <h2 className='card-title font-bold'>Blood Fat Test</h2>
-            <div className='overflow-x-auto'>
-              <table className='table'>
-                {/* head */}
-                <thead>
-                  <tr className='border-black/70'>
-                    <th>Medical test</th>
-                    <th>Value</th>
-                    <th className='text-right'>Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {classifyData.bloodFats.map((bloodFat, index) => (
-                    <tr key={index} className='hover border-black/20'>
-                      <td>{bloodFat.name}</td>
-                      <td>{bloodFat.value}</td>
-                      <td className='text-right'>{bloodFat.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MedicalTestTable
+              medicalTestData={classifyData.bloodFats.map((blood) => ({
+                parameter: blood.name,
+                index: blood.value,
+                unit: blood.unit
+              }))}
+            />
           </div>
         </div>
       </div>

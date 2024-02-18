@@ -20,3 +20,9 @@ export type ExaminationType = {
     address: string
   }
 }
+
+export type ExaminationReqBody = { patientId: number; hospitalId: number }
+
+export type ExaminationUpdateReqBody = Pick<ExaminationType, 'id' | 'advice' | 'diagnose' | 'detailDiagnose'> & {
+  hospitalId: number
+}

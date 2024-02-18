@@ -35,7 +35,9 @@ export const PRESCRIPTION_MESSAGE = {
     required: 'Medicine form is required.'
   },
   QUANTITY: {
-    required: 'Quantity is required.'
+    required: 'Quantity is required.',
+    isNumber: 'Quantity must be a number',
+    min: 'Quantity must be greater than 0'
   },
   AMOUNT: {
     required: 'Amount is required.'
@@ -47,3 +49,35 @@ export const PRESCRIPTION_MESSAGE = {
     required: 'Date is required.'
   }
 } as const
+
+export const MEDICAL_TESTS_MESSAGE = {
+  PARAMETER: {
+    required: 'Parameter is required.'
+  },
+  INDEX: {
+    required: 'Index is required.'
+  },
+  UNIT: {
+    required: 'Unit is required.'
+  }
+} as const
+export const DIAGNOSE_MESSAGE = {
+  DETAILS: {
+    required: 'Details is required.'
+  },
+  CONCLUDE: {
+    required: 'Conclude is required.'
+  }
+} as const
+export const HOSPITAL_MESSAGE = {
+  required: 'Hospital is required.'
+} as const
+export const SEARCH_MESSAGE = {
+  KEYWORD: {
+    required: 'Keyword is required.'
+  }
+} as const
+
+export const COMMON_MESSAGE = {
+  NOT_UPDATE_YET: 'Not Update Yet'
+}

@@ -12,4 +12,5 @@ export const AUTH_FIELD_NAME = {
 
 export const INSURANCE_AREA_NUMBER = 4
 export const PAGE_SIZE_DEFAULT = 10
-export const PRESCRIPTION_ROW_NAME = 'prescriptions'
+export const PRESCRIPTION_ROW_NAME = 'prescriptionRow'
+export const DEFAULT_PAGING_SIZE = 10

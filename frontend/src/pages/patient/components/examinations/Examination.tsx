@@ -17,8 +17,8 @@ export interface ExaminationProps {}
 
 export default function Examination(props: ExaminationProps) {
   const { examinationId } = useParams() as { examinationId: string }
-  const patientName = useOutletContext()
   const { user } = useContext<AppContextType>(AppContext)
+  const patientName = useOutletContext<string>()
   const data = useQueries([
     {
       queryKey: ['medicalTestExaminationId', Number(examinationId)],
@@ -65,7 +65,7 @@ export default function Examination(props: ExaminationProps) {
       </div>
       <Prescription
         prescriptionData={(prescriptionExaminationData as AxiosResponse<PrescriptionType[]>).data}
-        patientName={patientName as string}
+        patientName={patientName}
       />
     </div>
   )

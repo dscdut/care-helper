@@ -6,6 +6,7 @@ import { AppContext, AppContextType } from 'src/contexts/app.context'
 import { sidebarOption } from 'src/data/layout'
 import { HiBars3, HiArrowRightOnRectangle } from 'react-icons/hi2'
 import { clearLS } from 'src/utils/auth'
+import { useQueryClient } from 'react-query'
 
 export interface SidebarProps {}
 
@@ -13,12 +14,14 @@ export default function Sidebar(props: SidebarProps) {
   const { showSidebar, setIsAuthenticated, setUser } = useContext<AppContextType>(AppContext)
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const handleSignOut = () => {
     clearLS()
     setIsAuthenticated(false)
     setUser(null)
     navigate(path.login)
+    queryClient.removeQueries()
   }
   return (
     <div className='drawer fixed z-10 w-max bg-white lg:drawer-open'>

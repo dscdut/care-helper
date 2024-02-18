@@ -5,16 +5,18 @@ export enum TestType {
   BLOOD_FAT = 'blood fat'
 }
 
-export type testRowType = {
+export type TestRowType = {
   name: string
   type: TestType
   unit: string
-  value: number
+  value: string
 }
 
 export type MedialTestType = {
   id: number
-  testRows: testRowType[]
+  testRows: TestRowType[]
   examinationId: number
   createdAt: string
 }
+
+export type MedicalTestReqBody = { testRows: string; examinationId: number }
