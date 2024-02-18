@@ -77,7 +77,21 @@ export const SEARCH_MESSAGE = {
     required: 'Keyword is required.'
   }
 } as const
+export const APPOINTMENT_SCHEDULE_MESSAGE = {
+  NAME: {
+    required: 'Appointment schedule name is required.'
+  },
+  DATE: {
+    inValid: 'Date must be greater than or equal to the current date'
+  },
+  TIME: {
+    inValid: 'Start time must be less than end time.'
+  },
+  LOCATION: {
+    required: 'Location is required.'
+  }
+} as const
 
 export const COMMON_MESSAGE = {
   NOT_UPDATE_YET: 'Not Update Yet'
-}
+} as const

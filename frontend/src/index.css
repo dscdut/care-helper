@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  --toastify-color-success: #4a00ff;
+  --primary-color: #4a00ff;
+  --toastify-color-success: var(--primary-color);
 }
 
 * {
@@ -19,4 +20,30 @@
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* calendar */
+.fc .fc-button {
+  @apply btn btn-primary text-white;
+}
+.fc .fc-button:disabled {
+  @apply text-black;
+}
+.fc .fc-button:focus,
+.fc .fc-event:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  @apply shadow-none;
+}
+.fc .fc-more-popover {
+  @apply h-56;
+}
+.fc .fc-popover-body {
+  @apply h-48 overflow-y-auto overflow-x-hidden;
+}
+.fc-daygrid-body.fc-daygrid-body-unbalanced,
+.fc-scrollgrid-sync-table {
+  @apply !w-full;
+}
+.fc-header-toolbar.fc-toolbar {
+  @apply flex-wrap gap-2;
 }

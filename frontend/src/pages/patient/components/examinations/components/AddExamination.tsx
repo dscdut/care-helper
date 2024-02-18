@@ -226,7 +226,7 @@ export default function AddExamination({
       ])
     }
     const prescription: PrescriptionReqBody = {
-      note: data.prescription.note || '',
+      note: data.prescription.note || ' ',
       details: data.prescription[PRESCRIPTION_ROW_NAME].map((item) => ({
         ...item,
         quantity: Number(item.quantity)
