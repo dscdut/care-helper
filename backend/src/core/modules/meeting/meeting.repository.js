@@ -13,6 +13,7 @@ class Repository extends DataRepository {
             .returning('*')
             .then(([result]) => ({
                 id: result.id,
+                title: result.title,
                 startTime: result.start_time,
                 endTime: result.end_time,
                 place: result.place,
@@ -47,6 +48,7 @@ class Repository extends DataRepository {
             .andWhereBetween('meetings.start_time', [start, end])
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },
@@ -54,6 +56,10 @@ class Repository extends DataRepository {
                 { doctorId: 'meetings.doctor_id' },
                 { patientId: 'meetings.patient_id' },
                 { createdAt: 'meetings.created_at' },
+                { doctorName: 'doctors.full_name' },
+                { doctorPhone: 'doctors.phone' },
+                { patientName: 'patients.full_name' },
+                { patientPhone: 'patients.phone' },
             )
             .leftJoin('patients', 'patients.id', 'meetings.patient_id')
             .leftJoin('doctors', 'doctors.id', 'meetings.doctor_id')
@@ -66,6 +72,7 @@ class Repository extends DataRepository {
             .andWhereBetween('meetings.start_time', [start, end])
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },
@@ -88,6 +95,7 @@ class Repository extends DataRepository {
             .where('meetings.id', '=', id)
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },
@@ -105,6 +113,7 @@ class Repository extends DataRepository {
             .andWhere('meetings.patient_id', '=', patientId)
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },
@@ -122,6 +131,7 @@ class Repository extends DataRepository {
             .andWhere('meetings.start_time', '>=', today)
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },
@@ -155,6 +165,7 @@ class Repository extends DataRepository {
             .andWhere('meetings.start_time', '>=', today)
             .select(
                 'meetings.id',
+                'meetings.title',
                 'meetings.note',
                 'meetings.place',
                 { startTime: 'meetings.start_time' },

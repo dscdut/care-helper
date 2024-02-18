@@ -100,7 +100,7 @@ class Service {
             );
         }
 
-        return MeetingDto(data);
+        return LazyMeetingDto(data);
     }
 
     async getMyMeetingsCalendarByDoctor(start, end, doctorId) {

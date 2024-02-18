@@ -5,8 +5,9 @@ import Joi from 'joi';
 export const UpdateMeetingInterceptor = new DefaultValidatorInterceptor(
     Joi.object({
         id: JoiUtils.positiveNumber().required(),
-        startTime: JoiUtils.dateTime(),
-        endTime: JoiUtils.dateTime(),
+        title: JoiUtils.requiredString(),
+        startTime: JoiUtils.isoDateTime(),
+        endTime: JoiUtils.isoDateTime(),
         place: JoiUtils.requiredString(),
         note: JoiUtils.optionalString(),
     }),

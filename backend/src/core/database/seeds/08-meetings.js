@@ -27,6 +27,7 @@ exports.seed = async knex => {
         endTime.setHours(startTime.getHours() + fakerEN.number.int({ min: 1, max: 6 }), fakerEN.number.int({ min: 0, max: 60 }));
 
         const meeting = {
+            title: fakerEN.lorem.words({ min: 1, max: 10 }),
             start_time: startTime,
             end_time: endTime,
             place: fakerEN.location.streetAddress(),

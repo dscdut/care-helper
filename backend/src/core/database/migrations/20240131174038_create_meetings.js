@@ -5,6 +5,7 @@ const tableName = 'meetings';
 exports.up = async knex => {
     await knex.schema.createTable(tableName, table => {
         table.increments('id').unsigned().primary();
+        table.string('title', 255);
         table.dateTime('start_time');
         table.datetime('end_time');
         table.string('place', 255);

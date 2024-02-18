@@ -4,8 +4,9 @@ import Joi from 'joi';
 
 export const CreateMeetingInterceptor = new DefaultValidatorInterceptor(
     Joi.object({
-        startTime: JoiUtils.dateTime(),
-        endTime: JoiUtils.dateTime(),
+        startTime: JoiUtils.isoDateTime(),
+        title: JoiUtils.requiredString(),
+        endTime: JoiUtils.isoDateTime(),
         place: JoiUtils.requiredString(),
         note: JoiUtils.optionalString(),
         patientId: JoiUtils.positiveNumber().required(),

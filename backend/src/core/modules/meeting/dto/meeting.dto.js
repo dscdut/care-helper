@@ -5,6 +5,7 @@ import { SwaggerDocument } from 'packages/swagger';
 
 ApiDocument.addModel('MeetingDto', {
     id: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
+    title: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
     startTime: SwaggerDocument.ApiProperty({ type: 'dateTime', readOnly: true }),
     endTime: SwaggerDocument.ApiProperty({ type: 'dateTime', readOnly: true }),
     place: SwaggerDocument.ApiProperty({ type: 'string', readOnly: true }),
@@ -24,6 +25,7 @@ ApiDocument.addModel('MeetingDto', {
 
 export const MeetingDto = meeting => ({
     id: meeting.id,
+    title: meeting.title,
     startTime: meeting.startTime,
     endTime: meeting.endTime,
     place: meeting.place,

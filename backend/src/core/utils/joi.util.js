@@ -7,7 +7,7 @@ const MONGOOSE_ID_OBJECT_FORMAT = /^[0-9a-fA-F]{24}$/;
 const DATE_YYYY_MM_DD_FORMAT = /^\d{4}-\d{2}-\d{2}$/;
 
 const DATETIME_YYYY_MM_DD_HH_MM_SS_FORMAT = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
-
+const ISO8601_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z?$/;
 // Required from 6-30 char, contains special char
 const PWD_FORMAT = /^[a-zA-Z0-9\d@$!%*?&]{6,30}$/;
 
@@ -16,6 +16,14 @@ const NUMBER_FORMAT = /^[0-9]+$/;
 export class JoiUtils {
     static objectId() {
         return Joi.string().regex(MONGOOSE_ID_OBJECT_FORMAT);
+    }
+
+    static isoDateTime(custom = false) {
+        return custom
+            ? Joi.string().regex(ISO8601_REGEX)
+            : Joi.string()
+                .regex(ISO8601_REGEX)
+                .message('Invalid date format. Should be in ISO 8601 format.');
     }
 
     static dateTime(custom = false) {
