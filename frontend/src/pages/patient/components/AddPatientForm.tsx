@@ -79,7 +79,7 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
     queryClient.invalidateQueries(['myPatients'])
   }
 
-  const renderBodySearch = () => {
+  const renderSearchResult = () => {
     if (searchData?.data) {
       if (searchData.data.data.length > 0) {
         return searchData?.data.data.map((patient) => (
@@ -109,14 +109,12 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
             </div>
           </div>
         ))
-      } else {
-        return (
-          <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
-        )
       }
-    } else {
-      return null
+      return (
+        <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
+      )
     }
+    return null
   }
 
   return (
@@ -148,7 +146,7 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
               </div>
             </section>
             {isLoading && <Loading containerClass='h-[unset] flex-1' />}
-            <section className='flex flex-wrap gap-6'>{renderBodySearch()}</section>
+            <section className='flex flex-wrap gap-6'>{renderSearchResult()}</section>
           </div>
         </motion.div>
       )}

@@ -1,6 +1,7 @@
 import { ExaminationSchema } from 'src/utils/rules'
 import { motion } from 'framer-motion'
 import { Prescription } from 'src/pages/patient/components/examinations/components'
+import MedicalTestTable from 'src/components/table/MedicalTestTable'
 
 export interface ConfirmProps {
   data: ExaminationSchema
@@ -31,26 +32,7 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
         <h2 className='text-lg font-bold'>Birth Mark</h2>
         <div className='card bg-bg_primary shadow'>
           <div className='card-body'>
-            <div className='overflow-x-auto'>
-              <table className='table'>
-                <thead>
-                  <tr className='border-black/70'>
-                    <th className='w-1/2'>Medical test</th>
-                    <th className='w-1/4'>Value</th>
-                    <th className='w-1/4 text-right'>Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.birthMark.map((birthMark, index) => (
-                    <tr key={index} className='hover border-black/20'>
-                      <td>{birthMark.parameter}</td>
-                      <td>{birthMark.index}</td>
-                      <td className='text-right'>{birthMark.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MedicalTestTable medicalTestData={data.birthMark} />
           </div>
         </div>
       </section>
@@ -58,26 +40,7 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
         <h2 className='text-lg font-bold'>Blood Test</h2>
         <div className='card bg-bg_primary shadow'>
           <div className='card-body'>
-            <div className='overflow-x-auto'>
-              <table className='table'>
-                <thead>
-                  <tr className='border-black/70'>
-                    <th className='w-1/2'>Medical test</th>
-                    <th className='w-1/4'>Value</th>
-                    <th className='w-1/4 text-right'>Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.bloodTest.map((blood, index) => (
-                    <tr key={index} className='hover border-black/20'>
-                      <td>{blood.parameter}</td>
-                      <td>{blood.index}</td>
-                      <td className='text-right'>{blood.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MedicalTestTable medicalTestData={data.bloodTest} />
           </div>
         </div>
       </section>
@@ -85,26 +48,7 @@ export default function Confirm({ data, delta, examinationId, patientName }: Con
         <h2 className='text-lg font-bold'>Blood Fat Test</h2>
         <div className='card bg-bg_primary shadow'>
           <div className='card-body'>
-            <div className='overflow-x-auto'>
-              <table className='table'>
-                <thead>
-                  <tr className='border-black/70'>
-                    <th className='w-1/2'>Medical test</th>
-                    <th className='w-1/4'>Value</th>
-                    <th className='w-1/4 text-right'>Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.bloodFatTest.map((bloodFat, index) => (
-                    <tr key={index} className='hover border-black/20'>
-                      <td>{bloodFat.parameter}</td>
-                      <td>{bloodFat.index}</td>
-                      <td className='text-right'>{bloodFat.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MedicalTestTable medicalTestData={data.bloodFatTest} />
           </div>
         </div>
       </section>

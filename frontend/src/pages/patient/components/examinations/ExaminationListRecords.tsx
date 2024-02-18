@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
 import { HiMiniPlus } from 'react-icons/hi2'
 import { useQuery, useQueryClient } from 'react-query'
@@ -8,10 +7,11 @@ import Pagination from 'src/components/pagination/Pagination'
 import { AddExamination } from 'src/pages/patient/components/examinations/components'
 import patientApi from 'src/apis/patient.api'
 import Modal from 'src/components/modal/Modal'
-import { PagingFilter } from 'src/types/utils.type'
+import { PaginationParams } from 'src/types/utils.type'
 import Loading from 'src/components/loading/Loading'
 import NoDataDisplay from 'src/components/no-data-display/NoDataDisplay'
 import { PAGE_SIZE_DEFAULT } from 'src/constants/common'
+import { formatDate } from 'src/utils/utils'
 
 export default function ExaminationListRecords() {
   const { patientId } = useParams() as { patientId: string }
@@ -22,13 +22,13 @@ export default function ExaminationListRecords() {
   const [previousStep, setPreviousStep] = useState<number>(0)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const pagingFilter: PagingFilter = {
+  const paginationParams: PaginationParams = {
     page: currentPage,
     size: PAGE_SIZE_DEFAULT
   }
   const { data: examinationsData, isLoading } = useQuery({
-    queryKey: ['examinationsOfPatient', Number(patientId), pagingFilter],
-    queryFn: () => patientApi.getExaminationsOfPatient(pagingFilter, Number(patientId))
+    queryKey: ['examinationsOfPatient', Number(patientId), paginationParams],
+    queryFn: () => patientApi.getExaminationsOfPatient(paginationParams, Number(patientId))
   })
 
   const handleReset = () => {
@@ -66,46 +66,37 @@ export default function ExaminationListRecords() {
   }
 
   const renderBody = () => {
-    if (isLoading) {
-      return (
-        <tr>
-          <td colSpan={4}>
-            <Loading containerClass='h-96' />
-          </td>
-        </tr>
-      )
-    } else if (examinationsData?.data && examinationsData.data.data.length > 0) {
+    if (examinationsData?.data && examinationsData.data.data.length > 0) {
       return examinationsData?.data.data.map((examination) => (
         <tr
           onClick={() => handleNavigate(examination.id.toString())}
           className='hover cursor-pointer'
           key={examination.id}
         >
-          <td>{dayjs(examination.createdAt).format('DD/MM/YYYY')}</td>
+          <td>{formatDate(examination.createdAt, 'DD/MM/YYYY')}</td>
           <td>{examination.hospital.name}</td>
           <td>{examination.diagnose}</td>
         </tr>
       ))
-    } else {
-      return (
-        <tr>
-          <td colSpan={3}>
-            <NoDataDisplay
-              title='Your list patient is empty'
-              description='You can add new patient to display in this table.'
-              actions={
-                <Button
-                  title='Add New Examination'
-                  Icon={HiMiniPlus}
-                  className='btn-primary font-bold text-white'
-                  onClick={handleOpenModal}
-                />
-              }
-            />
-          </td>
-        </tr>
-      )
     }
+    return (
+      <tr>
+        <td colSpan={3}>
+          <NoDataDisplay
+            title='Your list patient is empty'
+            description='You can add new patient to display in this table.'
+            actions={
+              <Button
+                title='Add New Examination'
+                Icon={HiMiniPlus}
+                className='btn-primary font-bold text-white'
+                onClick={handleOpenModal}
+              />
+            }
+          />
+        </td>
+      </tr>
+    )
   }
 
   return (
@@ -139,7 +130,16 @@ export default function ExaminationListRecords() {
               <th className='w-2/5'>Diagnose</th>
             </tr>
           </thead>
-          <tbody>{renderBody()}</tbody>
+          <tbody>
+            {isLoading && (
+              <tr>
+                <td colSpan={4}>
+                  <Loading containerClass='h-96' />
+                </td>
+              </tr>
+            )}
+            {!isLoading && renderBody()}
+          </tbody>
         </table>
       </div>
       {examinationsData?.data && examinationsData.data.data.length > 0 && (

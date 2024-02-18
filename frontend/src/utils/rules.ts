@@ -73,3 +73,4 @@ export type AuthSchema = yup.InferType<typeof authSchema>
 export type PrescriptionSchema = yup.InferType<typeof prescriptionSchema>
 export type ExaminationSchema = yup.InferType<typeof examinationSchema>
 export type SearchSchema = yup.InferType<typeof searchSchema>
+export type MedicalTestSchema = yup.InferType<typeof medicalTestSchema>

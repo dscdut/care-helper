@@ -3,10 +3,10 @@ export interface ModalProps {
   children: React.ReactNode
   modalRef: React.MutableRefObject<HTMLDialogElement | null>
   containerClass?: string
-  closeClass?: string
+  closeBtnClass?: string
 }
 
-export default function Modal({ children, modalRef, containerClass, closeClass }: ModalProps) {
+export default function Modal({ children, modalRef, containerClass, closeBtnClass }: ModalProps) {
   return (
     <dialog ref={modalRef} className={twMerge('modal', containerClass)}>
       <div
@@ -14,7 +14,9 @@ export default function Modal({ children, modalRef, containerClass, closeClass }
         id='modal-box'
       >
         <form method='dialog'>
-          <button className={twMerge('btn btn-circle btn-ghost btn-sm absolute right-2 top-2', closeClass)}>✕</button>
+          <button className={twMerge('btn btn-circle btn-ghost btn-sm absolute right-2 top-2', closeBtnClass)}>
+            ✕
+          </button>
         </form>
         {children}
       </div>

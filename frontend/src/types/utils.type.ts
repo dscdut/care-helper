@@ -23,7 +23,7 @@ export interface SelectOption {
   value: string | number
 }
 
-export type PagingFilter = {
+export type PaginationParams = {
   page: number
   size: number
 }

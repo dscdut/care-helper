@@ -10,7 +10,7 @@ import { path } from 'src/constants/path'
 import { formatDate } from 'src/utils/utils'
 import doctorApi from 'src/apis/doctor.api'
 import { AddPatientForm } from 'src/pages/patient/components'
-import { PagingFilter } from 'src/types/utils.type'
+import { PaginationParams } from 'src/types/utils.type'
 import NoDataDisplay from 'src/components/no-data-display/NoDataDisplay'
 import { DEFAULT_PAGING_SIZE } from 'src/constants/common'
 
@@ -18,13 +18,13 @@ export default function Patient() {
   const navigate = useNavigate()
   const modalRef = useRef<HTMLDialogElement | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const pagingFilter: PagingFilter = {
+  const paginationParams: PaginationParams = {
     page: currentPage,
     size: DEFAULT_PAGING_SIZE
   }
   const { data: myPatientsData, isLoading } = useQuery({
-    queryKey: ['myPatients', pagingFilter],
-    queryFn: () => doctorApi.getMyPatients(pagingFilter)
+    queryKey: ['myPatients', paginationParams],
+    queryFn: () => doctorApi.getMyPatients(paginationParams)
   })
 
   const handleNavigateDetails = (id: number) => {
