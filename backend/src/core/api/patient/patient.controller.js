@@ -12,6 +12,7 @@ import { ForbiddenException } from 'packages/httpException';
 import { SurveyService } from 'core/modules/survey';
 import { MessageDto } from 'core/common/dto';
 import { FillSurveyDto } from 'core/modules/survey/dto/fill.survey.dto';
+import { PaginationSurveyDto } from 'core/modules/survey/dto/pagination-survey.dto';
 
 class Controller {
     constructor() {
@@ -76,7 +77,7 @@ class Controller {
             page,
             size,
         );
-        return ValidHttpResponse.toOkResponse(data);
+        return ValidHttpResponse.toOkResponse(PaginationSurveyDto(data));
     };
 
     fillSurvey = async req => {
