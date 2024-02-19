@@ -11,7 +11,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { AppointmentScheduleSchema, appointmentScheduleSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PatientOfDoctor } from 'src/types/users.type'
-import patientApi from 'src/apis/patient.api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import SearchForm from 'src/components/form/SearchForm'
 import meetingsApi from 'src/apis/meetings.api'
@@ -19,6 +18,7 @@ import Loading from 'src/components/loading/Loading'
 import { MeetingReqBody, MeetingReqBodyUpdate } from 'src/types/meetings.type'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import doctorApi from 'src/apis/doctor.api'
 
 dayjs.extend(utc)
 
@@ -128,8 +128,8 @@ export default function AppointmentSchedule(props: AppointmentScheduleProps) {
     isSuccess,
     isLoading
   } = useQuery({
-    queryKey: ['patients', getValues('search.keyword')],
-    queryFn: () => patientApi.getPatients({ keyword: getValues('search.keyword') }),
+    queryKey: ['myPatients', getValues('search.keyword')],
+    queryFn: () => doctorApi.getMyPatients({ keyword: getValues('search.keyword'), page: 1, size: 1000000 }),
     enabled: isSearching
   })
 
