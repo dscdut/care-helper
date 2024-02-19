@@ -133,13 +133,17 @@ class Service {
         return PatientDto(patient[0]);
     }
 
-    async findPatientsByDoctorId(id, page, pageSize) {
+    async findPatientsByDoctorId(id, page, pageSize, keyword) {
         const offset = (page - 1) * pageSize;
-        const total = await this.examinationRepository.countByDoctorHasExamination(id);
+        const total = await this.examinationRepository.countByDoctorHasExamination(
+            id,
+            keyword,
+        );
         const data = await this.examinationRepository.findByDoctorHasExamination(
             id,
             offset,
             pageSize,
+            keyword,
         );
         return {
             content: data.map(e => LessPatientDto(e)),

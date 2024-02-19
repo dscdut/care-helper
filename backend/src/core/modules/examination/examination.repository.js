@@ -213,7 +213,7 @@ class Repository extends DataRepository {
             .first();
     }
 
-    findByDoctorHasExamination(doctorId, offset, pageSize) {
+    findByDoctorHasExamination(doctorId, offset, pageSize, keyword) {
         return this.query()
             .distinct('examinations.patient_id')
             .where('examinations.doctor_id', '=', doctorId)
@@ -224,6 +224,18 @@ class Repository extends DataRepository {
                 'examinations.patient_id',
             )
             .whereNull('patients.deleted_at')
+            .andWhere(function () {
+                this.where('patients.phone', 'ilike', `%${keyword}%`)
+                    .orWhere('patients.email', 'ilike', `%${keyword}%`)
+                    .orWhere('patients.full_name', 'ilike', `%${keyword}%`)
+                    .orWhere('patients.address', 'ilike', `%${keyword}%`)
+                    .orWhere(
+                        'patients.national_id_card',
+                        'ilike',
+                        `%${keyword}%`,
+                    )
+                    .orWhere('patients.insurance', 'ilike', `%${keyword}%`);
+            })
             .select(
                 'patients.id',
                 { fullName: 'patients.full_name' },
@@ -244,7 +256,7 @@ class Repository extends DataRepository {
             .limit(pageSize);
     }
 
-    countByDoctorHasExamination(doctorId) {
+    countByDoctorHasExamination(doctorId, keyword) {
         return this.query()
             .count('*')
             .from(function () {
@@ -258,6 +270,30 @@ class Repository extends DataRepository {
                         'examinations.patient_id',
                     )
                     .whereNull('patients.deleted_at')
+                    .andWhere(function () {
+                        this.where('patients.phone', 'ilike', `%${keyword}%`)
+                            .orWhere('patients.email', 'ilike', `%${keyword}%`)
+                            .orWhere(
+                                'patients.full_name',
+                                'ilike',
+                                `%${keyword}%`,
+                            )
+                            .orWhere(
+                                'patients.address',
+                                'ilike',
+                                `%${keyword}%`,
+                            )
+                            .orWhere(
+                                'patients.national_id_card',
+                                'ilike',
+                                `%${keyword}%`,
+                            )
+                            .orWhere(
+                                'patients.insurance',
+                                'ilike',
+                                `%${keyword}%`,
+                            );
+                    })
                     .select('examinations.patient_id')
                     .as('t');
             })
