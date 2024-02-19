@@ -267,7 +267,7 @@ export default function AppointmentSchedule(props: AppointmentScheduleProps) {
 
   const calendarOptions: CalendarOptions = {
     ...defaultCalendarOptions,
-    dayMaxEvents: isMonthView && 3,
+    dayMaxEvents: isMonthView && 1,
     customButtons: {
       create: {
         text: 'Create',
@@ -511,8 +511,7 @@ export default function AppointmentSchedule(props: AppointmentScheduleProps) {
 function renderEventContent(eventInfo: EventContentArg) {
   return (
     <button className='btn btn-primary btn-sm h-auto w-full justify-between gap-1 rounded-md px-2 py-1 text-start text-white'>
-      <span className='text-wrap'>{eventInfo.event.title}</span>
-      <span className='text-wrap'>{eventInfo.timeText}</span>
+      <span className='line-clamp-1 text-wrap'>{eventInfo.event.title}</span>
     </button>
   )
 }
