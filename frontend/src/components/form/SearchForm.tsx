@@ -33,46 +33,46 @@ export default function SearchForm({
   actions
 }: SearchFormProps) {
   const renderBodySearch = () => {
-    if (searchData) {
-      if (searchData.length > 0) {
-        return searchData.map((patient) => (
-          <div
-            key={patient.id}
-            className='card card-side max-w-[30%] cursor-pointer bg-bg_primary shadow-xl'
-            onClick={(event) => handleChoosePatient(event, patient)}
-            aria-hidden={true}
-          >
-            <div className='card-body gap-4 p-6'>
-              <h2 className='card-title font-bold'>Patient</h2>
-              <article className='flex flex-col items-start gap-2'>
-                <p>
-                  Name: <span className='font-bold'>{patient.fullName}</span>
-                </p>
-                <p>
-                  Phone Number: <span className='font-bold'>{patient.phone}</span>
-                </p>
-              </article>
-              {actions && actions.length > 0 && (
-                <div className='card-actions justify-end'>
-                  {actions.map((action, index) => (
-                    <Button
-                      key={index}
-                      title={action.title}
-                      onClick={(event) => action.handleClick(event, patient)}
-                      {...action.props}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        ))
-      }
-      return (
-        <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
-      )
+    if (!searchData) {
+      return null
     }
-    return null
+    if (searchData.length > 0) {
+      return searchData.map((patient) => (
+        <div
+          key={patient.id}
+          className='card card-side max-w-[30%] cursor-pointer bg-bg_primary shadow-xl'
+          onClick={(event) => handleChoosePatient(event, patient)}
+          aria-hidden={true}
+        >
+          <div className='card-body gap-4 p-6'>
+            <h2 className='card-title font-bold'>Patient</h2>
+            <article className='flex flex-col items-start gap-2'>
+              <p>
+                Name: <span className='font-bold'>{patient.fullName}</span>
+              </p>
+              <p>
+                Phone Number: <span className='font-bold'>{patient.phone}</span>
+              </p>
+            </article>
+            {actions && actions.length > 0 && (
+              <div className='card-actions justify-end'>
+                {actions.map((action, index) => (
+                  <Button
+                    key={index}
+                    title={action.title}
+                    onClick={(event) => action.handleClick(event, patient)}
+                    {...action.props}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ))
+    }
+    return (
+      <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
+    )
   }
 
   return (
