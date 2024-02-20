@@ -25,6 +25,13 @@ class Service {
                 `Could not find patient with id = ${meetingDto.patientId} to create a meeting`,
             );
         }
+        const conflicts = await this.meetingRepository
+            .checkConflictTimeByDoctorIdOrPatientId(doctorId, meetingDto.patientId, meetingDto.startTime, meetingDto.endTime);
+        if (conflicts.length !== 0) {
+            throw new BadRequestException(
+                'Appointment has conflicted with the patient\'s or doctor\'s previous appointment',
+            );
+        }
         const trx = await getTransaction();
         try {
             const createdMeeting = await this.meetingRepository.createMeeting(
