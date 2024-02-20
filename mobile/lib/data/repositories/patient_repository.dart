@@ -4,6 +4,8 @@ import 'package:flutter_template/data/dtos/auth/get_token_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_response_dto.dart';
 
 class PatientRepository {
   PatientRepository({
@@ -22,4 +24,10 @@ class PatientRepository {
     RegisterPatientRequestDTO params,
   ) =>
       _dataSource.register(params);
+
+  Future<UpdateAdministrativeResponseDTO> updateAdministrative(
+    UpdateAdministrativeRequestDTO params,
+    String token,
+  ) =>
+      _dataSource.updateAdministrative(params, token);
 }

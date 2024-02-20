@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 class HttpRequestResponse<T> {
@@ -77,12 +76,16 @@ class DioHelper {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Map<String, dynamic>? formData,
+    String? token,
   }) async {
+    final Options requestOptions = Options(
+      headers: {'Authorization': 'Bearer $token'},
+    );
     final Response response = await _dio.put(
       url,
       data: data,
       queryParameters: queryParameters,
-      options: options,
+      options: requestOptions,
     );
 
     return HttpRequestResponse(

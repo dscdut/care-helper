@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/theme/color_styles.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -18,16 +19,18 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final Function()? onPressed;
 
+  static const Color defaultColor = ColorStyles.darkColorButton;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: color,
+        backgroundColor: color ?? defaultColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: onPressed,
+      onPressed: onPressed ?? () {},
       child: Container(
         width: width,
         height: height,

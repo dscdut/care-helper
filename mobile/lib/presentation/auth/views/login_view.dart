@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
             child: CustomButtonWidget(
               label: 'Dang nhap',
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRouter.profile_detail);
+                Navigator.of(context).pushNamed(AppRouter.profile_nav1);
               },
             ),
           ),

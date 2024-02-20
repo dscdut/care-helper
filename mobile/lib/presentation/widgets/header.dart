@@ -32,10 +32,9 @@ class Header extends StatelessWidget {
           children: [
             Text(
               heading1,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-              ),
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
             ),
             Text(
               heading2,

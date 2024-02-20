@@ -4,6 +4,8 @@ import 'package:flutter_template/data/dtos/auth/get_token_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_response_dto.dart';
 
 class PatientDataSource {
   PatientDataSource({required PatientRemoteDataSource remoteDataSource})
@@ -23,5 +25,12 @@ class PatientDataSource {
     RegisterPatientRequestDTO params,
   ) async {
     return await _remoteDataSource.register(params);
+  }
+
+  Future<UpdateAdministrativeResponseDTO> updateAdministrative(
+    UpdateAdministrativeRequestDTO params,
+    String token,
+  ) async {
+    return await _remoteDataSource.updateAdministrative(params, token);
   }
 }

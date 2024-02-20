@@ -58,8 +58,12 @@ abstract class ColorStyles {
   // app color
   static const Color primaryColor = Color(0xff112950);
   static const Color secondaryColor = Colors.blueAccent;
+
+  // administrative view color
   static const Color darkColorButton = Color(0xFF3A3A3A);
   static const Color categoryButtonColor = Color(0xFF5D7EB2);
+  static const Color textFormFieldColor = Colors.white;
+  static const Color textFormBackgroundColor = Color(0xFFC4C4C4);
 
   // Primary color
   static const Color firstPrimaryColor = Color(0xFF112950);

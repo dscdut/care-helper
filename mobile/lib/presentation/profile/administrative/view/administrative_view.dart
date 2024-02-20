@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
+import 'package:flutter_template/presentation/profile/administrative/widgets/administrative_textformfield.dart';
 
 class AdministrativeView extends StatelessWidget {
   const AdministrativeView({super.key});
@@ -16,76 +17,67 @@ class MyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return SizedBox(
+      height: 700,
       child: Column(
         children: [
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_name.tr(),
-              hintText: 'Enter your name',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_name.tr(),
+            hintText: LocaleKeys.profile_name_guiding.tr(),
           ),
           Row(
             children: [
-              TextFormField(
-                decoration: InputDecoration(
+              Expanded(
+                child: AdministrativeTextFormField(
                   labelText: LocaleKeys.profile_dob.tr(),
-                  hintText: 'Enter your date of birth',
+                  hintText: LocaleKeys.profile_dob_guiding.tr(),
                 ),
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: LocaleKeys.profile_sex.tr(),
-                  hintText: 'Enter your sex',
+              const SizedBox(width: 4),
+              Expanded(
+                child: AdministrativeTextFormField(
+                  labelText: LocaleKeys.profile_gender.tr(),
+                  hintText: LocaleKeys.profile_gender_guiding.tr(),
                 ),
               ),
             ],
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_citizen_id.tr(),
-              hintText: 'Enter your citizen id',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_citizen_id.tr(),
+            hintText: LocaleKeys.profile_citizen_id_guiding.tr(),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_insurance_id.tr(),
-              hintText: 'Enter your insurance id',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_insurance_id.tr(),
+            hintText: LocaleKeys.profile_insurance_id_guiding.tr(),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_address.tr(),
-              hintText: 'Enter your address',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_address.tr(),
+            hintText: LocaleKeys.profile_address_guiding.tr(),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_occupation.tr(),
-              hintText: 'Enter your occupation',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_occupation.tr(),
+            hintText: LocaleKeys.profile_occupation_guiding.tr(),
           ),
           Row(
             children: [
-              TextFormField(
-                decoration: InputDecoration(
+              Expanded(
+                child: AdministrativeTextFormField(
                   labelText: LocaleKeys.profile_height.tr(),
-                  hintText: 'Enter your height',
+                  hintText: LocaleKeys.profile_height_guiding.tr(),
                 ),
               ),
-              TextFormField(
-                decoration: InputDecoration(
+              const SizedBox(width: 4),
+              Expanded(
+                child: AdministrativeTextFormField(
                   labelText: LocaleKeys.profile_weight.tr(),
-                  hintText: 'Enter your weight',
+                  hintText: LocaleKeys.profile_weight_guiding.tr(),
                 ),
               ),
             ],
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: LocaleKeys.profile_check_up.tr(),
-              hintText: 'Enter your recent check up',
-            ),
+          AdministrativeTextFormField(
+            labelText: LocaleKeys.profile_check_up.tr(),
+            hintText: LocaleKeys.profile_check_up_guiding.tr(),
           ),
         ],
       ),

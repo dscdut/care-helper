@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -7,6 +5,8 @@ import 'package:flutter_template/data/dtos/auth/get_token_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_administrative_response_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 
 class PatientRemoteDataSource {
@@ -20,7 +20,6 @@ class PatientRemoteDataSource {
       Endpoints.authOtp,
       data: param.toJson(),
     );
-    log('send phone number: $response.statusCode');
     return GetTokenResponseDTO(
       token: response.data['token'],
     );
@@ -45,6 +44,21 @@ class PatientRemoteDataSource {
       patient: PatientModel.fromJson(response.data['user']),
       accessToken: response.data['accessToken'],
       refreshToken: response.data['refreshToken'],
+    );
+  }
+
+  Future<UpdateAdministrativeResponseDTO> updateAdministrative(
+    UpdateAdministrativeRequestDTO params,
+    String accessToken,
+  ) async {
+    final HttpRequestResponse response = await _dioHelper.put(
+      Endpoints.updateAdministrative,
+      data: params.toJson(),
+      token: accessToken,
+    );
+
+    return UpdateAdministrativeResponseDTO(
+      patient: PatientModel.fromJson(response.data),
     );
   }
 }

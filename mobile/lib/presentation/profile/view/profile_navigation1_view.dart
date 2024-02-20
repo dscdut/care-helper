@@ -71,7 +71,10 @@ class _ProfileNav1ViewState extends State<ProfileNav1View> {
                                 height: 50,
                                 textSize: 16,
                                 color: ColorStyles.categoryButtonColor,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(AppRouter.profile_detail);
+                                },
                               ),
                               const SizedBox(height: 16),
                               CustomButton(
