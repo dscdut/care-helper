@@ -192,6 +192,27 @@ class Repository extends DataRepository {
             .count('meetings.id')
             .first();
     }
+
+    checkConflictTimeByDoctorIdOrPatientId(doctorId, patientId, startTime, endTime) {
+        return this.query()
+            .where(builder => {
+                builder.where('doctor_id', '=', doctorId)
+                    .orWhere('patient_id', '=', patientId);
+            })
+            .andWhere(builder => {
+                builder.where(subBuilder => {
+                    subBuilder.where('start_time', '>=', startTime)
+                        .andWhere('start_time', '<', endTime);
+                }).orWhere(subBuilder => {
+                    subBuilder.where('end_time', '>', startTime)
+                        .andWhere('end_time', '<=', endTime);
+                }).orWhere(subBuilder => {
+                    subBuilder.where('start_time', '<', startTime)
+                        .andWhere('end_time', '>', endTime);
+                });
+            })
+            .limit(1);
+    }
 }
 
 export const MeetingRepository = new Repository('meetings');
