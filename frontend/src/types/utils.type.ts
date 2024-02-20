@@ -28,6 +28,10 @@ export type PaginationParams = {
   size: number
 }
 
+export type SearchParams = {
+  keyword?: string
+}
+
 export type PagingResponse<Data> = {
   data: Data
   totalPages: number

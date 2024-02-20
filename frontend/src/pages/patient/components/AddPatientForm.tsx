@@ -1,18 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2'
-import Button from 'src/components/button/Button'
-import Input from 'src/components/input/Input'
 import { SearchSchema, searchSchema } from 'src/utils/rules'
 import { motion } from 'framer-motion'
 import { AddExamination } from 'src/pages/patient/components/examinations/components'
 import { useQuery, useQueryClient } from 'react-query'
 import patientApi from 'src/apis/patient.api'
-import Loading from 'src/components/loading/Loading'
 import { useNavigate } from 'react-router-dom'
 import { path } from 'src/constants/path'
-import { searchNoData } from 'src/assets/images'
+import { PatientOfDoctor } from 'src/types/users.type'
+import SearchForm from 'src/components/form/SearchForm'
 
 export interface AddPatientFormProps {
   handleCloseModal: () => void
@@ -38,6 +35,7 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
   const [currentStep, setCurrentStep] = useState<number>(-1)
   const delta = currentStep - previousStep
   const [isSearching, setIsSearching] = useState<boolean>(false)
+  const [currentPatient, setCurrentPatient] = useState<PatientOfDoctor | null>(null)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const {
@@ -66,55 +64,21 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
   const handleOnSubmit: SubmitHandler<SearchSchema> = (data) => {
     setIsSearching(true)
   }
-  const handleChoosePatient = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.stopPropagation()
-    setPreviousStep(currentStep)
-    setCurrentStep((step) => step + 1)
-  }
-  const handleSeenDetailsPatient = (patientId: number) => {
-    navigate(`${path.patients}/${patientId}`)
+  const handleChoosePatient = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, patient: PatientOfDoctor) => {
+    navigate(`${path.patients}/${patient.id}`)
   }
   const handleReset = () => {
     reset()
+    setPreviousStep(-1)
+    setCurrentStep(-1)
     queryClient.invalidateQueries(['myPatients'])
   }
 
-  const renderSearchResult = () => {
-    if (searchData?.data) {
-      if (searchData.data.data.length > 0) {
-        return searchData?.data.data.map((patient) => (
-          <div
-            key={patient.id}
-            className='card card-side max-w-[30%] cursor-pointer bg-bg_primary shadow-xl'
-            onClick={() => handleSeenDetailsPatient(patient.id)}
-            aria-hidden={true}
-          >
-            <div className='card-body gap-4 p-6'>
-              <h2 className='card-title font-bold'>Patient</h2>
-              <article className='flex flex-col items-start gap-2'>
-                <p>
-                  Name: <span className='font-bold'>{patient.fullName}</span>
-                </p>
-                <p>
-                  Phone Number: <span className='font-bold'>{patient.phone}</span>
-                </p>
-              </article>
-              <div className='card-actions justify-end'>
-                <Button
-                  title='Add patient'
-                  onClick={handleChoosePatient}
-                  className='btn-primary font-bold text-white'
-                />
-              </div>
-            </div>
-          </div>
-        ))
-      }
-      return (
-        <img src={searchNoData} alt='Search no data' className='mx-auto mt-16 h-72 w-72 object-cover object-center' />
-      )
-    }
-    return null
+  const handleClickAction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, patient: PatientOfDoctor) => {
+    event.stopPropagation()
+    setCurrentPatient(patient)
+    setPreviousStep(currentStep)
+    setCurrentStep((step) => step + 1)
   }
 
   return (
@@ -129,33 +93,33 @@ export default function AddPatientForm({ handleCloseModal, handleScrollTopModal 
           <article className='flex flex-col gap-2'>
             <h2 className='text-xl font-bold'>Add New Patient</h2>
           </article>
-          <div className='flex flex-1 flex-col gap-8'>
-            <section className='card bg-bg_primary shadow'>
-              <div className='card-body gap-6 p-6'>
-                <h2 className='card-title text-base font-bold'>Search patient</h2>
-                <form className='flex gap-4' onSubmit={handleSubmit(handleOnSubmit)}>
-                  <Input
-                    register={register}
-                    name='keyword'
-                    placeholder='Search...'
-                    containerClass='flex-1'
-                    errorMessage={errors.keyword?.message}
-                  />
-                  <Button title='Search' className='btn-primary font-bold text-white' Icon={HiOutlineMagnifyingGlass} />
-                </form>
-              </div>
-            </section>
-            {isLoading && <Loading containerClass='h-[unset] flex-1' />}
-            <section className='flex flex-wrap gap-6'>{renderSearchResult()}</section>
-          </div>
+          <form className='flex flex-1 flex-col gap-4' onSubmit={handleSubmit(handleOnSubmit)}>
+            <SearchForm
+              isLoading={isLoading}
+              actions={[
+                {
+                  title: 'Add patient',
+                  handleClick: handleClickAction,
+                  props: { className: 'btn-primary text-white font-bold' }
+                }
+              ]}
+              handleChoosePatient={handleChoosePatient}
+              form={{
+                register,
+                name: 'keyword',
+                errorMessage: errors.keyword?.message
+              }}
+              searchData={searchData?.data.data}
+            />
+          </form>
         </motion.div>
       )}
       <AddExamination
-        patientId={searchData?.data.data[0]?.id}
+        patientId={currentPatient?.id}
         handleCloseModal={handleCloseModal}
         handleScrollTopModal={handleScrollTopModal}
         handleReset={handleReset}
-        patientName={searchData?.data.data[0]?.fullName || ''}
+        patientName={currentPatient?.fullName || ''}
         steps={{ previousStep, handleSetPreviousStep, currentStep, handleSetCurrentStep }}
       />
     </div>

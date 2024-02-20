@@ -1,5 +1,7 @@
+import dayjs from 'dayjs'
 import { PRESCRIPTION_ROW_NAME } from 'src/constants/common'
 import {
+  APPOINTMENT_SCHEDULE_MESSAGE,
   CONFIRM_PASSWORD_MESSAGES,
   DIAGNOSE_MESSAGE,
   EMAIL_MESSAGES,
@@ -69,8 +71,50 @@ export const searchSchema = yup.object().shape({
   keyword: yup.string().required(SEARCH_MESSAGE.KEYWORD.required)
 })
 
+function handleTestTime(this: yup.TestContext<yup.AnyObject>) {
+  const { startTime, endTime, date } = this.parent as {
+    startTime: string
+    endTime: string
+    date: string
+  }
+  if (!date) {
+    return true
+  }
+  const start = dayjs(`${date} ${startTime}`, { format: 'DD-MM-YYYY HH:mm' })
+  const end = dayjs(`${date} ${endTime}`, { format: 'DD-MM-YYYY HH:mm' })
+  return start.isBefore(end)
+}
+
+export const appointmentScheduleSchema = yup.object().shape({
+  name: yup.string().required(APPOINTMENT_SCHEDULE_MESSAGE.NAME.required),
+  date: yup
+    .string()
+    .required(PRESCRIPTION_MESSAGE.DATE.required)
+    .test({
+      message: APPOINTMENT_SCHEDULE_MESSAGE.DATE.inValid,
+      test: (value: string, context: yup.TestContext<yup.AnyObject>) => {
+        const valueDate = dayjs(value)
+        const currentDate = dayjs()
+        return valueDate.isSame(currentDate, 'day') || valueDate.isAfter(currentDate)
+      }
+    }),
+  startTime: yup.string().test({
+    message: APPOINTMENT_SCHEDULE_MESSAGE.TIME.inValid,
+    test: handleTestTime
+  }),
+  endTime: yup.string().test({
+    message: APPOINTMENT_SCHEDULE_MESSAGE.TIME.inValid,
+    test: handleTestTime
+  }),
+  location: yup.string().required(APPOINTMENT_SCHEDULE_MESSAGE.LOCATION.required),
+  note: yup.string(),
+  search: searchSchema.pick(['keyword']),
+  patientName: yup.string(),
+  id: yup.number()
+})
+
 export type AuthSchema = yup.InferType<typeof authSchema>
 export type PrescriptionSchema = yup.InferType<typeof prescriptionSchema>
 export type ExaminationSchema = yup.InferType<typeof examinationSchema>
 export type SearchSchema = yup.InferType<typeof searchSchema>
-export type MedicalTestSchema = yup.InferType<typeof medicalTestSchema>
+export type AppointmentScheduleSchema = yup.InferType<typeof appointmentScheduleSchema>

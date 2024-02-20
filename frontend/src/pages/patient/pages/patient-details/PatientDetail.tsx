@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { PatientInformation } from 'src/pages/patient/components'
-import { Outlet, useParams } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 import { useQueries } from 'react-query'
 import patientApi from 'src/apis/patient.api'
 import { PatientOfDoctor } from 'src/types/users.type'
@@ -9,6 +9,9 @@ import Loading from 'src/components/loading/Loading'
 import { AxiosResponse } from 'axios'
 import medicalHistoryApi from 'src/apis/medicalHistories.api'
 import { MedicalHistory } from 'src/types/medicalHistorys.type'
+import { HiOutlineArrowLeftCircle } from 'react-icons/hi2'
+import { path } from 'src/constants/path'
+import Button from 'src/components/button/Button'
 
 export interface PatientDetailsProps {}
 
@@ -23,7 +26,7 @@ enum ETabName {
 }
 
 export default function PatientDetails(props: PatientDetailsProps) {
-  const { patientId } = useParams() as { patientId: string }
+  const { patientId, examinationId } = useParams() as { patientId: string; examinationId?: string }
   const data = useQueries([
     {
       queryKey: ['patientById', Number(patientId)],
@@ -62,7 +65,10 @@ export default function PatientDetails(props: PatientDetailsProps) {
   }
   return (
     <article className='flex w-full flex-col gap-8 p-4 lg:p-8'>
-      <article>
+      <article className='flex items-center gap-2'>
+        <Link to={examinationId ? `${path.patients}/${patientId}` : path.patients}>
+          <Button Icon={HiOutlineArrowLeftCircle} iconClass='w-9 h-9' className='btn-circle mt-1' />
+        </Link>
         <h1 className='text-2xl'>
           Patient{' '}
           <span className='font-bold'>{(patientByIdData as AxiosResponse<PatientOfDoctor>)?.data.fullName}</span>

@@ -8,7 +8,7 @@ import Button from 'src/components/button/Button'
 export interface NavbarProps {}
 
 export default function Navbar(props: NavbarProps) {
-  const { showSidebar, setShowSidebar } = useContext<AppContextType>(AppContext)
+  const { showSidebar, setShowSidebar, user } = useContext<AppContextType>(AppContext)
   const handleShowSidebar = () => {
     setShowSidebar(!showSidebar)
   }
@@ -64,8 +64,10 @@ export default function Navbar(props: NavbarProps) {
             className='dropdown-content top-[120%] z-[1] flex w-56 flex-col rounded-md bg-base-100 shadow'
           >
             <div className='w-full border-b border-dashed border-black p-4 py-3'>
-              <h3 className='line-clamp-1 text-base font-semibold'>Pham Tuyen &nbsp;</h3>
-              <p className='line-clamp-1 text-sm'>tuyenpham1104.dev@gmail.com &nbsp;</p>
+              <h3 className='line-clamp-1 text-base font-semibold'>
+                {user?.fullName || 'Name not updated yet'} &nbsp;
+              </h3>
+              <p className='line-clamp-1 text-sm'>{user?.email} &nbsp;</p>
             </div>
             <ul className='menu menu-sm gap-[1px]'>
               {quickOptionsNavbar.map((option) => (

@@ -12,6 +12,7 @@ import { Diagnose, MedicalTest, Prescription } from 'src/pages/patient/component
 import { useContext } from 'react'
 import { AppContext, AppContextType } from 'src/contexts/app.context'
 import Loading from 'src/components/loading/Loading'
+import NoDataDisplay from 'src/components/no-data-display/NoDataDisplay'
 
 export interface ExaminationProps {}
 
@@ -38,6 +39,13 @@ export default function Examination(props: ExaminationProps) {
   const [medicalTestsData, examinationDataId, prescriptionExaminationData] = data.map((childData) => childData.data)
   if (!allSuccess) {
     return <Loading />
+  }
+  if (
+    !(medicalTestsData && (medicalTestsData as AxiosResponse<MedialTestType[]>).data.length > 0) ||
+    !(examinationDataId && Object.keys((examinationDataId as AxiosResponse<ExaminationType>).data).length > 0) ||
+    !(prescriptionExaminationData && (prescriptionExaminationData as AxiosResponse<PrescriptionType[]>).data.length > 0)
+  ) {
+    return <NoDataDisplay title='No data' description='There is no examination information available' />
   }
   return (
     <div className='flex flex-col gap-8'>
