@@ -116,5 +116,6 @@ export const appointmentScheduleSchema = yup.object().shape({
 export type AuthSchema = yup.InferType<typeof authSchema>
 export type PrescriptionSchema = yup.InferType<typeof prescriptionSchema>
 export type ExaminationSchema = yup.InferType<typeof examinationSchema>
+export type MedicalTestSchema = yup.InferType<typeof medicalTestSchema>
 export type SearchSchema = yup.InferType<typeof searchSchema>
 export type AppointmentScheduleSchema = yup.InferType<typeof appointmentScheduleSchema>
