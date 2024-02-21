@@ -50,6 +50,10 @@ export const PRESCRIPTION_MESSAGE = {
   }
 } as const
 
+export const SURVEY_ACTION_MESSAGE = {
+  ADD_SUCCESS: 'Add Successfully.'
+}
+
 export const MEDICAL_TESTS_MESSAGE = {
   PARAMETER: {
     required: 'Parameter is required.'
