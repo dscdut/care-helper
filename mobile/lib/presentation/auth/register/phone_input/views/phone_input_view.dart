@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +48,16 @@ class MyView extends StatefulWidget {
 }
 
 class _MyViewState extends State<MyView> {
-  bool _validate = false;
   final TextEditingController _phoneController = TextEditingController();
+
+  String? _validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return LocaleKeys.auth_phone_required.tr();
+    } else if (value.length != 10) {
+      return LocaleKeys.auth_phone_check.tr();
+    }
+    return null;
+  }
 
   _onSubmitPhone(BuildContext context) {
     context.read<RegisterBloc>().add(
@@ -67,7 +73,6 @@ class _MyViewState extends State<MyView> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.token.isNotEmpty) {
-            log('token: ${state.token}');
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => BlocProvider.value(
@@ -85,6 +90,7 @@ class _MyViewState extends State<MyView> {
               heading2: LocaleKeys.auth_enter_phone_detail.tr(),
             ),
             Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Container(
                 margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -100,15 +106,9 @@ class _MyViewState extends State<MyView> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     contentPadding: const EdgeInsets.all(12),
                     border: InputBorder.none,
-                    errorText:
-                        _validate ? LocaleKeys.auth_phone_check.tr() : null,
                   ),
                   keyboardType: TextInputType.phone,
-                  onChanged: (value) {
-                    setState(() {
-                      _validate = value.length != 10;
-                    });
-                  },
+                  validator: _validatePhoneNumber,
                 ),
               ),
             ),

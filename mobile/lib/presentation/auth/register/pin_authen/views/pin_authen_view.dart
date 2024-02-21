@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +54,6 @@ class _MyViewState extends State<MyView> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
-  final dio = Dio();
 
   @override
   void dispose() {
@@ -66,7 +63,6 @@ class _MyViewState extends State<MyView> {
   }
 
   _handleCorrectPin(BuildContext context, String token) {
-    log('token pin view: $token');
     context.read<RegisterBloc>().add(
           VerifyOtpEvent(
             VerifyOtpRequestDTO(
@@ -99,8 +95,6 @@ class _MyViewState extends State<MyView> {
     return Scaffold(
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
-          //log('error pin view: ${state.error}');
-
           if (state.token.isNotEmpty && state.error.isEmpty) {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -135,7 +129,6 @@ class _MyViewState extends State<MyView> {
                           ? null
                           : LocaleKeys.auth_wrong_pin.tr();
                     },
-                    hapticFeedbackType: HapticFeedbackType.lightImpact,
                     onCompleted: (pin) {
                       debugPrint('onCompleted: $pin');
                     },
@@ -216,7 +209,6 @@ class _MyViewState extends State<MyView> {
                     child: CustomButton(
                       label: LocaleKeys.action_continue.tr(),
                       onPressed: () {
-                        log('token pin view: ${context.read<RegisterBloc>().state.token}');
                         focusNode.unfocus();
                         formKey.currentState!.validate()
                             ? _handleCorrectPin(

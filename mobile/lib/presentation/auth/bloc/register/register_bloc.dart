@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -27,7 +25,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) async {
     try {
       final response = await _patientRepository.getToken(event.param);
-      log('token: ${response.token}');
       emit(state.copyWith(token: response.token));
     } catch (err) {
       emit(state.copyWith(error: err.toString()));

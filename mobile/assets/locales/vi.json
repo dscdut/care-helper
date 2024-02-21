@@ -26,6 +26,7 @@
     "enter_phone_detail": "Mời nhập số điện thoại vào ô bên dưới",
     "phone_number": "Số điện thoại",
     "phone_check": "Nhập đủ 10 chữ số",
+    "phone_required": "Nhập số điện thoại",
     "auth": "Xác thực",
     "auth_detail": "6 ký tự đã được gửi đến ",
     "wrong_pin": "Sai mã PIN",
@@ -35,6 +36,7 @@
     "new_password": "Mật khẩu mới",
     "easy_remember_password": "Nhập mật khẩu dễ nhớ",
     "password": "Mật khẩu",
+    "password_required": "Nhập mật khẩu",
     "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
     "confirm_password": "Xác nhận mật khẩu",
     "password_not_match": "Mật khẩu xác nhận không trùng khớp"

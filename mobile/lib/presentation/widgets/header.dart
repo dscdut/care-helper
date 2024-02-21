@@ -21,8 +21,6 @@ class Header extends StatelessWidget {
             accent,
             Colors.blueAccent,
           ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
         ),
       ),
       height: MediaQuery.of(context).size.height * 0.25,
@@ -35,17 +33,17 @@ class Header extends StatelessWidget {
           children: [
             Text(
               heading1,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge!
+                  .copyWith(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             Text(
               heading2,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: Theme.of(context).scaffoldBackgroundColor),
             ),
           ],
         ),

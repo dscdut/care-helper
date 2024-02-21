@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,7 @@ import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
+import 'package:flutter_template/router/app_router.dart';
 
 class NewPasswordView extends StatefulWidget {
   const NewPasswordView({super.key});
@@ -45,22 +44,26 @@ class MyView extends StatefulWidget {
 }
 
 class _MyViewState extends State<MyView> {
-  bool _validate = false;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  bool isMatch = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _passwordController.addListener(_checkPasswordMatch);
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return LocaleKeys.auth_password_required.tr();
+    } else if (value.length < 8) {
+      return LocaleKeys.auth_password_recommnend.tr();
+    }
+    return null;
   }
 
-  _checkPasswordMatch() {
-    setState(() {
-      isMatch = _passwordController.text == _confirmPasswordController.text;
-    });
+  String? _validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return LocaleKeys.auth_password_required.tr();
+    } else if (value != _passwordController.text) {
+      return LocaleKeys.auth_password_not_match.tr();
+    }
+    return null;
   }
 
   _onPatientRegister(BuildContext context, String token) {
@@ -87,13 +90,13 @@ class _MyViewState extends State<MyView> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.isRegistered) {
-            const ToastCard(
-              duration: Duration(seconds: 3),
-              position: ToastPosition.TOP,
-              child: Text('register successfully'),
-            );
+            Navigator.of(context).pushReplacementNamed(AppRouter.login);
           } else if (state.error.isNotEmpty) {
-            log('error: ${state.error}');
+            ToastUtil.showError(
+              context,
+              text: state.error,
+              position: ToastPosition.BOTTOM,
+            );
           }
         },
         child: Column(
@@ -103,6 +106,7 @@ class _MyViewState extends State<MyView> {
               heading2: LocaleKeys.auth_easy_remember_password.tr(),
             ),
             Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
                   Container(
@@ -121,16 +125,9 @@ class _MyViewState extends State<MyView> {
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
-                        errorText: _validate
-                            ? LocaleKeys.auth_password_recommnend.tr()
-                            : null,
                       ),
                       keyboardType: TextInputType.visiblePassword,
-                      onChanged: (value) {
-                        setState(() {
-                          _validate = value.length < 8;
-                        });
-                      },
+                      validator: _validatePassword,
                     ),
                   ),
                   Container(
@@ -144,17 +141,14 @@ class _MyViewState extends State<MyView> {
                     child: TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      onChanged: (_) => _checkPasswordMatch(),
                       decoration: InputDecoration(
                         label: Text(LocaleKeys.auth_confirm_password.tr()),
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
-                        errorText: isMatch
-                            ? null
-                            : LocaleKeys.auth_password_not_match.tr(),
                       ),
                       keyboardType: TextInputType.visiblePassword,
+                      validator: _validateConfirmPassword,
                     ),
                   ),
                 ],

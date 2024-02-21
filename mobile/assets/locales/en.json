@@ -26,6 +26,7 @@
     "enter_phone_detail": "Please enter your phone number in the form below",
     "phone_number": "Phone number",
     "phone_check": "Enter 10 digit phone number",
+    "phone_required": "Need a phone number",
     "auth": "Authentication",
     "auth_detail": "6 digit code has been sent to",
     "wrong_pin": "Wrong PIN",
@@ -35,6 +36,7 @@
     "new_password": "New password",
     "easy_remember_password": "Enter a password that's easy to remember",
     "password": "Password",
+    "password_required": "Need a password",
     "password_recommnend": "Password must be at least 8 characters",
     "confirm_password": "Confirm password",
     "password_not_match": "Password and confirm password not match"

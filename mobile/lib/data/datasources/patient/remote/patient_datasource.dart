@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -20,7 +18,6 @@ class PatientRemoteDataSource {
       Endpoints.authOtp,
       data: param.toJson(),
     );
-    log('send phone number: $response.statusCode');
     return GetTokenResponseDTO(
       token: response.data['token'],
     );

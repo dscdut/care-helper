@@ -42,6 +42,7 @@ class CodegenLoader extends AssetLoader{
     "enter_phone_detail": "Please enter your phone number in the form below",
     "phone_number": "Phone number",
     "phone_check": "Enter 10 digit phone number",
+    "phone_required": "Need a phone number",
     "auth": "Authentication",
     "auth_detail": "6 digit code has been sent to",
     "wrong_pin": "Wrong PIN",
@@ -51,6 +52,7 @@ class CodegenLoader extends AssetLoader{
     "new_password": "New password",
     "easy_remember_password": "Enter a password that's easy to remember",
     "password": "Password",
+    "password_required": "Need a password",
     "password_recommnend": "Password must be at least 8 characters",
     "confirm_password": "Confirm password",
     "password_not_match": "Password and confirm password not match"
@@ -93,7 +95,28 @@ static const Map<String,dynamic> vi = {
   },
   "auth": {
     "welcome_back": "Rất vui khi được gặp lại bạn!",
-    "sign_in": "Đăng nhập"
+    "sign_in": "Đăng nhập",
+    "sign_up": "Đăng ký",
+    "forgot_password": "Quên mật khẩu?",
+    "log_in": "Đăng nhập",
+    "enter_phone": "Nhập số điện thoại của bạn",
+    "enter_phone_detail": "Mời nhập số điện thoại vào ô bên dưới",
+    "phone_number": "Số điện thoại",
+    "phone_check": "Nhập đủ 10 chữ số",
+    "phone_required": "Nhập số điện thoại",
+    "auth": "Xác thực",
+    "auth_detail": "6 ký tự đã được gửi đến ",
+    "wrong_pin": "Sai mã PIN",
+    "not_receive_code": "Không nhận được mã PIN?",
+    "send_pin_again": "Gửi lại mã PIN trong 00:00",
+    "resend": "Gửi lại",
+    "new_password": "Mật khẩu mới",
+    "easy_remember_password": "Nhập mật khẩu dễ nhớ",
+    "password": "Mật khẩu",
+    "password_required": "Nhập mật khẩu",
+    "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
+    "confirm_password": "Xác nhận mật khẩu",
+    "password_not_match": "Mật khẩu xác nhận không trùng khớp"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",
@@ -106,6 +129,11 @@ static const Map<String,dynamic> vi = {
   },
   "loading": {
     "ads": "Đang tải quảng cáo..."
+  },
+  "action": {
+    "continue": "Tiếp tục",
+    "submit": "Gửi đi",
+    "save": "Lưu"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};

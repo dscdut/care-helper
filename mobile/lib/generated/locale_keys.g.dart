@@ -24,6 +24,7 @@ abstract class  LocaleKeys {
   static const auth_enter_phone_detail = 'auth.enter_phone_detail';
   static const auth_phone_number = 'auth.phone_number';
   static const auth_phone_check = 'auth.phone_check';
+  static const auth_phone_required = 'auth.phone_required';
   static const auth_auth = 'auth.auth';
   static const auth_auth_detail = 'auth.auth_detail';
   static const auth_wrong_pin = 'auth.wrong_pin';
@@ -33,6 +34,7 @@ abstract class  LocaleKeys {
   static const auth_new_password = 'auth.new_password';
   static const auth_easy_remember_password = 'auth.easy_remember_password';
   static const auth_password = 'auth.password';
+  static const auth_password_required = 'auth.password_required';
   static const auth_password_recommnend = 'auth.password_recommnend';
   static const auth_confirm_password = 'auth.confirm_password';
   static const auth_password_not_match = 'auth.password_not_match';
