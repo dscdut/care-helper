@@ -127,6 +127,16 @@ class Service {
         return MessageDto({ message: MESSAGE.VERIFY_SUCCESS });
     }
 
+    async getDoctorById(id) {
+        const doctor = await this.userService.findDoctorById(id);
+        return doctor;
+    }
+
+    async getPatientById(id) {
+        const patient = await this.userService.findPatientById(id);
+        return patient;
+    }
+
     #getUserInfo = user => pick(user, ['_id', 'email', 'username', 'roles']);
 }
 

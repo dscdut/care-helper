@@ -25,6 +25,13 @@ export const AuthResolver = Module.builder()
             model: { $ref: 'DoctorLoginResponseDto' },
         },
         {
+            route: '/doctor/profile',
+            method: 'get',
+            preAuthorization: true,
+            controller: AuthController.getAuthDoctor,
+            model: { $ref: 'DoctorDto' },
+        },
+        {
             route: '/register/doctor',
             method: 'post',
             interceptors: [DoctorRegisterInterceptor],
@@ -39,6 +46,13 @@ export const AuthResolver = Module.builder()
             body: 'PatientLoginDto',
             controller: AuthController.patientLogin,
             model: { $ref: 'PatientLoginResponseDto' },
+        },
+        {
+            route: '/patient/profile',
+            method: 'get',
+            preAuthorization: true,
+            controller: AuthController.getAuthPatient,
+            model: { $ref: 'PatientDto' },
         },
         {
             route: '/otp',
