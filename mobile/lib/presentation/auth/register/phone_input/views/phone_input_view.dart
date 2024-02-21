@@ -13,6 +13,7 @@ import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.d
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
 import 'package:flutter_template/presentation/auth/register/pin_authen/pin_authen.dart';
+import 'package:flutter_template/router/app_router.dart';
 
 class PhoneInputView extends StatefulWidget {
   const PhoneInputView({super.key});
@@ -73,13 +74,18 @@ class _MyViewState extends State<MyView> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.token.isNotEmpty) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<RegisterBloc>(context),
-                  child: PinAuthenView(phoneNumber: _phoneController.text),
-                ),
-              ),
+            Navigator.of(context).pushNamed(
+              AppRouter.pinAuthen,
+              arguments: {
+                'phoneNumber': _phoneController.text,
+                'registerBloc': BlocProvider.of<RegisterBloc>(context),
+              },
+              // MaterialPageRoute(
+              //   builder: (_) => BlocProvider.value(
+              //     value: BlocProvider.of<RegisterBloc>(context),
+              //     child: PinAuthenView(phoneNumber: _phoneController.text),
+              //   ),
+              // ),
             );
           }
         },
