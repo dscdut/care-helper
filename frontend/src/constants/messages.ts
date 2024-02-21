@@ -47,3 +47,7 @@ export const PRESCRIPTION_MESSAGE = {
     required: 'Date is required.'
   }
 } as const
+
+export const SURVEY_ACTION_MESSAGE = {
+  ADD_SUCCESS: 'Add Successfully.'
+}

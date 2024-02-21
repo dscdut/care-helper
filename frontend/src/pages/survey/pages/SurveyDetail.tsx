@@ -36,10 +36,10 @@ export default function SurveyDetail() {
     <article className='flex w-full flex-col gap-8 p-4 lg:p-8'>
       <article>
         <h1 className='text-2xl'>
-          Bệnh nhân <span className='font-bold'>{surveyDetail.patient.fullName}</span>
+          Patient <span className='font-bold'>{surveyDetail.patient.fullName}</span>
         </h1>
         <h2>
-          Khảo sát ngày <span className='font-bold'>{formatDate(surveyDetail.createdAt as string, 'DD/MM/YYYY')}</span>
+          Date: <span className='font-bold'>{formatDate(surveyDetail.createdAt as string, 'DD/MM/YYYY')}</span>
         </h2>
       </article>
       <div>
@@ -47,7 +47,7 @@ export default function SurveyDetail() {
           <details key={index} className='collapse mt-4 bg-base-200'>
             <summary className='collapse-title !flex items-center bg-slate-600 font-medium text-white'>
               <div className='w-1/10 border-r-4 pr-2 font-bold'>
-                <p>Câu {index + 1}</p>
+                <p>Question {index + 1}</p>
               </div>
               <div className='w-9/10 ml-2 flex-1 '>
                 <p>{detail.question}</p>

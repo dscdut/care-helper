@@ -58,3 +58,9 @@ export type PatientOfDoctor = {
   weight: number
   height: number
 }
+
+export type PatientOfDoctorAPI = {
+  data: PatientOfDoctor[]
+  totalPages: number
+  totalElements: number
+}

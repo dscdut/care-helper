@@ -11,7 +11,7 @@ import Loading from 'src/components/loading/Loading'
 import { formatDate } from 'src/utils/utils'
 import { AnswersSurvey, QuestionsSurvey, SurveyPost } from 'src/types/survey.type'
 import { toast } from 'react-toastify'
-import { CRUD_MESSAGES } from 'src/constants/message'
+import { SURVEY_ACTION_MESSAGE } from 'src/constants/messages'
 
 export default function Survey() {
   const [showChoosePatient, setShowChoosePatient] = useState(true)
@@ -71,7 +71,8 @@ export default function Survey() {
         .postSurvey(postSurveyData)
         .then((response) => {
           handleCloseAllModals()
-          toast.success(CRUD_MESSAGES.ADD_SUCCESS)
+          window.location.reload()
+          toast.success(SURVEY_ACTION_MESSAGE.ADD_SUCCESS)
         })
         .catch((error) => {
           toast.error(error.message)
@@ -86,7 +87,7 @@ export default function Survey() {
   return (
     <article className='flex w-full flex-col gap-4 p-4 lg:p-8'>
       <section className='flex w-full items-start justify-between'>
-        <h1 className='self-center text-2xl font-bold'>Khảo sát gần nhất</h1>
+        <h1 className='self-center text-2xl font-bold'>Recent survey list</h1>
       </section>
       <section className='rounded-lg bg-white p-4 shadow-lg'>
         <div className='navbar-center flex flex-[30%]'>
@@ -98,21 +99,21 @@ export default function Survey() {
               <input
                 type='text'
                 className='input input-bordered !h-11 w-full !rounded-xl border-2 ps-10 hover:border-primary focus:border-primary focus:outline-none'
-                placeholder='Tìm khảo sát theo bệnh nhân...'
+                placeholder='Search patient...'
               />
             </div>
           </form>
           <div>
             <button className='btn btn-primary w-max text-white' onClick={handleAdd}>
               <HiMiniPlus className='h-6 w-6' />
-              <p> Thêm khảo sát mới</p>
+              <p>Add New Survey</p>
             </button>
             {show && (
               <dialog id='add_survey' className=' modal bg-[#000000ba]' open>
                 <div className='modal-box col-span-2 h-5/6 max-w-screen-lg'>
                   <div className=' flex items-center justify-between'>
                     <div>
-                      <h3 className='text-lg font-bold'>Khảo sát mới</h3>
+                      <h3 className='text-lg font-bold'>New Survey</h3>
                     </div>
                     <button className='btn btn-circle ' onClick={() => setShow(false)}>
                       <HiXMark className='text-lg' />

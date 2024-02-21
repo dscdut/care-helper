@@ -67,11 +67,12 @@ export default function AddQuestions({ onClose, onBack, onConfirm }: AddQuestion
 
   return (
     <div>
-      <p className='font-semibold'>Bệnh nhân Nguyễn Văn A</p>
+      <p className='font-semibold'>Questions</p>
       <div className='flex items-center'>
         <input
           className='input input-bordered !h-11 w-full !rounded-xl border-2 ps-10 hover:border-primary focus:border-primary focus:outline-none'
           value={question}
+          placeholder='Add Question...'
           onChange={(e) => setQuestion(e.target.value)}
         />
         <button className='btn ml-4 bg-primary text-white' onClick={handleSubmit}>

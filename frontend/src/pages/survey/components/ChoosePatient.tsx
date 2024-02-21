@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import patientApi from 'src/apis/patient.api'
 import Loading from 'src/components/loading/Loading'
-import { patientsName } from 'src/data/survey'
 
 interface ChoosePatientProps {
   onNext: () => void
