@@ -45,7 +45,7 @@ export const DoctorResolver = Module.builder()
             route: '/my-patients',
             method: 'get',
             guards: [hasDoctorRole],
-            params: [page, size],
+            params: [page, size, keyword],
             controller: DoctorController.getMyPatients,
             model: { $ref: 'PaginationPatientDto' },
             preAuthorization: true,

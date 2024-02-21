@@ -24,7 +24,7 @@ class Controller {
         const doctorId = req.user.payload.id;
         await this.medicalTestService.updateMedicalTestByDoctor(req.body, doctorId);
         return ValidHttpResponse.toOkResponse(
-            MessageDto({ message: 'Update examination successfully!' }),
+            MessageDto({ message: 'Update medical test successfully!' }),
         );
     };
 
@@ -32,7 +32,7 @@ class Controller {
         const doctorId = req.user.payload.id;
         await this.medicalTestService.deleteMedicalTest(req.params.id, doctorId);
         return ValidHttpResponse.toOkResponse(
-            MessageDto({ message: 'Delete examination successfully!' }),
+            MessageDto({ message: 'Delete medical test successfully!' }),
         );
     };
 

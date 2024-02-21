@@ -1,4 +1,5 @@
-import { SurveyAPI, SurveyPost } from 'src/types/survey.type'
+import { SurveyData, SurveyPost } from 'src/types/survey.type'
+import { PagingResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
 
 const URL_SURVEY = 'surveys'
@@ -6,13 +7,13 @@ const URL_DOCTOR_SURVEYS = 'doctors/my-surveys'
 
 const surveyApi = {
   getDoctorSurveys: () => {
-    return http.get<SurveyAPI>(URL_DOCTOR_SURVEYS)
+    return http.get<PagingResponse<SurveyData[]>>(URL_DOCTOR_SURVEYS)
   },
   getSurveyDetail: (id: number) => {
-    return http.get<SurveyAPI>(`${URL_SURVEY}/${id}`)
+    return http.get<PagingResponse<SurveyData[]>>(`${URL_SURVEY}/${id}`)
   },
   postSurvey: (surveyData: SurveyPost) => {
-    return http.post<SurveyAPI>(URL_SURVEY, surveyData)
+    return http.post<PagingResponse<SurveyData[]>>(URL_SURVEY, surveyData)
   }
 }
 

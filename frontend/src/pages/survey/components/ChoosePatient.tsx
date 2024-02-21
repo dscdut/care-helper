@@ -1,30 +1,67 @@
-import { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useQuery } from 'react-query'
 import patientApi from 'src/apis/patient.api'
+import { motion } from 'framer-motion'
 import Loading from 'src/components/loading/Loading'
+import { SearchSchema, searchSchema } from 'src/utils/rules'
+import SearchForm from 'src/components/form/SearchForm'
+import { PatientOfDoctor } from 'src/types/users.type'
+import { useNavigate } from 'react-router-dom'
+import { path } from 'src/constants/path'
 
 interface ChoosePatientProps {
   onNext: () => void
   onSelectPatient: (patientId: number) => void
 }
 
-export default function ChoosePatient({ onNext, onSelectPatient }: ChoosePatientProps) {
-  const [search, setSearch] = useState('')
-  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null)
+const defaultValues: SearchSchema = {
+  keyword: ''
+}
 
-  const { data: myPatientsData, isLoading } = useQuery({
-    queryKey: ['myPatientsName'],
-    queryFn: () => patientApi.getMyPatients()
+export default function ChoosePatient({ onNext, onSelectPatient }: ChoosePatientProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset
+  } = useForm<SearchSchema>({
+    resolver: yupResolver(searchSchema),
+    defaultValues
+  })
+  const [isSearching, setIsSearching] = useState<boolean>(false)
+  const navigate = useNavigate()
+
+  const {
+    data: searchData,
+    isSuccess,
+    isLoading
+  } = useQuery({
+    queryKey: ['patients', getValues('keyword')],
+    queryFn: () => patientApi.getPatients({ keyword: getValues('keyword') }),
+    enabled: isSearching
   })
 
-  const handlePatientClick = (patientId: number, patientName: string) => {
-    setSelectedPatientId(patientId)
-    onSelectPatient(patientId)
-    setSearch(patientName)
+  useEffect(() => {
+    if (isSuccess) {
+      setIsSearching(false)
+    }
+  }, [isSuccess])
+
+  const handleClickAction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, patient: PatientOfDoctor) => {
+    onSelectPatient(patient.id)
+    event.stopPropagation()
+    onNext()
   }
 
-  const handleNext = () => {
-    onNext()
+  const handleChoosePatient = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, patient: PatientOfDoctor) => {
+    navigate(`${path.patients}/${patient.id}`)
+  }
+
+  const handleOnSubmit: SubmitHandler<SearchSchema> = (data) => {
+    setIsSearching(true)
   }
 
   if (isLoading) {
@@ -32,31 +69,36 @@ export default function ChoosePatient({ onNext, onSelectPatient }: ChoosePatient
   }
 
   return (
-    <div>
-      <p className='font-semibold'>Search for a patient</p>
-      <div className='mt-4'>
-        <input
-          type='text'
-          className='input input-bordered !h-11 w-full !rounded-xl border-2 ps-10 hover:border-primary focus:border-primary focus:outline-none'
-          placeholder='Enter patient name...'
-          value={search}
-          readOnly
-        />
-      </div>
-      <div className='mt-4 max-h-80 overflow-y-scroll'>
-        <ul className='menu mt-4 w-[inherit] rounded-box bg-base-200'>
-          {myPatientsData?.data.map((patient) => (
-            <li key={patient.id}>
-              <button onClick={() => handlePatientClick(patient.id, patient.fullName)}>{patient.fullName}</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className='flex justify-end'>
-        <button className='btn mt-4 bg-primary text-white' onClick={handleNext}>
-          Next
-        </button>
-      </div>
+    <div className='flex flex-1 flex-col'>
+      <motion.div
+        className='flex flex-1 flex-col gap-8'
+        initial={{ x: '-50%', opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      >
+        <article className='flex flex-col gap-2'>
+          <h2 className='text-xl font-bold'>Add New Patient</h2>
+        </article>
+        <form className='flex flex-1 flex-col gap-4' onSubmit={handleSubmit(handleOnSubmit)}>
+          <SearchForm
+            isLoading={isLoading}
+            actions={[
+              {
+                title: 'Add patient',
+                handleClick: handleClickAction,
+                props: { className: 'btn-primary text-white font-bold' }
+              }
+            ]}
+            handleChoosePatient={handleChoosePatient}
+            form={{
+              register,
+              name: 'keyword',
+              errorMessage: errors.keyword?.message
+            }}
+            searchData={searchData?.data.data}
+          />
+        </form>
+      </motion.div>
     </div>
   )
 }

@@ -1,12 +1,8 @@
+import { PaginationParams } from './utils.type'
+
 interface Person {
   id: number
   fullName: string
-}
-
-export type SurveyAPI = {
-  data: SurveyData[]
-  totalPages: number
-  totalElements: number
 }
 
 export type SurveyData = {

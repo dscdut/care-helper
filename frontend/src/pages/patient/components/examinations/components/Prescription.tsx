@@ -1,17 +1,27 @@
 import { HiMiniPlus } from 'react-icons/hi2'
 import { useRef, useState } from 'react'
-import ModalAddPrescription from 'src/pages/patient/components/examinations/components/ModalAddPrescription'
+import { ModalAddPrescription } from 'src/pages/patient/components/examinations/components'
 import { PrescriptionType } from 'src/types/prescriptions.type'
 import { formatDate } from 'src/utils/utils'
 import Button from 'src/components/button/Button'
 import Select from 'src/components/select/Select'
+import { twMerge } from 'tailwind-merge'
 
 export interface PrescriptionProps {
   prescriptionData: PrescriptionType[]
   patientName: string
+  containerClass?: string
+  cardClass?: string
+  canAdd?: boolean
 }
 
-export default function Prescription({ prescriptionData, patientName }: PrescriptionProps) {
+export default function Prescription({
+  prescriptionData,
+  patientName,
+  containerClass,
+  cardClass,
+  canAdd = true
+}: PrescriptionProps) {
   const listDatePrescriptions = prescriptionData.map((prescription) => ({
     id: prescription.id,
     date: `${formatDate(prescription.startDate, 'DD/MM/YYYY')} - ${formatDate(prescription.endDate, 'DD/MM/YYYY')}`
@@ -31,13 +41,12 @@ export default function Prescription({ prescriptionData, patientName }: Prescrip
   }
 
   return (
-    <section className='card bg-white shadow-lg'>
+    <section className={twMerge('card bg-white shadow-lg', containerClass)}>
       <div className='card-body gap-6'>
         <h2 className='card-title font-bold'>Prescription</h2>
-        <div className='card bg-bg_primary shadow'>
+        <div className={twMerge('card bg-bg_primary shadow', cardClass)}>
           <div className='card-body'>
-            <article className='flex flex-wrap items-center justify-between gap-4'>
-              <h2 className='card-title w-max font-bold'>Blood Test</h2>
+            <article className='flex flex-wrap items-center justify-end gap-4'>
               <article className='flex flex-col-reverse items-start justify-end gap-4 sm:items-end md:flex-row'>
                 <Select
                   value={latestPrescriptionDate}
@@ -50,13 +59,15 @@ export default function Prescription({ prescriptionData, patientName }: Prescrip
                   name='prescriptionDate'
                 />
 
-                <Button
-                  type='button'
-                  onClick={handleOpenModal}
-                  Icon={HiMiniPlus}
-                  title='Add Prescription'
-                  className='btn-primary font-bold text-white'
-                />
+                {canAdd && (
+                  <Button
+                    type='button'
+                    onClick={handleOpenModal}
+                    Icon={HiMiniPlus}
+                    title='Add Prescription'
+                    className='btn-primary font-bold text-white'
+                  />
+                )}
 
                 <ModalAddPrescription
                   modalRef={modalRef}
@@ -77,8 +88,8 @@ export default function Prescription({ prescriptionData, patientName }: Prescrip
                   </tr>
                 </thead>
                 <tbody>
-                  {prescriptionData[latestPrescriptionDate].details.map((prescription) => (
-                    <tr key={prescription.medicineName} className='hover border-black/20'>
+                  {prescriptionData[latestPrescriptionDate].details.map((prescription, index) => (
+                    <tr key={index} className='hover border-black/20'>
                       <td>{prescription.medicineName}</td>
                       <td>{prescription.medicineType}</td>
                       <td>{prescription.quantity}</td>
@@ -91,7 +102,7 @@ export default function Prescription({ prescriptionData, patientName }: Prescrip
             </div>
           </div>
         </div>
-        <div className='card bg-bg_primary shadow'>
+        <div className={twMerge('card bg-bg_primary shadow', cardClass)}>
           <div className='card-body gap-6'>
             <h2 className='card-title font-bold'>Note</h2>
             <p className='whitespace-pre-line pl-2 leading-8'>{prescriptionData[latestPrescriptionDate].note}</p>

@@ -44,10 +44,12 @@ class Controller {
     getMyPatients = async req => {
         const page = req.query.page || DEFAULT_PAGE;
         const size = req.query.size || DEFAULT_PAGE_SIZE;
+        const keyword = req.query.keyword || DEFAULT_KEYWORD;
         const data = await this.service.findPatientsByDoctorId(
             req.user.payload.id,
             page,
             size,
+            keyword,
         );
         return ValidHttpResponse.toOkResponse(PaginationPatientDto(data));
     };

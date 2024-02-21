@@ -17,6 +17,7 @@ export default function Survey() {
   const [showChoosePatient, setShowChoosePatient] = useState(true)
   const [showAddQuestions, setShowAddQuestions] = useState(false)
   const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
 
@@ -80,6 +81,10 @@ export default function Survey() {
     }
   }
 
+  const onPageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
   if (isLoading) {
     return <Loading />
   }
@@ -110,7 +115,7 @@ export default function Survey() {
             </button>
             {show && (
               <dialog id='add_survey' className=' modal bg-[#000000ba]' open>
-                <div className='modal-box col-span-2 h-5/6 max-w-screen-lg'>
+                <div className='modal-box col-span-2 h-5/6 max-w-[80%]'>
                   <div className=' flex items-center justify-between'>
                     <div>
                       <h3 className='text-lg font-bold'>New Survey</h3>
@@ -160,9 +165,15 @@ export default function Survey() {
             </tbody>
           </table>
         </div>
-        <div className='mt-2 flex items-center justify-end'>
-          <Pagination />
-        </div>
+        {doctorSurveysData?.data && doctorSurveysData.data.data.length > 0 && (
+          <div className='mt-2 flex items-center justify-end'>
+            <Pagination
+              totalPages={doctorSurveysData.data.totalPages}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+            />
+          </div>
+        )}
       </section>
     </article>
   )

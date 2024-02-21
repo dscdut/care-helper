@@ -1,5 +1,6 @@
 import PatientInformation from 'src/pages/patient/components/PatientInformation'
-import PatientListRecords from 'src/pages/patient/components/PatientListRecords'
+import AddPatientForm from 'src/pages/patient/components/AddPatientForm'
+import ExaminationListRecords from 'src/pages/patient/components/examinations/ExaminationListRecords'
 import Examination from 'src/pages/patient/components/examinations/Examination'
 
-export { PatientInformation, PatientListRecords, Examination }
+export { PatientInformation, AddPatientForm, ExaminationListRecords, Examination }

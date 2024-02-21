@@ -85,7 +85,7 @@ export default function AddQuestions({ onClose, onBack, onConfirm }: AddQuestion
             <details key={q.id} className='collapse mt-4 bg-base-200'>
               <summary className='collapse-title !flex items-center bg-slate-600 font-medium text-white'>
                 <div className='w-1/10 border-r-4 pr-2 font-bold'>
-                  <p>Câu {index + 1}</p>
+                  <p>Question {index + 1}</p>
                 </div>
                 <div className='w-9/10 ml-2 flex-1 '>
                   <p>{q.question}</p>

@@ -1,7 +1,7 @@
 import { ApiDocument } from 'core/config/swagger.config';
 import { SwaggerDocument } from 'packages/swagger';
-import { TinyPatientDto } from './tiny_patient.dto';
-import { TinyDoctorDto } from './tiny_doctor.dto';
+import { TinyPatientDto } from '../../patient/dto/tiny_patient.dto';
+import { TinyDoctorDto } from '../../doctor/dto/tiny_doctor.dto';
 
 ApiDocument.addModel('InforExaminationDto', {
     id: SwaggerDocument.ApiProperty({ type: 'int', readOnly: true }),
