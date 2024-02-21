@@ -8,6 +8,7 @@ import {
     PhoneVerifiedRegisterDto,
 } from 'core/modules/auth';
 import { ValidHttpResponse } from 'packages/handler/response/validHttp.response';
+import { DoctorDto, PatientDto } from 'core/modules/user';
 
 class Controller {
     constructor() {
@@ -46,6 +47,16 @@ class Controller {
             DoctorRegisterDto(req.body),
         );
         return ValidHttpResponse.toOkResponse(data);
+    };
+
+    getAuthDoctor = async req => {
+        const data = await this.service.getDoctorById(req.user.payload.id);
+        return ValidHttpResponse.toOkResponse(DoctorDto(data));
+    };
+
+    getAuthPatient = async req => {
+        const data = await this.service.getPatientById(req.user.payload.id);
+        return ValidHttpResponse.toOkResponse(PatientDto(data));
     };
 }
 
