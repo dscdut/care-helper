@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.d
 
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
-import 'package:flutter_template/presentation/auth/register/pin_authen/pin_authen.dart';
 import 'package:flutter_template/router/app_router.dart';
 
 class PhoneInputView extends StatefulWidget {
@@ -80,12 +80,6 @@ class _MyViewState extends State<MyView> {
                 'phoneNumber': _phoneController.text,
                 'registerBloc': BlocProvider.of<RegisterBloc>(context),
               },
-              // MaterialPageRoute(
-              //   builder: (_) => BlocProvider.value(
-              //     value: BlocProvider.of<RegisterBloc>(context),
-              //     child: PinAuthenView(phoneNumber: _phoneController.text),
-              //   ),
-              // ),
             );
           }
         },
@@ -109,7 +103,7 @@ class _MyViewState extends State<MyView> {
                   controller: _phoneController,
                   decoration: InputDecoration(
                     label: Text(LocaleKeys.auth_phone_number.tr()),
-                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    hintStyle: TextStyle(color: context.themeConfig.hintColor),
                     contentPadding: const EdgeInsets.all(12),
                     border: InputBorder.none,
                   ),

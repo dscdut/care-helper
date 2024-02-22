@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/extensions/context_extension.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -12,14 +13,12 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color accent = Color(0xff112950);
-
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            accent,
-            Colors.blueAccent,
+            context.themeConfig.startBackgroundColor,
+            context.themeConfig.endBackgroundColor,
           ],
         ),
       ),
@@ -33,17 +32,15 @@ class Header extends StatelessWidget {
           children: [
             Text(
               heading1,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(color: Theme.of(context).scaffoldBackgroundColor),
+              style: context.headlineLarge.copyWith(
+                color: context.themeConfig.scaffoldBackgroundColor,
+              ),
             ),
             Text(
               heading2,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: Theme.of(context).scaffoldBackgroundColor),
+              style: context.headlineSmall.copyWith(
+                color: context.themeConfig.scaffoldBackgroundColor,
+              ),
             ),
           ],
         ),

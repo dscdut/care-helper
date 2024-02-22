@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
@@ -9,12 +10,12 @@ import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
 import 'package:flutter_template/data/repositories/patient_repository.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
+import 'package:flutter_template/router/app_router.dart';
 
 import 'package:pinput/pinput.dart';
 
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
-import 'package:flutter_template/presentation/auth/register/new_password/new_password.dart';
 
 class PinAuthenView extends StatefulWidget {
   const PinAuthenView({Key? key, required this.phoneNumber}) : super(key: key);
@@ -50,7 +51,6 @@ class MyView extends StatefulWidget {
 }
 
 class _MyViewState extends State<MyView> {
-  static const Color _accent = Color(0xff112950);
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
@@ -75,20 +75,16 @@ class _MyViewState extends State<MyView> {
 
   @override
   Widget build(BuildContext context) {
-    const focusedBorderColor = Color.fromRGBO(21, 101, 192, 1);
-    const fillColor = Color.fromRGBO(243, 246, 249, 0);
-    const borderColor = _accent;
-
     final defaultPinTheme = PinTheme(
       width: 48,
       height: 48,
-      textStyle: const TextStyle(
+      textStyle: context.bodyLarge.copyWith(
         fontSize: 22,
-        color: Color.fromRGBO(30, 60, 87, 1),
+        color: context.themeConfig.pinTextColor,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: borderColor),
+        border: Border.all(color: context.themeConfig.borderColor),
       ),
     );
 
@@ -96,13 +92,11 @@ class _MyViewState extends State<MyView> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.token.isNotEmpty && state.error.isEmpty) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<RegisterBloc>(context),
-                  child: const NewPasswordView(),
-                ),
-              ),
+            Navigator.of(context).pushNamed(
+              AppRouter.newPassword,
+              arguments: {
+                'registerBloc': BlocProvider.of<RegisterBloc>(context),
+              },
             );
           }
         },
@@ -142,7 +136,7 @@ class _MyViewState extends State<MyView> {
                           margin: const EdgeInsets.only(bottom: 9),
                           width: 22,
                           height: 1,
-                          color: focusedBorderColor,
+                          color: context.themeConfig.focusedBorderColor,
                         ),
                       ],
                     ),
@@ -151,17 +145,20 @@ class _MyViewState extends State<MyView> {
                       width: 52,
                       decoration: defaultPinTheme.decoration!.copyWith(
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: focusedBorderColor),
+                        border: Border.all(
+                            color: context.themeConfig.focusedBorderColor),
                       ),
                     ),
                     submittedPinTheme: defaultPinTheme.copyWith(
                       decoration: defaultPinTheme.decoration!.copyWith(
-                        color: fillColor,
+                        color: context.themeConfig.fillColor,
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     errorPinTheme: defaultPinTheme.copyBorderWith(
-                      border: Border.all(color: Colors.redAccent),
+                      border: Border.all(
+                        color: context.themeConfig.onErrorColor,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 120),
@@ -175,9 +172,8 @@ class _MyViewState extends State<MyView> {
                           children: [
                             Text(
                               LocaleKeys.auth_not_receive_code.tr(),
-                              style: const TextStyle(
+                              style: context.bodyMedium.copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
                               ),
                             ),
                             Text(LocaleKeys.auth_send_pin_again.tr()),
@@ -194,9 +190,9 @@ class _MyViewState extends State<MyView> {
                           onPressed: () {},
                           child: Text(
                             LocaleKeys.auth_resend.tr(),
-                            style: const TextStyle(
+                            style: context.bodyMedium.copyWith(
+                              color: context.themeConfig.textWhiteColor,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
                           ),
                         ),

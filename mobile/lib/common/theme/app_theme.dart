@@ -286,6 +286,7 @@ class DefaultThemeConfig {
   //button
   Color get buttonBackground => accentColor;
   Color get onButtonBackground => scaffoldBackgroundColor;
+  Color get customButtonBackground => Colors.blue[800]!;
 
   Color get disabledColor => const Color(0xFFB5B3BC);
 
@@ -321,6 +322,16 @@ class DefaultThemeConfig {
   //Home screen cards colors
 
   Color get cardColor => primaryColor;
+
+  // pin authen view colors
+  Color get focusedBorderColor => const Color(0xFF1565c0);
+  Color get fillColor => const Color(0xFFf3f6f9);
+  Color get borderColor => accentColor;
+  Color get pinTextColor => const Color(0xFf1e3c57);
+
+  // header
+  Color get startBackgroundColor => accentColor;
+  Color get endBackgroundColor => Colors.blueAccent;
 }
 
 class DarkThemeConfig extends DefaultThemeConfig {

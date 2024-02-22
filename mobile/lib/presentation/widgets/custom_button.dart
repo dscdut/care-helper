@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/extensions/context_extension.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -14,7 +15,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue[800],
+        backgroundColor: context.themeConfig.customButtonBackground,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -26,10 +27,9 @@ class CustomButton extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Text(
           label,
-          style: const TextStyle(
-            fontSize: 16,
+          style: context.bodyMedium.copyWith(
+            color: context.themeConfig.textWhiteColor,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
           ),
         ),
       ),

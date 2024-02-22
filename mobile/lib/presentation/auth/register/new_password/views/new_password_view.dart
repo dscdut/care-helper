@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/common/utils/toast_util.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
@@ -122,7 +123,8 @@ class _MyViewState extends State<MyView> {
                       obscureText: true,
                       decoration: InputDecoration(
                         label: Text(LocaleKeys.auth_password.tr()),
-                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        hintStyle:
+                            TextStyle(color: context.themeConfig.hintColor),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
                       ),
@@ -143,7 +145,8 @@ class _MyViewState extends State<MyView> {
                       obscureText: true,
                       decoration: InputDecoration(
                         label: Text(LocaleKeys.auth_confirm_password.tr()),
-                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        hintStyle:
+                            TextStyle(color: context.themeConfig.hintColor),
                         contentPadding: const EdgeInsets.all(8),
                         border: InputBorder.none,
                       ),
