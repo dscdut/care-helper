@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
+import 'package:flutter_template/presentation/auth/register/new_password/new_password.dart';
+import 'package:flutter_template/presentation/auth/register/phone_input/phone_input.dart';
+import 'package:flutter_template/presentation/auth/register/pin_authen/views/pin_authen_view.dart';
 import 'package:flutter_template/presentation/auth/views/login_view.dart';
-import 'package:flutter_template/presentation/auth/views/phone_input_view.dart';
-import 'package:flutter_template/presentation/auth/views/welcome_view.dart';
 import 'package:flutter_template/presentation/core/views/root_view.dart';
-import 'package:flutter_template/presentation/notification/view/blood_pressure.dart';
-import 'package:flutter_template/presentation/notification/view/test_details.dart';
-import 'package:flutter_template/presentation/profile/view/profile_detail_view.dart';
-import 'package:flutter_template/presentation/profile/view/profile_navigation1_view.dart';
-import 'package:flutter_template/presentation/profile/view/profile_view.dart';
 import 'package:flutter_template/presentation/splash/splash.dart';
 
 abstract final class AppRouter {
@@ -16,19 +14,11 @@ abstract final class AppRouter {
   // Auth
   static const String login = '/login';
   static const String register = '/register';
-  static const String welcome = '/welcome';
+  static const String pinAuthen = '/pin-authen';
+  static const String newPassword = '/new-password';
 
   // Root
   static const String root = '/root';
-
-  // Feature
-  static const String bloodPressure = '/blood-pressure';
-  static const String testDetails = '/test-details';
-
-  static const String profile = '/profile';
-  static const String profile_nav1 = '/profile-nav1';
-  static const String profile_detail = '/profile-detail';
-  static const String administrative = '/administrative';
 
   // static final router = GoRouter(
   //   routes: [
@@ -36,7 +26,7 @@ abstract final class AppRouter {
   //       path: login,
   //       pageBuilder: (_, __) {
   //         return const MaterialPage(
-  //           child: LoginView(),
+  //           child: LoginPage(),
   //         );
   //       },
   //     ),
@@ -68,22 +58,10 @@ abstract final class AppRouter {
             return const SplashPage();
           },
         );
-      case register:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const PhoneInputView();
-          },
-        );
       case login:
         return MaterialPageRoute(
           builder: (_) {
-            return const LoginView();
-          },
-        );
-      case welcome:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const WelcomePage();
+            return const LoginPage();
           },
         );
       case root:
@@ -92,42 +70,31 @@ abstract final class AppRouter {
             return const RootPage();
           },
         );
-      case bloodPressure:
+      case register:
         return MaterialPageRoute(
           builder: (_) {
-            return const BloodPressurePage();
+            return const PhoneInputView();
           },
         );
-      case testDetails:
+      case pinAuthen:
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final phoneNumber = arguments['phoneNumber'] as String;
+        final registerBloc = arguments['registerBloc'] as RegisterBloc;
         return MaterialPageRoute(
-          builder: (_) {
-            return const TestDetailPage();
-          },
+          builder: (_) => BlocProvider.value(
+            value: registerBloc,
+            child: PinAuthenView(phoneNumber: phoneNumber),
+          ),
         );
-      case profile:
+      case newPassword:
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final registerBloc = arguments['registerBloc'] as RegisterBloc;
         return MaterialPageRoute(
-          builder: (_) {
-            return const ProfilePage();
-          },
+          builder: (_) => BlocProvider.value(
+            value: registerBloc,
+            child: const NewPasswordView(),
+          ),
         );
-      case profile_nav1:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const ProfileNav1View();
-          },
-        );
-      case profile_detail:
-        return MaterialPageRoute(
-          builder: (_) {
-            return const ProfileDetailView();
-          },
-        );
-      // case administrative:
-      //   return MaterialPageRoute(
-      //     builder: (_) {
-      //       return const AdministrativeView();
-      //     },
-      //   );
       default:
         return null;
     }

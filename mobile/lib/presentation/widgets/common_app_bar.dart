@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/theme/app_size.dart';
 import 'package:flutter_template/common/theme/color_styles.dart';
-import 'package:flutter_template/common/theme/text_styles.dart';
 import 'package:flutter_template/presentation/widgets/common_back_button.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -10,41 +9,34 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.isCenterTitle = true,
     this.automaticallyImplyLeading = true,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.titleColor = ColorStyles.zodiacBlue,
-    this.toolbarHeight = AppSize.appBarHeight,
+    this.toolbarHeight = kToolbarHeight,
     this.titleSpacing = AppSize.titleSpacing,
     this.elevation = 0,
     this.bottomSize = 45,
-    this.leadingWidth,
-    this.leading,
-    this.title,
+    required this.title,
     this.bottom,
     this.actions = const [],
     this.onLeadingAction,
-    this.hasBoxDecoration = true,
   }) : assert(
-          title is Widget || title is String || title == null,
-          'Title only can be a widget or string ',
+          title is Widget || title is String,
+          'Title must be a widget or string ',
         );
   final bool isCenterTitle;
   final bool automaticallyImplyLeading;
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color titleColor;
 
   final double toolbarHeight;
   final double titleSpacing;
   final double elevation;
   final double bottomSize;
-  final double? leadingWidth;
 
-  final Widget? leading;
   final dynamic title;
   final Widget? bottom;
   final List<Widget> actions;
-
-  final bool hasBoxDecoration;
 
   final Function()? onLeadingAction;
 
@@ -56,19 +48,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       toolbarHeight: toolbarHeight,
       titleSpacing: titleSpacing,
-      titleTextStyle: TextStyles.mediumText.copyWith(
-        color: titleColor,
-        fontSize: 20,
-      ),
       automaticallyImplyLeading: false,
-      title: title == null
-          ? null
-          : (title is Widget
-              ? title
-              : Text(
-                  title,
-                  style: TextStyles.boldAppbarTitle.copyWith(fontSize: 20),
-                )),
+      title: title is Widget
+          ? title
+          : Text(
+              title,
+              style: context.bodyLarge.copyWith(color: titleColor),
+            ),
       bottom: bottom != null
           ? PreferredSize(
               preferredSize: Size.fromHeight(bottomSize),
@@ -76,13 +62,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       actions: actions,
-      leadingWidth: leadingWidth,
-      leading: leading ??
-          ((automaticallyImplyLeading && Navigator.of(context).canPop())
-              ? CommonBackButton(
-                  hasBoxDecoration: hasBoxDecoration,
-                )
-              : null),
+      leading: (automaticallyImplyLeading && Navigator.of(context).canPop()) ? const CommonBackButton() : null,
     );
   }
 

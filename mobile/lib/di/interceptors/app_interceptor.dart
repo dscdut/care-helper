@@ -24,7 +24,7 @@ class AppInterceptor extends QueuedInterceptor {
   ) async {
     log('REQUEST[${options.method}] => PATH: ${options.path}');
 
-    // _checkTokenExpired();
+    _checkTokenExpired();
 
     final String? accessToken = _authBox.get(HiveKeys.accessToken);
 

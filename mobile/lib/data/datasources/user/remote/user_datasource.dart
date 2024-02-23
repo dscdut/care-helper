@@ -18,10 +18,10 @@ class UserRemoteDataSource {
     );
 
     return LoginResponseDTO(
-      // user: UserModel.fromJson(response.data['user']),
-      refreshToken: response.data['refreshToken'],
-      accessToken: response.data['accessToken'],
-      expiresIn: response.data['expiresIn'],
+      user: UserModel.fromJson(response.data['data']['user']),
+      refreshToken: response.data['data']['token']['refreshToken'],
+      accessToken: response.data['data']['token']['accessToken'],
+      expiresIn: response.data['data']['token']['expiresIn'],
     );
   }
 }

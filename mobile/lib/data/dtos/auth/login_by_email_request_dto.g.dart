@@ -9,6 +9,6 @@ part of 'login_by_email_request_dto.dart';
 Map<String, dynamic> _$LoginByEmailRequestDTOToJson(
         LoginByEmailRequestDTO instance) =>
     <String, dynamic>{
-      'phone': instance.phone,
+      'email': instance.email,
       'password': instance.password,
     };

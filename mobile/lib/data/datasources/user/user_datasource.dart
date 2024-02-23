@@ -16,11 +16,13 @@ class UserDataSource {
   final UserRemoteDataSource _remoteDataSource;
   final UserLocalDataSource _localDataSource;
 
-  Future<void> loginByEmail(LoginByEmailRequestDTO params) async {
+  Future<UserModel> loginByEmail(LoginByEmailRequestDTO params) async {
     final LoginResponseDTO loginResponse =
         await _remoteDataSource.loginByEmail(params);
 
     await _localDataSource.setUserAuth(loginResponse);
+
+    return loginResponse.user;
   }
 
   UserModel? getUserInfo() {

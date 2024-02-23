@@ -54,28 +54,4 @@ abstract class ColorStyles {
   // Icon color
   static const Color lightIconColor = Color(0xFF000118);
   static const Color darkIconColor = Colors.white;
-
-  //
-  static const Color primaryColor = Color(0xff112950);
-  static const Color secondaryColor = Colors.blueAccent;
-
-  // New color
-  static const Color mineShaft = Color(0xFF272727);
-  static const Color dodgerBlue = Color(0xFF3274D4);
-  static const Color deepBlue = Color(0xFF112950);
-  static const Color tundora = Color(0xFF585858);
-  static const Color backgroundAppbar = Color(0xFFE5E5E5);
-  static const Color silver = Color(0xFFADADAD);
-  static const Color silver2 = Color(0xFFE2E2E2);
-  static const Color darkGrey = Color(0xFF333333);
-  static const Color grey = Color(0xFF888888);
-  static const Color grey2 = Color(0xFF545454);
-  static const Color grey3 = Color(0xFF939393);
-  static const Color grey4 = Color(0xFFBABABA);
-
-  static const Color darkColorButton = Color(0xFF3A3A3A);
-  static const Color categoryButtonColor = Color(0xFF5D7EB2);
-  static const Color textFormFieldColor = Colors.white;
-  static const Color textFormBackgroundColor = Color(0xFFC4C4C4);
-  static const Color updateMedicalHistoryBackgroundColor = Color(0xFFD9D9D9);
 }

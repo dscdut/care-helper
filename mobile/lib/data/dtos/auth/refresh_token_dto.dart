@@ -8,7 +8,7 @@ class RefreshTokenDTO {
   RefreshTokenDTO({
     required this.accessToken,
     required this.refreshToken,
-    this.expiresIn,
+    required this.expiresIn,
   });
 
   factory RefreshTokenDTO.fromJson(Map<String, dynamic> json) =>
@@ -16,7 +16,7 @@ class RefreshTokenDTO {
 
   final String accessToken;
   final String refreshToken;
-  final int? expiresIn;
+  final int expiresIn;
 
   Map<String, dynamic> toJson() => _$RefreshTokenDTOToJson(this);
 

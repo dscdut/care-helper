@@ -36,8 +36,8 @@ class _AppState extends State<App> {
         AppLocales.vi,
       ],
       path: AppLocales.path,
-      fallbackLocale: AppLocales.vi,
-      startLocale: AppLocales.vi,
+      fallbackLocale: AppLocales.en,
+      startLocale: AppLocales.en,
       useOnlyLangCode: true,
       assetLoader: const CodegenLoader(),
       child: GestureDetector(
@@ -93,7 +93,7 @@ class _AppState extends State<App> {
                                 break;
                               case AuthenticationStatus.unauthenticated:
                                 _navigator.pushNamedAndRemoveUntil(
-                                  AppRouter.welcome,
+                                  AppRouter.register,
                                   (route) => false,
                                 );
                                 break;
