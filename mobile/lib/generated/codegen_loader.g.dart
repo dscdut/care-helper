@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-// ignore_for_file: prefer_single_quotes
+// ignore_for_file: prefer_single_quotes, avoid_renaming_method_parameters
 
 import 'dart:ui';
 
@@ -20,7 +20,8 @@ class CodegenLoader extends AssetLoader{
     "success": "Success",
     "error_occur": "An error has occurred, please try again later",
     "email_address": "Email Address",
-    "password": "Password"
+    "password": "Password",
+    "forgot_password": "Forgot password?"
   },
   "button": {
     "cancel": "Cancel",
@@ -35,27 +36,9 @@ class CodegenLoader extends AssetLoader{
   "auth": {
     "welcome_back": "Nice to have you back!",
     "sign_in": "Sign in",
-    "sign_up": "Sign up",
-    "forgot_password": "Forgot password?",
-    "log_in": "Log in",
-    "enter_phone": "Enter your phone number",
-    "enter_phone_detail": "Please enter your phone number in the form below",
+    "please_enter_phone_number_and_password": "Please enter your phone number and password",
     "phone_number": "Phone number",
-    "phone_check": "Enter 10 digit phone number",
-    "phone_required": "Need a phone number",
-    "auth": "Authentication",
-    "auth_detail": "6 digit code has been sent to",
-    "wrong_pin": "Wrong PIN",
-    "not_receive_code": "Haven't receive the code?",
-    "send_pin_again": "Send PIN again in 00:00",
-    "resend": "Resend",
-    "new_password": "New password",
-    "easy_remember_password": "Enter a password that's easy to remember",
-    "password": "Password",
-    "password_required": "Need a password",
-    "password_recommnend": "Password must be at least 8 characters",
-    "confirm_password": "Confirm password",
-    "password_not_match": "Password and confirm password not match"
+    "must_enter_10_digits": "Must enter 10 digits"
   },
   "validator": {
     "email_required": "Please enter your email",
@@ -68,11 +51,6 @@ class CodegenLoader extends AssetLoader{
   },
   "loading": {
     "ads": "Loading ads..."
-  },
-  "action": {
-    "continue": "Continue",
-    "submit": "Submit",
-    "save": "Save"
   }
 };
 static const Map<String,dynamic> vi = {
@@ -81,7 +59,8 @@ static const Map<String,dynamic> vi = {
     "success": "Thành công",
     "error_occur": "Đã có lỗi xảy ra, vui lòng thử lại sau",
     "email_address": "Email",
-    "password": "Mật khẩu"
+    "password": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?"
   },
   "button": {
     "cancel": "Hủy",
@@ -96,27 +75,9 @@ static const Map<String,dynamic> vi = {
   "auth": {
     "welcome_back": "Rất vui khi được gặp lại bạn!",
     "sign_in": "Đăng nhập",
-    "sign_up": "Đăng ký",
-    "forgot_password": "Quên mật khẩu?",
-    "log_in": "Đăng nhập",
-    "enter_phone": "Nhập số điện thoại của bạn",
-    "enter_phone_detail": "Mời nhập số điện thoại vào ô bên dưới",
+    "please_enter_phone_number_and_password": "Nhập số điện thoại và mật khẩu",
     "phone_number": "Số điện thoại",
-    "phone_check": "Nhập đủ 10 chữ số",
-    "phone_required": "Nhập số điện thoại",
-    "auth": "Xác thực",
-    "auth_detail": "6 ký tự đã được gửi đến ",
-    "wrong_pin": "Sai mã PIN",
-    "not_receive_code": "Không nhận được mã PIN?",
-    "send_pin_again": "Gửi lại mã PIN trong 00:00",
-    "resend": "Gửi lại",
-    "new_password": "Mật khẩu mới",
-    "easy_remember_password": "Nhập mật khẩu dễ nhớ",
-    "password": "Mật khẩu",
-    "password_required": "Nhập mật khẩu",
-    "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
-    "confirm_password": "Xác nhận mật khẩu",
-    "password_not_match": "Mật khẩu xác nhận không trùng khớp"
+    "must_enter_10_digits": "Phải nhập đủ 10 số"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",
@@ -129,11 +90,6 @@ static const Map<String,dynamic> vi = {
   },
   "loading": {
     "ads": "Đang tải quảng cáo..."
-  },
-  "action": {
-    "continue": "Tiếp tục",
-    "submit": "Gửi đi",
-    "save": "Lưu"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};

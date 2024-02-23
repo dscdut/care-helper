@@ -7,6 +7,7 @@ class CustomColor extends ThemeExtension<CustomColor> {
   final Color? primaryW100;
   final Color? accent;
 
+  
   LinearGradient get linearGradient {
     return LinearGradient(
       colors: [primaryW800!, primaryW600!],

@@ -4,7 +4,7 @@ import 'package:flutter_template/presentation/core/bloc/root_bloc.dart';
 import 'package:flutter_template/presentation/core/widgets/app_bottom_navigation_bar.dart';
 import 'package:flutter_template/presentation/core/widgets/slide_lazy_indexed_stack.dart';
 import 'package:flutter_template/presentation/home/home.dart';
-import 'package:flutter_template/presentation/notification/notification.dart';
+import 'package:flutter_template/presentation/notification/view/medical_history.dart';
 import 'package:flutter_template/presentation/profile/profile.dart';
 
 class RootPage extends StatelessWidget {
@@ -32,7 +32,7 @@ class _RootView extends StatelessWidget {
         ) {
           return SlideIndexedStack(
             index: state.currentIndex,
-            children: const [HomePage(), NotificationPage(), ProfilePage()],
+            children: const [HomePage(), MedicalHistoryPage(), ProfilePage()],
           );
         },
         buildWhen: (previous, current) {

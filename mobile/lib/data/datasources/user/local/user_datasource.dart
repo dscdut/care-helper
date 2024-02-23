@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_template/common/constants/hive_keys.dart';
 import 'package:flutter_template/data/dtos/auth/login_response_dto.dart';
@@ -16,7 +17,7 @@ class UserLocalDataSource {
 
   UserModel? getUserInfo() {
     final String? rawData = _authBox.get(HiveKeys.user);
-
+    log(rawData ?? 'null');
     if (rawData == null) {
       return null;
     } else {
@@ -34,7 +35,7 @@ class UserLocalDataSource {
     } else {
       await _authBox.putAll({
         ...response.toRefreshTokenDTO().toLocalJson(),
-        HiveKeys.user: jsonEncode(response.user),
+        // HiveKeys.user: jsonEncode(response.user),
       });
     }
   }

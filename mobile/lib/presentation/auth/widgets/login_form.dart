@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           const SizedBox(height: 40),
           CommonTextFormField(
-            validator: ValidatorUtil.validateEmail,
+            // validator: ValidatorUtil.validateEmail,
             textController: widget.emailEditController,
             labelText: LocaleKeys.texts_email_address.tr(),
             keyboardType: TextInputType.emailAddress,

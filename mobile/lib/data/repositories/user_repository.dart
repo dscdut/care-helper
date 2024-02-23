@@ -11,8 +11,8 @@ class UserRepository {
 
   final UserDataSource _dataSource;
 
-  Future<UserModel> loginByEmail(LoginByEmailRequestDTO params) {
-    return _dataSource.loginByEmail(params);
+  Future<void> loginByEmail(LoginByEmailRequestDTO params) async {
+    _dataSource.loginByEmail(params);
   }
 
   UserModel? getUserInfo() {

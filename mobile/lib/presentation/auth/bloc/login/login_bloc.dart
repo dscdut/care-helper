@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,20 +33,43 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoading());
 
     try {
-      final UserModel user = await _userRepository.loginByEmail(
+      await _userRepository.loginByEmail(
         LoginByEmailRequestDTO(
-          email: event.email,
+          phone: event.email,
           password: event.password,
         ),
       );
 
-      _authBloc.add(AuthUserInfoSet(currentUser: user));
+      _authBloc.add(
+        AuthUserInfoSet(
+          currentUser: UserModel(
+            id: 1,
+            fullName: 'your_full_name_here',
+            gender: 'your_gender_here',
+            phone: 'your_phone_here',
+            birthday: 'your_birthday_here',
+            avatar: 'your_avatar_here',
+            address: 'your_address_here',
+            nationalIdCard: 'your_national_id_card_here',
+            insurance: 'your_insurance_here',
+            profession: 'your_profession_here',
+            active: true,
+            weight: 'your_weight_here',
+            height: 'your_height_here',
+            email: 'lmao@gmail.com',
+          ),
+        ),
+      );
     } catch (err) {
-      bool isUnauthorizedError = err is DioException && err.response?.statusCode == 401;
+      log(err.toString());
+      bool isUnauthorizedError =
+          err is DioException && err.response?.statusCode == 401;
 
       emit(
         LoginNotSuccess(
-          error: isUnauthorizedError ? LocaleKeys.validator_incorrect_email_password.tr() : null,
+          error: isUnauthorizedError
+              ? LocaleKeys.validator_incorrect_email_password.tr()
+              : null,
         ),
       );
     }

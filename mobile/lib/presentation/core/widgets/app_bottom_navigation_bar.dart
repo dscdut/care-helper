@@ -20,28 +20,26 @@ class AppBottomNavigationBar extends StatelessWidget {
             currentIndex: state.currentIndex,
             type: BottomNavigationBarType.fixed,
             onTap: (int newIndex) {
-              context.read<RootBloc>().add(RootBottomTabChange(newIndex: newIndex));
+              context
+                  .read<RootBloc>()
+                  .add(RootBottomTabChange(newIndex: newIndex));
             },
             selectedItemColor: ColorStyles.blue300,
             unselectedItemColor: ColorStyles.gray300,
             showSelectedLabels: true,
             showUnselectedLabels: false,
-            items: [
+            items: const [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.home_outlined),
-                label: LocaleKeys.root_home.tr(),
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.manage_accounts_outlined),
-                label: LocaleKeys.root_management.tr(),
+                icon: Icon(Icons.history_outlined),
+                label: 'History',
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.notifications_outlined),
-                label: LocaleKeys.texts_notification.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.account_circle_outlined),
-                label: LocaleKeys.root_profile.tr(),
+                icon: Icon(Icons.account_circle_outlined),
+                label: 'Profile',
               ),
             ],
           );

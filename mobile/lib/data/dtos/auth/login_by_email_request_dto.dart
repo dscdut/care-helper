@@ -5,10 +5,10 @@ part 'login_by_email_request_dto.g.dart';
 @JsonSerializable(createFactory: false)
 class LoginByEmailRequestDTO {
   LoginByEmailRequestDTO({
-    required this.email,
+    required this.phone,
     required this.password,
   });
-  final String email;
+  final String phone;
   final String password;
 
   Map<String, dynamic> toJson() => _$LoginByEmailRequestDTOToJson(this);

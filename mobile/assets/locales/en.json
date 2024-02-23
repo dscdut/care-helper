@@ -4,7 +4,8 @@
     "success": "Success",
     "error_occur": "An error has occurred, please try again later",
     "email_address": "Email Address",
-    "password": "Password"
+    "password": "Password",
+    "forgot_password": "Forgot password?"
   },
   "button": {
     "cancel": "Cancel",
@@ -19,27 +20,10 @@
   "auth": {
     "welcome_back": "Nice to have you back!",
     "sign_in": "Sign in",
-    "sign_up": "Sign up",
-    "forgot_password": "Forgot password?",
-    "log_in": "Log in",
-    "enter_phone": "Enter your phone number",
-    "enter_phone_detail": "Please enter your phone number in the form below",
+    "please_enter_phone_number_and_password": "Please enter your phone number and password",
     "phone_number": "Phone number",
-    "phone_check": "Enter 10 digit phone number",
-    "phone_required": "Need a phone number",
-    "auth": "Authentication",
-    "auth_detail": "6 digit code has been sent to",
-    "wrong_pin": "Wrong PIN",
-    "not_receive_code": "Haven't receive the code?",
-    "send_pin_again": "Send PIN again in 00:00",
-    "resend": "Resend",
-    "new_password": "New password",
-    "easy_remember_password": "Enter a password that's easy to remember",
-    "password": "Password",
-    "password_required": "Need a password",
-    "password_recommnend": "Password must be at least 8 characters",
-    "confirm_password": "Confirm password",
-    "password_not_match": "Password and confirm password not match"
+    "must_enter_10_digits": "Must enter 10 digits"
+
   },
   "validator": {
     "email_required": "Please enter your email",
@@ -52,10 +36,5 @@
   },
   "loading": {
     "ads": "Loading ads..."
-  },
-  "action": {
-    "continue": "Continue",
-    "submit": "Submit",
-    "save": "Save"
   }
 }
