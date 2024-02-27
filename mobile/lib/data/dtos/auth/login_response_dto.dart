@@ -25,7 +25,7 @@ class LoginResponseDTO {
     return RefreshTokenDTO(
       accessToken: accessToken,
       refreshToken: refreshToken,
-      expiresIn: expiresIn,
+      // expiresIn: expiresIn,
     );
   }
 }

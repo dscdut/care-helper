@@ -39,7 +39,10 @@
     "password_required": "Nhập mật khẩu",
     "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
     "confirm_password": "Xác nhận mật khẩu",
-    "password_not_match": "Mật khẩu xác nhận không trùng khớp"
+    "password_not_match": "Mật khẩu xác nhận không trùng khớp",
+    "back": "Quay lại",
+    "sign_in_require": "Nhập số điện thoại và mật khẩu",
+    "not_account": "Chưa có tài khoản?"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",

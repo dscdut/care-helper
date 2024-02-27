@@ -39,7 +39,10 @@
     "password_required": "Need a password",
     "password_recommnend": "Password must be at least 8 characters",
     "confirm_password": "Confirm password",
-    "password_not_match": "Password and confirm password not match"
+    "password_not_match": "Password and confirm password not match",
+    "back": "Back",
+    "sign_in_require": "Please enter your phone number and password",
+    "not_account": "Don't have an account?"
   },
   "validator": {
     "email_required": "Please enter your email",

@@ -9,4 +9,5 @@ abstract class Endpoints {
   static String authOtp = '$auth/otp';
   static String authVerifyOtp = '$auth/verify-otp';
   static String patientRegister = '$auth/register/patient';
+  static String patientLogin = '$auth/patient';
 }

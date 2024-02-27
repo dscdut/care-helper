@@ -55,7 +55,10 @@ class CodegenLoader extends AssetLoader{
     "password_required": "Need a password",
     "password_recommnend": "Password must be at least 8 characters",
     "confirm_password": "Confirm password",
-    "password_not_match": "Password and confirm password not match"
+    "password_not_match": "Password and confirm password not match",
+    "back": "Back",
+    "sign_in_require": "Please enter your phone number and password",
+    "not_account": "Don't have an account?"
   },
   "validator": {
     "email_required": "Please enter your email",
@@ -116,7 +119,10 @@ static const Map<String,dynamic> vi = {
     "password_required": "Nhập mật khẩu",
     "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
     "confirm_password": "Xác nhận mật khẩu",
-    "password_not_match": "Mật khẩu xác nhận không trùng khớp"
+    "password_not_match": "Mật khẩu xác nhận không trùng khớp",
+    "back": "Quay lại",
+    "sign_in_require": "Nhập số điện thoại và mật khẩu",
+    "not_account": "Chưa có tài khoản?"
   },
   "validator": {
     "email_required": "Vui lòng nhập email",

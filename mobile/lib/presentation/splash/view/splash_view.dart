@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/generated/assets.gen.dart';
-import 'package:flutter_template/presentation/auth/bloc/auth/auth_bloc.dart';
+// import 'package:flutter_template/presentation/auth/bloc/auth/auth_bloc.dart';
+import 'package:flutter_template/presentation/auth/bloc/auth_patient/auth_patient_bloc.dart';
 import 'package:flutter_template/presentation/splash/bloc/splash_bloc.dart';
 
 class SplashPage extends StatelessWidget {
@@ -12,7 +13,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SplashBloc(
-        authBloc: context.read<AuthBloc>(),
+        authPatientBloc: context.read<AuthPatientBloc>(),
       ),
       lazy: false,
       child: const _SplashView(),

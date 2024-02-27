@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
+import 'package:flutter_template/data/datasources/patient/local/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_template/data/repositories/patient_repository.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:flutter_template/router/app_router.dart';
+import 'package:hive/hive.dart';
 
 import 'package:pinput/pinput.dart';
 
@@ -31,6 +33,9 @@ class _PinAuthenViewState extends State<PinAuthenView> {
     dataSource: PatientDataSource(
       remoteDataSource: PatientRemoteDataSource(
         dioHelper: DioHelper(dio: Dio()),
+      ),
+      localDataSource: PatientLocalDataSource(
+        authBox: Hive.box('auth_box'),
       ),
     ),
   );

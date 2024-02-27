@@ -38,6 +38,9 @@ abstract class  LocaleKeys {
   static const auth_password_recommnend = 'auth.password_recommnend';
   static const auth_confirm_password = 'auth.confirm_password';
   static const auth_password_not_match = 'auth.password_not_match';
+  static const auth_back = 'auth.back';
+  static const auth_sign_in_require = 'auth.sign_in_require';
+  static const auth_not_account = 'auth.not_account';
   static const auth = 'auth';
   static const validator_email_required = 'validator.email_required';
   static const validator_password_required = 'validator.password_required';

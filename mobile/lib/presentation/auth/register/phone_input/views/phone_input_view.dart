@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
+import 'package:flutter_template/data/datasources/patient/local/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
 import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.d
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
 import 'package:flutter_template/presentation/widgets/header.dart';
 import 'package:flutter_template/router/app_router.dart';
+import 'package:hive/hive.dart';
 
 class PhoneInputView extends StatefulWidget {
   const PhoneInputView({super.key});
@@ -27,6 +29,9 @@ class _PhoneInputViewState extends State<PhoneInputView> {
     dataSource: PatientDataSource(
       remoteDataSource: PatientRemoteDataSource(
         dioHelper: DioHelper(dio: Dio()),
+      ),
+      localDataSource: PatientLocalDataSource(
+        authBox: Hive.box('auth_box'),
       ),
     ),
   );
