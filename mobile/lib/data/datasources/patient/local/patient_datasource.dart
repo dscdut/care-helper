@@ -16,7 +16,6 @@ class PatientLocalDataSource {
 
   PatientModel? getPatientInfo() {
     final String? rawData = _authBox.get(HiveKeys.patient);
-
     if (rawData == null) {
       return null;
     } else {
@@ -36,8 +35,7 @@ class PatientLocalDataSource {
     } else {
       await _authBox.putAll({
         ...response.toRefreshTokenDTO().toLocalJson(),
-        HiveKeys.patient: jsonEncode(response.patient),
-        HiveKeys.accessToken: jsonEncode(response.accessToken),
+        HiveKeys.patient: jsonEncode(response.patient.toJson()),
       });
     }
   }

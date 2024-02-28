@@ -67,7 +67,8 @@ class CodegenLoader extends AssetLoader{
     "incorrect_email_password": "Incorrect email or password",
     "invalid_password": "Password must be at least 8 characters",
     "field_required": "This field is required",
-    "not_match_password": "Password and confirm password not match"
+    "not_match_password": "Password and confirm password not match",
+    "incorrect_phone_password": "Incorrect phone number or password"
   },
   "loading": {
     "ads": "Loading ads..."
@@ -131,7 +132,8 @@ static const Map<String,dynamic> vi = {
     "incorrect_email_password": "Email hoặc mật khẩu không đúng",
     "invalid_password": "Mật khẩu phải có ít nhất 8 kí tự",
     "field_required": "Không được để trống",
-    "not_match_password": "Mật khẩu xác nhận không trùng khớp"
+    "not_match_password": "Mật khẩu xác nhận không trùng khớp",
+    "incorrect_phone_password": "Số điện thoại hoặc mật khẩu không đúng"
   },
   "loading": {
     "ads": "Đang tải quảng cáo..."

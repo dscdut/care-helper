@@ -50,6 +50,7 @@
 //     }
 //   }
 // }
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -81,7 +82,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     emit(LoginLoading());
-
     try {
       final PatientModel patient = await _patientRepository.login(event.params);
 
@@ -93,7 +93,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         LoginNotSuccess(
           error: isUnauthorizedError
-              ? LocaleKeys.validator_incorrect_email_password.tr()
+              ? LocaleKeys.validator_incorrect_phone_password.tr()
               : null,
         ),
       );

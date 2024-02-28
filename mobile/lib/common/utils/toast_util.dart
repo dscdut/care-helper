@@ -193,7 +193,8 @@ class ToastCard extends StatefulWidget {
   ToastStateFulState createState() => ToastStateFulState();
 }
 
-class ToastStateFulState extends State<ToastCard> with SingleTickerProviderStateMixin {
+class ToastStateFulState extends State<ToastCard>
+    with SingleTickerProviderStateMixin {
   void showAnimation() {
     _animationController!.forward();
   }
@@ -215,7 +216,8 @@ class ToastStateFulState extends State<ToastCard> with SingleTickerProviderState
       vsync: this,
       duration: Duration(milliseconds: widget.fadeDuration),
     );
-    _fadeAnimation = CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
+    _fadeAnimation =
+        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
     _slideAnimation = Tween<Offset>(
       begin: Offset(0, widget.position == ToastPosition.BOTTOM ? 1 : -1),
       end: Offset.zero,

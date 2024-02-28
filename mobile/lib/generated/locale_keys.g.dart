@@ -49,6 +49,7 @@ abstract class  LocaleKeys {
   static const validator_invalid_password = 'validator.invalid_password';
   static const validator_field_required = 'validator.field_required';
   static const validator_not_match_password = 'validator.not_match_password';
+  static const validator_incorrect_phone_password = 'validator.incorrect_phone_password';
   static const validator = 'validator';
   static const loading_ads = 'loading.ads';
   static const loading = 'loading';

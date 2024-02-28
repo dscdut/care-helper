@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
-import 'package:flutter_template/common/extensions/string_extension.dart';
 import 'package:flutter_template/common/theme/app_size.dart';
 import 'package:flutter_template/common/utils/toast_util.dart';
 import 'package:flutter_template/data/dtos/auth/login_by_phone_request_dto.dart';
@@ -34,12 +33,8 @@ class LoginPage extends StatelessWidget {
   }
 
   void _listenLoginStateChanged(BuildContext context, LoginState state) {
-    if (state is LoginNotSuccess && state.error.isNullOrEmpty) {
-      ToastUtil.showError(
-        context,
-      );
-    } else {
-      Navigator.of(context).pushReplacementNamed(AppRouter.root);
+    if (state is LoginNotSuccess) {
+      ToastUtil.showError(context);
     }
   }
 }

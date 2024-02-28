@@ -51,7 +51,8 @@
     "incorrect_email_password": "Incorrect email or password",
     "invalid_password": "Password must be at least 8 characters",
     "field_required": "This field is required",
-    "not_match_password": "Password and confirm password not match"
+    "not_match_password": "Password and confirm password not match",
+    "incorrect_phone_password": "Incorrect phone number or password"
   },
   "loading": {
     "ads": "Loading ads..."
