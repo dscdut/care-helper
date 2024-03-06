@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { HiTrash } from 'react-icons/hi2'
 import { questionsSurvey } from 'src/data/survey'
 import { QuestionsSurvey } from 'src/types/survey.type'
@@ -13,10 +13,18 @@ export default function AddQuestions({ onClose, onBack, onConfirm }: AddQuestion
   const [question, setQuestion] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [listQuestions, setListQuestions] = useState<QuestionsSurvey[]>(questionsSurvey)
+  const questionRef = useRef('')
 
   const handleSubmit = () => {
-    const newQuestion: QuestionsSurvey = { id: listQuestions.length + 1, question: question }
+    const trimmedQuestion = question.trim()
+    if (trimmedQuestion === questionRef.current) {
+      return
+    }
+
+    const newQuestion = { id: listQuestions.length + 1, question: trimmedQuestion }
     setListQuestions((prevQuestions) => [...prevQuestions, newQuestion])
+
+    questionRef.current = trimmedQuestion
     setIsOpen(false)
     setQuestion('')
   }
