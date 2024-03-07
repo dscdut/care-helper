@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/app/bloc/app_bloc.dart';
 import 'package:flutter_template/common/constants/locales.dart';
-import 'package:flutter_template/data/repositories/user_repository.dart';
+import 'package:flutter_template/data/repositories/patient_repository.dart';
 import 'package:flutter_template/di/di.dart';
 import 'package:flutter_template/flavors.dart';
 import 'package:flutter_template/generated/codegen_loader.g.dart';
-import 'package:flutter_template/presentation/auth/bloc/auth/auth_bloc.dart';
+// import 'package:flutter_template/presentation/auth/bloc/auth/auth_bloc.dart';
+import 'package:flutter_template/presentation/auth/bloc/auth_patient/auth_patient_bloc.dart';
 import 'package:flutter_template/router/app_router.dart';
 
 class App extends StatefulWidget {
@@ -52,8 +53,8 @@ class _AppState extends State<App> {
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => AuthBloc(
-                  userRepository: getIt.get<UserRepository>(),
+                create: (context) => AuthPatientBloc(
+                  patientRepository: getIt.get<PatientRepository>(),
                 ),
               ),
               BlocProvider(
@@ -80,7 +81,7 @@ class _AppState extends State<App> {
                       locale: context.locale,
                       debugShowCheckedModeBanner: false,
                       builder: (_, child) {
-                        return BlocListener<AuthBloc, AuthState>(
+                        return BlocListener<AuthPatientBloc, AuthPatientState>(
                           listener: (_, state) {
                             switch (state.status) {
                               case AuthenticationStatus.unknown:
@@ -93,7 +94,7 @@ class _AppState extends State<App> {
                                 break;
                               case AuthenticationStatus.unauthenticated:
                                 _navigator.pushNamedAndRemoveUntil(
-                                  AppRouter.register,
+                                  AppRouter.login,
                                   (route) => false,
                                 );
                                 break;

@@ -2,11 +2,15 @@ import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_response_dto.dart';
+import 'package:flutter_template/data/dtos/auth/login_by_phone_request_dto.dart';
+import 'package:flutter_template/data/dtos/auth/login_by_phone_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class PatientRemoteDataSource {
   PatientRemoteDataSource({required DioHelper dioHelper})
       : _dioHelper = dioHelper;
@@ -39,6 +43,20 @@ class PatientRemoteDataSource {
     );
 
     return RegisterPatientResponseDTO(
+      patient: PatientModel.fromJson(response.data['user']),
+      accessToken: response.data['accessToken'],
+      refreshToken: response.data['refreshToken'],
+    );
+  }
+
+  Future<LoginByPhoneResponseDTO> login(
+    LoginByPhoneRequestDTO params,
+  ) async {
+    final HttpRequestResponse response = await _dioHelper.post(
+      Endpoints.patientLogin,
+      data: params.toJson(),
+    );
+    return LoginByPhoneResponseDTO(
       patient: PatientModel.fromJson(response.data['user']),
       accessToken: response.data['accessToken'],
       refreshToken: response.data['refreshToken'],

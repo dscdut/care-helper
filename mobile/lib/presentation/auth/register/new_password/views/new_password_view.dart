@@ -1,14 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
-import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/common/utils/toast_util.dart';
-import 'package:flutter_template/data/datasources/patient/patient_datasource.dart';
-import 'package:flutter_template/data/datasources/patient/remote/patient_datasource.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
-import 'package:flutter_template/data/repositories/patient_repository.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
 import 'package:flutter_template/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:flutter_template/presentation/widgets/custom_button.dart';
@@ -23,14 +18,6 @@ class NewPasswordView extends StatefulWidget {
 }
 
 class _NewPasswordViewState extends State<NewPasswordView> {
-  PatientRepository patientRepository = PatientRepository(
-    dataSource: PatientDataSource(
-      remoteDataSource: PatientRemoteDataSource(
-        dioHelper: DioHelper(dio: Dio()),
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return const MyView();

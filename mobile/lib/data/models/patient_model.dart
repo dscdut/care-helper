@@ -37,6 +37,23 @@ class PatientModel {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'email': email ?? email,
+        'fullName': fullName ?? fullName,
+        'gender': gender ?? gender,
+        'phone': phone,
+        'birthday': birthday ?? birthday.toString(),
+        'avatar': avatar ?? avatar,
+        'address': address ?? address,
+        'nationalIdCard': nationalIdCard ?? nationalIdCard,
+        'insurance': insurance ?? insurance,
+        'profesion': profesion ?? profesion,
+        'active': active,
+        'weight': weight ?? weight,
+        'height': height ?? height,
+      };
+
   final int id;
   final String? email;
   final String? fullName;

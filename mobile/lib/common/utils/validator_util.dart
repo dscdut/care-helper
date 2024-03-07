@@ -41,4 +41,13 @@ abstract class ValidatorUtil {
 
     return null;
   }
+
+  static String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return LocaleKeys.auth_phone_required.tr();
+    } else if (value.length != 10) {
+      return LocaleKeys.auth_phone_check.tr();
+    }
+    return null;
+  }
 }

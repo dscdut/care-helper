@@ -38,6 +38,9 @@ abstract class  LocaleKeys {
   static const auth_password_recommnend = 'auth.password_recommnend';
   static const auth_confirm_password = 'auth.confirm_password';
   static const auth_password_not_match = 'auth.password_not_match';
+  static const auth_back = 'auth.back';
+  static const auth_sign_in_require = 'auth.sign_in_require';
+  static const auth_not_account = 'auth.not_account';
   static const auth = 'auth';
   static const validator_email_required = 'validator.email_required';
   static const validator_password_required = 'validator.password_required';
@@ -46,6 +49,7 @@ abstract class  LocaleKeys {
   static const validator_invalid_password = 'validator.invalid_password';
   static const validator_field_required = 'validator.field_required';
   static const validator_not_match_password = 'validator.not_match_password';
+  static const validator_incorrect_phone_password = 'validator.incorrect_phone_password';
   static const validator = 'validator';
   static const loading_ads = 'loading.ads';
   static const loading = 'loading';
