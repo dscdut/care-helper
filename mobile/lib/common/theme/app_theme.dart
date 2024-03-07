@@ -275,10 +275,13 @@ class DefaultThemeConfig {
   Color get dialogBackgroundColor => Colors.white;
 
   // primary
-  Color get primaryColor => const Color(0xFF3274D4);
+  Color get primaryColor => const Color(0xff112950);
   Color get primaryW800 => const Color(0xFF3061C1);
   Color get primaryW600 => const Color(0xFF3685E7);
   Color get primaryW100 => const Color(0xFFBDDDFD);
+
+  // secondary
+  Color get secondaryColor => Colors.blueAccent;
 
   //accent
   Color get accentColor => const Color(0xFF112950);
@@ -332,6 +335,17 @@ class DefaultThemeConfig {
   // header
   Color get startBackgroundColor => accentColor;
   Color get endBackgroundColor => Colors.blueAccent;
+
+  // administrative view color
+  Color get darkColorButton => const Color(0xFF3A3A3A);
+  Color get categoryButtonColor => const Color(0xFF5D7EB2);
+  Color get textFormFieldColor => Colors.white;
+  Color get textFormBackgroundColor => const Color(0xFFC4C4C4);
+
+  Color get background => const Color(0xFFF9F9F9);
+
+  Color get blue300 => const Color(0xFF6666FF);
+  Color get gray300 => const Color(0xFFB3B3B3);
 }
 
 class DarkThemeConfig extends DefaultThemeConfig {

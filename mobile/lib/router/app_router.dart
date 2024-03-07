@@ -6,6 +6,8 @@ import 'package:flutter_template/presentation/auth/register/phone_input/phone_in
 import 'package:flutter_template/presentation/auth/register/pin_authen/views/pin_authen_view.dart';
 import 'package:flutter_template/presentation/auth/views/login_view.dart';
 import 'package:flutter_template/presentation/core/views/root_view.dart';
+import 'package:flutter_template/presentation/profile/administrative/view/administrative_view.dart';
+import 'package:flutter_template/presentation/profile/view/profile_detail_view.dart';
 import 'package:flutter_template/presentation/splash/splash.dart';
 
 abstract final class AppRouter {
@@ -16,6 +18,12 @@ abstract final class AppRouter {
   static const String register = '/register';
   static const String pinAuthen = '/pin-authen';
   static const String newPassword = '/new-password';
+
+  // Profile
+  // static const String profile = '/profile';
+  // static const String profile_navigation = '/profile-navigation';
+  static const String profileDetail = '/profile-detail';
+  static const String administrative = '/administrative';
 
   // Root
   static const String root = '/root';
@@ -94,6 +102,16 @@ abstract final class AppRouter {
             value: registerBloc,
             child: const NewPasswordView(),
           ),
+        );
+      case profileDetail:
+        return MaterialPageRoute(
+          builder: (_) {
+            return const ProfileDetailView();
+          },
+        );
+      case administrative:
+        return MaterialPageRoute(
+          builder: (_) => const AdministrativeView(),
         );
       default:
         return null;

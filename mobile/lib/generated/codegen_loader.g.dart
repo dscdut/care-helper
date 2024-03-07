@@ -44,7 +44,7 @@ class CodegenLoader extends AssetLoader{
     "phone_check": "Enter 10 digit phone number",
     "phone_required": "Need a phone number",
     "auth": "Authentication",
-    "auth_detail": "6 digit code has been sent to",
+    "auth_detail": "6 digit code has been sent to ",
     "wrong_pin": "Wrong PIN",
     "not_receive_code": "Haven't receive the code?",
     "send_pin_again": "Send PIN again in 00:00",
@@ -52,7 +52,6 @@ class CodegenLoader extends AssetLoader{
     "new_password": "New password",
     "easy_remember_password": "Enter a password that's easy to remember",
     "password": "Password",
-    "password_required": "Need a password",
     "password_recommnend": "Password must be at least 8 characters",
     "confirm_password": "Confirm password",
     "password_not_match": "Password and confirm password not match",
@@ -76,7 +75,39 @@ class CodegenLoader extends AssetLoader{
   "action": {
     "continue": "Continue",
     "submit": "Submit",
-    "save": "Save"
+    "save": "Save",
+    "back_to_home": "Back to Home"
+  },
+  "profile": {
+    "medical_profile": "Medical Profile",
+    "medical_record": "Medical records",
+    "administrative_medical": "Administrative information and Medical history",
+    "adminis_medical_view": "View",
+    "adminis_medical_edit": "Edit",
+    "adminis": "Administrative information",
+    "medical": "Medical history",
+    "medical_guiding": "Enter your medical history",
+    "name": "Name",
+    "name_guiding": "Enter your name",
+    "dob": "Date of birth",
+    "dob_guiding": "Enter your date of birth",
+    "gender": "Gender",
+    "gender_guiding": "Enter your gender",
+    "citizen_id": "Citizen ID",
+    "citizen_id_guiding": "Enter your citizen ID",
+    "insurance_id": "Medical Insurance ID",
+    "insurance_id_guiding": "Enter your medical insurance ID",
+    "address": "Address",
+    "address_guiding": "Enter your address",
+    "occupation": "Occupation",
+    "occupation_guiding": "Enter your occupation",
+    "height": "Height",
+    "height_guiding": "Enter your height",
+    "weight": "Weight",
+    "weight_guiding": "Enter your weight",
+    "check_up": "Recent check-up",
+    "check_up_guiding": "Enter your recent check-up",
+    "reminder_popup": "Changes have not been saved. Are you sure you want to leave?"
   }
 };
 static const Map<String,dynamic> vi = {
@@ -117,7 +148,6 @@ static const Map<String,dynamic> vi = {
     "new_password": "Mật khẩu mới",
     "easy_remember_password": "Nhập mật khẩu dễ nhớ",
     "password": "Mật khẩu",
-    "password_required": "Nhập mật khẩu",
     "password_recommnend": "Mật khẩu nên có ít nhất 8 ký tự",
     "confirm_password": "Xác nhận mật khẩu",
     "password_not_match": "Mật khẩu xác nhận không trùng khớp",
@@ -141,7 +171,39 @@ static const Map<String,dynamic> vi = {
   "action": {
     "continue": "Tiếp tục",
     "submit": "Gửi đi",
-    "save": "Lưu"
+    "save": "Lưu",
+    "back_to_home": "Về trang chủ"
+  },
+  "profile": {
+    "medical_profile": "Hồ sơ bệnh án",
+    "medical_record": "Lịch sử lần khám",
+    "administrative_medical": "Hành chính và bệnh sử",
+    "adminis_medical_view": "Xem",
+    "adminis_medical_edit": "Chỉnh sửa",
+    "adminis": "Hành chính",
+    "medical": "Bệnh sử",
+    "medical_guiding": "Nhập bệnh sử",
+    "name": "Họ và tên",
+    "name_guiding": "Nhập họ và tên",
+    "dob": "Ngày sinh",
+    "dob_guiding": "Nhập ngày sinh",
+    "gender": "Giới tính",
+    "gender_guiding": "Nhập giới tính",
+    "citizen_id": "CCCD/CMND",
+    "citizen_id_guiding": "Nhập số CCCD/CMND",
+    "insurance_id": "Số thẻ BHYT",
+    "insurance_id_guiding": "Nhập số thẻ BHYT",
+    "address": "Địa chỉ",
+    "address_guiding": "Nhập địa chỉ",
+    "occupation": "Nghề nghiệp",
+    "occupation_guiding": "Nhập nghề nghiệp",
+    "height": "Chiều cao",
+    "height_guiding": "Nhập chiều cao",
+    "weight": "Cân nặng",
+    "weight_guiding": "Nhập cân nặng",
+    "check_up": "Lần khám gần nhất",
+    "check_up_guiding": "Nhập lần khám gần nhất",
+    "reminder_popup": "Thay đổi chưa được lưu, bạn có muốn thoát không?"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};

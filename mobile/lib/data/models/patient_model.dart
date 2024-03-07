@@ -1,6 +1,6 @@
 class PatientModel {
   PatientModel({
-    required this.id,
+    this.id,
     this.email,
     this.fullName,
     this.gender,
@@ -11,14 +11,14 @@ class PatientModel {
     this.nationalIdCard,
     this.insurance,
     this.profesion,
-    required this.active,
+    this.active,
     this.weight,
     this.height,
   });
 
   factory PatientModel.fromJson(Map<String, dynamic> json) {
     return PatientModel(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       email: json['email'] as String?,
       fullName: json['fullName'] as String?,
       gender: json['gender'] as String?,
@@ -31,30 +31,30 @@ class PatientModel {
       nationalIdCard: json['nationalIdCard'] as String?,
       insurance: json['insurance'] as String?,
       profesion: json['profesion'] as String?,
-      active: json['active'] as bool,
+      active: json['active'] as bool?,
       weight: json['weight'] as int?,
       height: json['height'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        'id': id ?? id,
         'email': email ?? email,
         'fullName': fullName ?? fullName,
         'gender': gender ?? gender,
         'phone': phone,
-        'birthday': birthday ?? birthday.toString(),
+        'birthday': birthday ?? birthday!.toIso8601String(),
         'avatar': avatar ?? avatar,
         'address': address ?? address,
         'nationalIdCard': nationalIdCard ?? nationalIdCard,
         'insurance': insurance ?? insurance,
         'profesion': profesion ?? profesion,
-        'active': active,
+        'active': active ?? active,
         'weight': weight ?? weight,
         'height': height ?? height,
       };
 
-  final int id;
+  final int? id;
   final String? email;
   final String? fullName;
   final String? gender;
@@ -65,7 +65,7 @@ class PatientModel {
   final String? nationalIdCard;
   final String? insurance;
   final String? profesion;
-  final bool active;
+  final bool? active;
   final int? weight;
   final int? height;
 }

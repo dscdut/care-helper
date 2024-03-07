@@ -38,7 +38,7 @@ class _MyViewState extends State<MyView> {
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return LocaleKeys.auth_password_required.tr();
+      return LocaleKeys.validator_password_required.tr();
     } else if (value.length < 8) {
       return LocaleKeys.auth_password_recommnend.tr();
     }
@@ -47,7 +47,7 @@ class _MyViewState extends State<MyView> {
 
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return LocaleKeys.auth_password_required.tr();
+      return LocaleKeys.validator_password_required.tr();
     } else if (value != _passwordController.text) {
       return LocaleKeys.auth_password_not_match.tr();
     }

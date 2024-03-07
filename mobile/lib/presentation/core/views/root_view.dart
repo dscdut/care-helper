@@ -25,6 +25,7 @@ class _RootView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocBuilder<RootBloc, RootState>(
         builder: (
           context,

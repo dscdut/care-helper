@@ -34,7 +34,6 @@ abstract class  LocaleKeys {
   static const auth_new_password = 'auth.new_password';
   static const auth_easy_remember_password = 'auth.easy_remember_password';
   static const auth_password = 'auth.password';
-  static const auth_password_required = 'auth.password_required';
   static const auth_password_recommnend = 'auth.password_recommnend';
   static const auth_confirm_password = 'auth.confirm_password';
   static const auth_password_not_match = 'auth.password_not_match';
@@ -56,6 +55,37 @@ abstract class  LocaleKeys {
   static const action_continue = 'action.continue';
   static const action_submit = 'action.submit';
   static const action_save = 'action.save';
+  static const action_back_to_home = 'action.back_to_home';
   static const action = 'action';
+  static const profile_medical_profile = 'profile.medical_profile';
+  static const profile_medical_record = 'profile.medical_record';
+  static const profile_administrative_medical = 'profile.administrative_medical';
+  static const profile_adminis_medical_view = 'profile.adminis_medical_view';
+  static const profile_adminis_medical_edit = 'profile.adminis_medical_edit';
+  static const profile_adminis = 'profile.adminis';
+  static const profile_medical = 'profile.medical';
+  static const profile_medical_guiding = 'profile.medical_guiding';
+  static const profile_name = 'profile.name';
+  static const profile_name_guiding = 'profile.name_guiding';
+  static const profile_dob = 'profile.dob';
+  static const profile_dob_guiding = 'profile.dob_guiding';
+  static const profile_gender = 'profile.gender';
+  static const profile_gender_guiding = 'profile.gender_guiding';
+  static const profile_citizen_id = 'profile.citizen_id';
+  static const profile_citizen_id_guiding = 'profile.citizen_id_guiding';
+  static const profile_insurance_id = 'profile.insurance_id';
+  static const profile_insurance_id_guiding = 'profile.insurance_id_guiding';
+  static const profile_address = 'profile.address';
+  static const profile_address_guiding = 'profile.address_guiding';
+  static const profile_occupation = 'profile.occupation';
+  static const profile_occupation_guiding = 'profile.occupation_guiding';
+  static const profile_height = 'profile.height';
+  static const profile_height_guiding = 'profile.height_guiding';
+  static const profile_weight = 'profile.weight';
+  static const profile_weight_guiding = 'profile.weight_guiding';
+  static const profile_check_up = 'profile.check_up';
+  static const profile_check_up_guiding = 'profile.check_up_guiding';
+  static const profile_reminder_popup = 'profile.reminder_popup';
+  static const profile = 'profile';
 
 }

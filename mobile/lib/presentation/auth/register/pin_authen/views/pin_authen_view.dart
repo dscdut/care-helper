@@ -151,7 +151,8 @@ class _MyViewState extends State<MyView> {
                       decoration: defaultPinTheme.decoration!.copyWith(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                            color: context.themeConfig.focusedBorderColor),
+                          color: context.themeConfig.focusedBorderColor,
+                        ),
                       ),
                     ),
                     submittedPinTheme: defaultPinTheme.copyWith(

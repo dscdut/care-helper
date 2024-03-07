@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -7,6 +9,8 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_response_dto.dart
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_patient_response_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -60,6 +64,19 @@ class PatientRemoteDataSource {
       patient: PatientModel.fromJson(response.data['user']),
       accessToken: response.data['accessToken'],
       refreshToken: response.data['refreshToken'],
+    );
+  }
+
+  Future<UpdatePatientResponseDTO> updatePatientInfo(
+    UpdatePatientRequestDTO params,
+  ) async {
+    final HttpRequestResponse response = await _dioHelper
+        .put(Endpoints.updatePatientInfo, data: params.toJson());
+
+    log('response update patient: ${response.data}');
+
+    return UpdatePatientResponseDTO(
+      patient: PatientModel.fromJson(response.data),
     );
   }
 }

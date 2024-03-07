@@ -5,6 +5,7 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_request_dto.dart'
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -23,11 +24,15 @@ class PatientRepository {
       _dataSource.verifyOtp(params);
 
   Future<RegisterPatientResponseDTO> register(
-          RegisterPatientRequestDTO params) =>
+    RegisterPatientRequestDTO params,
+  ) =>
       _dataSource.register(params);
 
   Future<PatientModel> login(LoginByPhoneRequestDTO params) =>
       _dataSource.login(params);
 
   PatientModel? getPatientInfo() => _dataSource.getPatientInfo();
+
+  Future<PatientModel> updatePatientInfo(UpdatePatientRequestDTO params) =>
+      _dataSource.updatePatientInfo(params);
 }

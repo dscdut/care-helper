@@ -28,7 +28,9 @@ class AuthPatientBloc extends Bloc<AuthPatientEvent, AuthPatientState> {
   }
 
   void _onSetPatientInfo(
-      AuthPatientInfoSet event, Emitter<AuthPatientState> emit) {
+    AuthPatientInfoSet event,
+    Emitter<AuthPatientState> emit,
+  ) {
     _changeAuthState(event.patient, emit);
   }
 

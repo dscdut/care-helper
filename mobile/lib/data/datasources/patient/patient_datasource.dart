@@ -7,6 +7,8 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_response_dto.dart
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_patient_response_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -46,5 +48,14 @@ class PatientDataSource {
 
   PatientModel? getPatientInfo() {
     return _localDataSource.getPatientInfo();
+  }
+
+  Future<PatientModel> updatePatientInfo(UpdatePatientRequestDTO params) async {
+    final UpdatePatientResponseDTO response =
+        await _remoteDataSource.updatePatientInfo(params);
+
+    await _localDataSource.setUpdatedPatientInfo(response);
+
+    return response.patient;
   }
 }
