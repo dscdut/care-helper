@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_template/common/constants/endpoints.dart';
 import 'package:flutter_template/common/helpers/dio_helper.dart';
 import 'package:flutter_template/data/dtos/auth/get_token_by_phone_request_dto.dart';
@@ -9,6 +7,8 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_response_dto.dart
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/get_medical_history_response_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_medical_history_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_response_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
@@ -73,10 +73,29 @@ class PatientRemoteDataSource {
     final HttpRequestResponse response = await _dioHelper
         .put(Endpoints.updatePatientInfo, data: params.toJson());
 
-    log('response update patient: ${response.data}');
-
     return UpdatePatientResponseDTO(
       patient: PatientModel.fromJson(response.data),
     );
+  }
+
+  Future<GetMedicalHistoryResponseDTO> getMedicalHistory(int id) async {
+    final HttpRequestResponse response =
+        await _dioHelper.get('${Endpoints.getMedicalHistory}/$id');
+
+    return GetMedicalHistoryResponseDTO(
+      history: response.data['history'],
+    );
+  }
+
+  Future<void> postMedicalHistory(
+    UpdateMedicalHistoryRequestDTO param,
+  ) async {
+    await _dioHelper.post(Endpoints.updateMedicalHistory, data: param.toJson());
+  }
+
+  Future<void> updateMedicalHistory(
+    UpdateMedicalHistoryRequestDTO param,
+  ) async {
+    await _dioHelper.put(Endpoints.updateMedicalHistory, data: param.toJson());
   }
 }

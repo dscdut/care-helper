@@ -7,7 +7,7 @@ import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.da
 import 'package:flutter_template/data/repositories/patient_repository.dart';
 import 'package:flutter_template/di/di.dart';
 import 'package:flutter_template/generated/locale_keys.g.dart';
-import 'package:flutter_template/presentation/profile/administrative/widgets/administrative_textformfield.dart';
+import 'package:flutter_template/presentation/profile/widgets/profile_textformfield.dart';
 import 'package:flutter_template/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_template/presentation/profile/widgets/custom_button.dart';
 
@@ -62,7 +62,7 @@ class MyView extends StatelessWidget {
             key: formKey,
             child: Column(
               children: [
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText:
                       state.patient?.fullName ?? LocaleKeys.profile_name.tr(),
                   hintText: LocaleKeys.profile_name_guiding.tr(),
@@ -71,7 +71,7 @@ class MyView extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: AdministrativeTextFormField(
+                      child: ProfileTextFormField(
                         labelText: state.patient?.birthday.toString() ??
                             LocaleKeys.profile_dob.tr(),
                         hintText: LocaleKeys.profile_dob_guiding.tr(),
@@ -80,7 +80,7 @@ class MyView extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: AdministrativeTextFormField(
+                      child: ProfileTextFormField(
                         labelText: state.patient?.gender ??
                             LocaleKeys.profile_gender.tr(),
                         hintText: LocaleKeys.profile_gender_guiding.tr(),
@@ -89,25 +89,25 @@ class MyView extends StatelessWidget {
                     ),
                   ],
                 ),
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText: state.patient?.nationalIdCard ??
                       LocaleKeys.profile_citizen_id.tr(),
                   hintText: LocaleKeys.profile_citizen_id_guiding.tr(),
                   controller: citizenIdController,
                 ),
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText: state.patient?.insurance ??
                       LocaleKeys.profile_insurance_id.tr(),
                   hintText: LocaleKeys.profile_insurance_id_guiding.tr(),
                   controller: insuranceIdController,
                 ),
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText:
                       state.patient?.address ?? LocaleKeys.profile_address.tr(),
                   hintText: LocaleKeys.profile_address_guiding.tr(),
                   controller: addressController,
                 ),
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText: state.patient?.profesion ??
                       LocaleKeys.profile_occupation.tr(),
                   hintText: LocaleKeys.profile_occupation_guiding.tr(),
@@ -116,7 +116,7 @@ class MyView extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: AdministrativeTextFormField(
+                      child: ProfileTextFormField(
                         labelText: state.patient?.height.toString() ??
                             LocaleKeys.profile_height.tr(),
                         hintText: LocaleKeys.profile_height_guiding.tr(),
@@ -125,7 +125,7 @@ class MyView extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: AdministrativeTextFormField(
+                      child: ProfileTextFormField(
                         labelText: state.patient?.weight.toString() ??
                             LocaleKeys.profile_weight.tr(),
                         hintText: LocaleKeys.profile_weight_guiding.tr(),
@@ -134,7 +134,7 @@ class MyView extends StatelessWidget {
                     ),
                   ],
                 ),
-                AdministrativeTextFormField(
+                ProfileTextFormField(
                   labelText: LocaleKeys.profile_check_up.tr(),
                   hintText: LocaleKeys.profile_check_up_guiding.tr(),
                 ),
@@ -155,25 +155,39 @@ class MyView extends StatelessWidget {
                                 context.read<ProfileBloc>().add(
                                       UpdatePatientInfoEvent(
                                         UpdatePatientRequestDTO(
-                                          fullName: nameController.text,
-                                          gender: genderController.text,
-                                          birthday: DateTime.tryParse(
-                                                dobController.text,
-                                              ) ??
+                                          fullName: nameController.text == ''
+                                              ? state.patient?.fullName
+                                              : nameController.text,
+                                          gender: genderController.text == ''
+                                              ? state.patient?.gender
+                                              : genderController.text,
+                                          birthday: DateTime.parse(
+                                            DateFormat('yyyy-MM-dd').format(
                                               DateTime.now(),
-                                          address: addressController.text,
+                                            ),
+                                          ),
+                                          address: addressController.text == ''
+                                              ? state.patient?.address
+                                              : addressController.text,
                                           nationalIdCard:
-                                              citizenIdController.text,
-                                          insurance: insuranceIdController.text,
-                                          profesion: occupationController.text,
-                                          height: int.tryParse(
-                                                heightController.text,
-                                              ) ??
-                                              160,
-                                          weight: int.tryParse(
-                                                weightController.text,
-                                              ) ??
-                                              50,
+                                              citizenIdController.text == ''
+                                                  ? state
+                                                      .patient?.nationalIdCard
+                                                  : citizenIdController.text,
+                                          insurance:
+                                              insuranceIdController.text == ''
+                                                  ? state.patient?.insurance
+                                                  : insuranceIdController.text,
+                                          profesion:
+                                              occupationController.text == ''
+                                                  ? state.patient?.profesion
+                                                  : occupationController.text,
+                                          height: heightController.text == ''
+                                              ? state.patient?.height
+                                              : heightController.text,
+                                          weight: weightController.text == ''
+                                              ? state.patient?.weight
+                                              : weightController.text,
                                         ),
                                       ),
                                     );

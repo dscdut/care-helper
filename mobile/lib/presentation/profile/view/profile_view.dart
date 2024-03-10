@@ -71,7 +71,7 @@ class _ProfileView extends StatelessWidget {
                           index: state.currentIndex,
                           children: const [
                             SingleChildScrollView(child: AdministrativeView()),
-                            MedicalHistoryView(),
+                            SingleChildScrollView(child: MedicalHistoryView()),
                           ],
                         ),
                       ),

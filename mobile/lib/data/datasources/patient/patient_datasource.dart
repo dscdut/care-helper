@@ -7,6 +7,8 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_response_dto.dart
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/get_medical_history_response_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_medical_history_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_response_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
@@ -57,5 +59,22 @@ class PatientDataSource {
     await _localDataSource.setUpdatedPatientInfo(response);
 
     return response.patient;
+  }
+
+  Future<String> getMedicalHistory(int id) async {
+    final GetMedicalHistoryResponseDTO response =
+        await _remoteDataSource.getMedicalHistory(id);
+
+    return response.history;
+  }
+
+  Future<void> postMedicalHistory(UpdateMedicalHistoryRequestDTO param) async {
+    await _remoteDataSource.postMedicalHistory(param);
+  }
+
+  Future<void> updateMedicalHistory(
+    UpdateMedicalHistoryRequestDTO param,
+  ) async {
+    await _remoteDataSource.updateMedicalHistory(param);
   }
 }

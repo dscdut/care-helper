@@ -5,6 +5,7 @@ import 'package:flutter_template/data/dtos/auth/login_by_phone_request_dto.dart'
 import 'package:flutter_template/data/dtos/auth/register_patient_request_dto.dart';
 import 'package:flutter_template/data/dtos/auth/register_patient_response_dto.dart';
 import 'package:flutter_template/data/dtos/auth/verify_otp_request_dto.dart';
+import 'package:flutter_template/data/dtos/profile/update_medical_history_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 import 'package:injectable/injectable.dart';
@@ -35,4 +36,12 @@ class PatientRepository {
 
   Future<PatientModel> updatePatientInfo(UpdatePatientRequestDTO params) =>
       _dataSource.updatePatientInfo(params);
+
+  Future<String> getMedicalHistory(int id) => _dataSource.getMedicalHistory(id);
+
+  Future<void> postMedicalHistory(UpdateMedicalHistoryRequestDTO params) =>
+      _dataSource.postMedicalHistory(params);
+
+  Future<void> updateMedicalHistory(UpdateMedicalHistoryRequestDTO params) =>
+      _dataSource.updateMedicalHistory(params);
 }

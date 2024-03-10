@@ -6,12 +6,14 @@ class ProfileState extends Equatable {
     this.isLoading = false,
     this.patient,
     this.error = '',
+    this.history,
   });
 
   final int currentIndex;
   final bool isLoading;
   final PatientModel? patient;
   final String error;
+  final String? history;
 
   @override
   List<Object> get props => [currentIndex];
@@ -21,12 +23,14 @@ class ProfileState extends Equatable {
     bool? isLoading,
     PatientModel? patient,
     String? error,
+    String? history,
   }) {
     return ProfileState(
       currentIndex: currentIndex ?? this.currentIndex,
       isLoading: isLoading ?? this.isLoading,
       patient: patient ?? this.patient,
       error: error ?? this.error,
+      history: history ?? this.history,
     );
   }
 }

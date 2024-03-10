@@ -32,26 +32,26 @@ class PatientModel {
       insurance: json['insurance'] as String?,
       profesion: json['profesion'] as String?,
       active: json['active'] as bool?,
-      weight: json['weight'] as int?,
-      height: json['height'] as int?,
+      weight: json['weight'] as String?,
+      height: json['height'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id ?? id,
-        'email': email ?? email,
-        'fullName': fullName ?? fullName,
-        'gender': gender ?? gender,
+        'id': id,
+        'email': email,
+        'fullName': fullName,
+        'gender': gender,
         'phone': phone,
-        'birthday': birthday ?? birthday!.toIso8601String(),
-        'avatar': avatar ?? avatar,
-        'address': address ?? address,
-        'nationalIdCard': nationalIdCard ?? nationalIdCard,
-        'insurance': insurance ?? insurance,
-        'profesion': profesion ?? profesion,
-        'active': active ?? active,
-        'weight': weight ?? weight,
-        'height': height ?? height,
+        'birthday': birthday?.toIso8601String(),
+        'avatar': avatar,
+        'address': address,
+        'nationalIdCard': nationalIdCard,
+        'insurance': insurance,
+        'profesion': profesion,
+        'active': active,
+        'weight': weight,
+        'height': height,
       };
 
   final int? id;
@@ -66,6 +66,6 @@ class PatientModel {
   final String? insurance;
   final String? profesion;
   final bool? active;
-  final int? weight;
-  final int? height;
+  final String? weight;
+  final String? height;
 }

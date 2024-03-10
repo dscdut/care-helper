@@ -14,4 +14,8 @@ abstract class Endpoints {
 
   // update patient info
   static String updatePatientInfo = '$apiUrl/patients/';
+
+  // medical history
+  static String getMedicalHistory = '$apiUrl/medical-histories/patients/';
+  static String updateMedicalHistory = '$apiUrl/medical-histories';
 }

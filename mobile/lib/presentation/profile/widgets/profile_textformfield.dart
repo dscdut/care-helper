@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/extensions/context_extension.dart';
 
-class InitialTextFormField extends StatelessWidget {
-  const InitialTextFormField({
+class ProfileTextFormField extends StatelessWidget {
+  const ProfileTextFormField({
     super.key,
     required this.labelText,
     required this.hintText,
-    required this.initial,
+    this.maxLines,
+    this.height,
     this.controller,
   });
 
   final String labelText;
   final String hintText;
-  final String initial;
+  final int? maxLines;
+  final double? height;
+
   final TextEditingController? controller;
 
   @override
@@ -22,13 +25,12 @@ class InitialTextFormField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
       ),
-      height: 60,
+      height: height ?? 60,
       decoration: BoxDecoration(
         color: context.themeConfig.textFormBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: TextFormField(
-        initialValue: initial,
         controller: controller,
         style: const TextStyle(
           color: Colors.black,
@@ -41,6 +43,7 @@ class InitialTextFormField extends StatelessWidget {
           ),
           border: InputBorder.none,
         ),
+        maxLines: maxLines,
       ),
     );
   }

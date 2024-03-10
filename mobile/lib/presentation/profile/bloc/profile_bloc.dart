@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_template/data/dtos/profile/update_medical_history_request_dto.dart';
 import 'package:flutter_template/data/dtos/profile/update_patient_request_dto.dart';
 import 'package:flutter_template/data/models/patient_model.dart';
 import 'package:flutter_template/data/repositories/patient_repository.dart';
@@ -14,6 +15,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<SegmentedControlTabChange>(_onControlTabChange);
     on<GetPatientInfoEvent>(_onGetPatientInfo);
     on<UpdatePatientInfoEvent>(_onUpdatePatientInfo);
+    on<GetMedicalHistoryEvent>(_onGetMedicalHistory);
     add(GetPatientInfoEvent());
   }
   void _onControlTabChange(
@@ -47,6 +49,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final PatientModel patient =
           await _patientRepository.updatePatientInfo(event.params);
       emit(state.copyWith(patient: patient));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  Future<void> _onGetMedicalHistory(
+    GetMedicalHistoryEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    try {
+      final String history =
+          await _patientRepository.getMedicalHistory(event.id);
+      emit(state.copyWith(history: history));
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }

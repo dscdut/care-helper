@@ -47,8 +47,8 @@ class CustomButtonList extends StatelessWidget {
                           nationalIdCard: patient.nationalIdCard ?? '',
                           insurance: patient.insurance ?? '',
                           profesion: patient.profesion ?? '',
-                          height: patient.height ?? 160,
-                          weight: patient.weight ?? 50,
+                          height: patient.height ?? '160 cm',
+                          weight: patient.weight ?? '60 kg',
                         ),
                       ),
                     );

@@ -14,7 +14,7 @@ class UpdatePatientRequestDTO {
   Map<String, dynamic> toJson() => {
         'fullName': fullName,
         'gender': gender,
-        'birthday': birthday,
+        'birthday': birthday?.toIso8601String().split('T').first,
         'address': address,
         'nationalIdCard': nationalIdCard,
         'insurance': insurance,
@@ -23,13 +23,13 @@ class UpdatePatientRequestDTO {
         'weight': weight,
       };
 
-  final String fullName;
-  final String gender;
-  final DateTime birthday;
-  final String address;
-  final String nationalIdCard;
-  final String insurance;
-  final String profesion;
-  final int height;
-  final int weight;
+  final String? fullName;
+  final String? gender;
+  final DateTime? birthday;
+  final String? address;
+  final String? nationalIdCard;
+  final String? insurance;
+  final String? profesion;
+  final String? height;
+  final String? weight;
 }

@@ -16,15 +16,28 @@ class SegmentedControlTabChange extends ProfileEvent {
   List<Object> get props => [newIndex];
 }
 
-class GetPatientInfoEvent extends ProfileEvent {
-  // const GetPatientInfoEvent();
-}
+class GetPatientInfoEvent extends ProfileEvent {}
 
 class UpdatePatientInfoEvent extends ProfileEvent {
   const UpdatePatientInfoEvent(this.params);
 
   final UpdatePatientRequestDTO params;
+}
 
-  // @override
-  // List<Object> get props => [params];
+class GetMedicalHistoryEvent extends ProfileEvent {
+  const GetMedicalHistoryEvent(this.id);
+
+  final int id;
+}
+
+class PostMedicalHistoryEvent extends ProfileEvent {
+  const PostMedicalHistoryEvent(this.param);
+
+  final UpdateMedicalHistoryRequestDTO param;
+}
+
+class UpdateMedicalHistoryEvent extends ProfileEvent {
+  const UpdateMedicalHistoryEvent(this.param);
+
+  final UpdateMedicalHistoryRequestDTO param;
 }
